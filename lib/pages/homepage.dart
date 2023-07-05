@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_polygon/flutter_polygon.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nix/pages/maintests_page.dart';
 import 'package:nix/pages/profile_page.dart';
 import 'package:nix/pages/progress_page.dart';
 import 'package:nix/pages/score_page.dart';
@@ -437,7 +438,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      SleepPage(), //da cambiare
+                                      MainTestPage(), 
                                 ),
                               );
                             },
