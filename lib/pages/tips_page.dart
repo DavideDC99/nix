@@ -59,28 +59,29 @@ class StackedCardItem extends StatelessWidget {
     return Card(
       color: color,
       child: Container(
-        margin: EdgeInsets.all(14),
+        margin: EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height*0.5,
+        height: MediaQuery.of(context).size.height * 0.44,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
+          
+            //const SizedBox(height: 4),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 24,color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              subtitle,
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+            ),
+              Center(
             child: Image.asset( 
               imagePath,
               width: 300,
               height: 300,
             ),),
-            const SizedBox(height: 4),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 24,color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              subtitle,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
-            ),
           ],
         ),
       ),
