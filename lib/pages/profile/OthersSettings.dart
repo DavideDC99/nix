@@ -83,7 +83,7 @@ void calculateBMI() {
             fontSize: 18,
             fontWeight: FontWeight.w600),
             unSelectedTextStyle: const TextStyle(
-            color: Colors.grey,
+            color: Colors.black,
             fontSize: 14,
             fontWeight: FontWeight.w400),
             labels: _listSmokeText,
@@ -102,17 +102,17 @@ void calculateBMI() {
 
           const Text("Are you a sporty person? : ", style: TextStyle(fontSize: 20)),
             FlutterToggleTab(
-              width: 90,
+              width: 80,
               borderRadius: 20,
               selectedIndex: _tabTextIndexSportSelected,
               selectedBackgroundColors: const [Color.fromRGBO(13, 42, 106, 1), Colors.greenAccent],
               selectedTextStyle: const TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 12,
               fontWeight: FontWeight.w300),
               unSelectedTextStyle: const TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
+              color: Colors.black,
+              fontSize: 10,
               fontWeight: FontWeight.w200),
               labels: _listSportText,
               selectedLabelIndex: (index) {

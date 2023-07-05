@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
   ); 
     return FlutterLogin(
       title: 'NiX',
-      logo:  AssetImage('images/logo_login.png'),
+      logo:  AssetImage('images/others/logo_login.png'),
       onLogin: _loginUser,
       onSignup: _signUpUser,
       onRecoverPassword: _recoverPassword,

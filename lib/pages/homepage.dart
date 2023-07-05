@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_polygon/flutter_polygon.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nix/pages/login/login_page.dart';
 import 'package:nix/pages/maintests_page.dart';
 import 'package:nix/pages/profile_page.dart';
 import 'package:nix/pages/progress_page.dart';
@@ -142,7 +143,13 @@ class _HomePageState extends State<HomePage> {
                         color: Color.fromRGBO(0, 176, 255, 1),
                         fontSize: 18,
                         fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MainTestPage(),
+                    ),
+                  );
+                },
               ),
               const Divider(),
               ListTile(
@@ -150,7 +157,13 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Sign out',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                },
               ),
             ],
           )),
@@ -443,7 +456,6 @@ class _HomePageState extends State<HomePage> {
                               );
                             },
                             child: Container(
-                              //sleep
                               decoration: BoxDecoration(
                                 color: Colors.purple.shade300,
                                 borderRadius: const BorderRadius.all(
