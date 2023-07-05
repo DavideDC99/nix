@@ -698,48 +698,59 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _dailyQuote(String quote) {
-    return IconButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: Colors.blue.shade100,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14)),
-              title: const Text(
-                'Daily quote:',
-                style: TextStyle(
-                    color: Color.fromRGBO(13, 42, 106, 1),
-                    fontWeight: FontWeight.bold),
-              ),
-              content: Text(
-                quote,
-                style: const TextStyle(
-                    color: Color.fromRGBO(13, 42, 106, 1),
-                    fontStyle: FontStyle.italic),
-              ),
-              actions: <Widget>[
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: const Color.fromRGBO(13, 42, 106, 1),
-                    shape: const StadiumBorder(),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Go back"),
-                )
-              ],
-            );
-          },
-        );
-      },
-      icon: const Icon(Icons.lightbulb_outlined),
-      iconSize: 30,
-      color: const Color.fromARGB(230, 247, 156, 37),
-      hoverColor: const Color.fromARGB(230, 208, 131, 31),
+     return Material(
+      color: Colors.transparent,
+      child: Center(
+        child: Ink(
+          decoration: const ShapeDecoration(
+            color:Color.fromRGBO(187, 222, 251, 0.721),
+            shape: CircleBorder(),
+          ),
+          child: IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.blue.shade100,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14)),
+                    title: const Text(
+                      'Daily quote',
+                      style: const TextStyle(
+                          color: Color.fromRGBO(13, 42, 106, 1),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    content: Text(
+                      '$quote',
+                      style: const TextStyle(
+                          color: Color.fromRGBO(13, 42, 106, 1),
+                          fontStyle: FontStyle.italic),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Color.fromRGBO(13, 42, 106, 1),
+                          shape: const StadiumBorder(),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Go back"),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+            icon: Image.asset(
+              'images/others/lightbulb.png',
+            ),
+            iconSize: 50,
+          ),
+        ),
+      ),
     );
   }
 
