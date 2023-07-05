@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import 'package:app_nostra/pages/Datas/ScoreDescription.dart';
-import 'package:app_nostra/pages/Datas/ScoreResults.dart';
-
+import 'package:nix/pages/score/score_content.dart';
+import 'package:nix/pages/score/score_info.dart';
 
 class MainScorePage extends StatefulWidget {
   const MainScorePage({Key? key}) : super(key: key);

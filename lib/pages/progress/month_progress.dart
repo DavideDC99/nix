@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../widgets/medal.dart';
+import 'package:nix/widgets/medal.dart';
 
 class MonthProgress extends StatelessWidget {
   const MonthProgress({super.key});
