@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
               UserAccountsDrawerHeader(
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('images/drawer_background.jpg'),
+                          image: AssetImage('images/others/background.jpg'),
                           fit: BoxFit.cover)),
                   accountName: const Text('User name',
                       style:

@@ -50,7 +50,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 height:screenHeight*0.2,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('images/profile_background.jpg'),
+                    image: AssetImage('images/others/background.jpg'),
                     fit: BoxFit.cover))
               ),
               Align(

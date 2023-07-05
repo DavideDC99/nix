@@ -104,42 +104,42 @@ List<CardItem> getCardItem() {
       title: 'DIET',
       subtitle: 'Boost your diet with fruits, vegetables and whole grain!',
       color: Color.fromARGB(255, 45, 160, 19),
-      imagePath: 'images/tips1.jpg',
+      imagePath: 'images/tips_img/tips1.jpg',
     ));
 
     cardItems.add(CardItem(
       title: 'RELAXATION',
       subtitle: 'Calm your mind with deep breathing and meditation!',
       color: Color.fromARGB(255, 31, 80, 132),
-      imagePath: 'images/tips2.png',
+      imagePath: 'images/tips_img/tips2.png',
     ));
 
     cardItems.add(CardItem(
       title: 'MATTRESS',
       subtitle: 'Use a supportive and comfortable mattress!',
       color: Color.fromARGB(255, 101, 85, 197),
-      imagePath: 'images/tips3.jpg',
+      imagePath: 'images/tips_img/tips3.jpg',
     ));
 
     cardItems.add(CardItem(
       title: 'SMOKING',
       subtitle: 'Reduce nicotine intake before bed!',
       color: Color.fromARGB(255, 189, 33, 33),
-      imagePath: 'images/tips4.jpg',
+      imagePath: 'images/tips_img/tips4.jpg',
     ));
 
     cardItems.add(CardItem(
       title: 'PILLOW',
       subtitle: 'Choose a good pillow!',
       color: Color.fromARGB(255, 29, 40, 64),
-      imagePath: 'images/tips5.png',
+      imagePath: 'images/tips_img/tips5.png',
     ));
 
      cardItems.add(CardItem(
       title: 'BEDROOM',
       subtitle: 'Keep the bedroom dark!',
       color: Color.fromARGB(255, 17, 179, 206),
-      imagePath: 'images/tips6.png',
+      imagePath: 'images/tips_img/tips6.png',
     ));
 
 
