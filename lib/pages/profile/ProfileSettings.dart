@@ -2,7 +2,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:country_calling_code_picker/picker.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-//avatar
+import 'package:nix/widgets/avatar.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 
 class ProfileSettings extends StatefulWidget {
@@ -80,7 +80,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     ), 
                   ),
                   onPressed: () => Navigator.push(context,
-                      new MaterialPageRoute(builder: (context) => AvatarCustomization())),
+                       MaterialPageRoute(builder: (context) => AvatarCustomization())),
                 ),
                 )
               ),
