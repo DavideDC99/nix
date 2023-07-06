@@ -21,7 +21,7 @@ class _StatisticPageState extends State<StatisticPage> {
               Container( 
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(16.0),
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
@@ -51,7 +51,7 @@ class _StatisticPageState extends State<StatisticPage> {
                Container( 
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(16.0),
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
@@ -81,7 +81,7 @@ class _StatisticPageState extends State<StatisticPage> {
                Container( 
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(16.0),
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),

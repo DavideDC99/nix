@@ -38,12 +38,13 @@ class _TestScreenState extends State<TestScreen> {
         margin: const EdgeInsets.all(4),
         child: SingleChildScrollView(
           child: Column(
-            children: [ 
+            children: [
+              const SizedBox(height: 10),
               const CupertinoMonthPicker(),
 
               Container( // Container 1
                 margin: const EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
@@ -76,7 +77,7 @@ class _TestScreenState extends State<TestScreen> {
                               onPressed:() {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const PSQITest())); 
                               },
-                              child: const Text( "Do the test"),
+                              child: const Text( "do the test"),
                               ),
                           ), 
                           const SizedBox(
@@ -102,7 +103,7 @@ class _TestScreenState extends State<TestScreen> {
               
               Container( // container 2
                 margin: const EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
@@ -161,7 +162,7 @@ class _TestScreenState extends State<TestScreen> {
               
               Container( // container 3
                 margin: const EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),

@@ -184,28 +184,34 @@ class _HomePageState extends State<HomePage> {
                     width: 800,
                     color: const Color.fromRGBO(13, 42, 106, 1),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 110),
-                        Text(
-                          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromRGBO(187, 222, 251, 1),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        const SizedBox(height: 100),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text(
-                              'Good day,...!', //name
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(187, 222, 251, 1)),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromRGBO(187, 222, 251, 1),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const Text(
+                                  'Good day, ...!', //name
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(187, 222, 251, 1)),
+                                ),
+                              ],
                             ),
-                            //Text("🔥", style: TextStyle(fontSize: 30))
-                            const SizedBox(width: 160),
+                            const SizedBox(
+                              width: 50,
+                            ),
                             _dailyQuote(randomQuote),
                           ],
                         ),
@@ -264,7 +270,8 @@ class _HomePageState extends State<HomePage> {
                                       color: Colors.black, elevation: 10.0),
                                 ],
                                 child: Container(
-                                  color: const Color.fromARGB(255, 245, 190, 190),
+                                  color:
+                                      const Color.fromARGB(255, 245, 190, 190),
                                   child: Center(
                                     child: Text(
                                       "$score",
@@ -450,8 +457,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      MainTestPage(), 
+                                  builder: (context) => MainTestPage(),
                                 ),
                               );
                             },
@@ -463,8 +469,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color.fromARGB(255, 96, 39, 106)
-                                        .withOpacity(0.8),
+                                    color:
+                                        const Color.fromARGB(255, 96, 39, 106)
+                                            .withOpacity(0.8),
                                     spreadRadius: 5,
                                     blurRadius: 4,
                                     offset: const Offset(4, 8),
@@ -698,12 +705,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _dailyQuote(String quote) {
-     return Material(
+    return Material(
       color: Colors.transparent,
       child: Center(
         child: Ink(
           decoration: const ShapeDecoration(
-            color:Color.fromRGBO(187, 222, 251, 0.721),
+            color: Color.fromRGBO(187, 222, 251, 0.721),
             shape: CircleBorder(),
           ),
           child: IconButton(
@@ -747,7 +754,7 @@ class _HomePageState extends State<HomePage> {
             icon: Image.asset(
               'images/others/lightbulb.png',
             ),
-            iconSize: 50,
+            iconSize: 10,
           ),
         ),
       ),
