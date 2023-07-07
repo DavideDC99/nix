@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:nix/pages/login/login_page.dart';
+import 'package:nix/pages/login/login_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -140,6 +140,6 @@ class IntroScreen extends StatelessWidget {
     await prefs.setBool('ON_BOARDING', false);
     Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()));
+        MaterialPageRoute(builder: (context) => LoginUser()));
   }
 }

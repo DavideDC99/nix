@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_polygon/flutter_polygon.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nix/pages/login/login_page.dart';
+import 'package:nix/pages/login/login_user.dart';
 import 'package:nix/pages/maintests_page.dart';
 import 'package:nix/pages/profile_page.dart';
 import 'package:nix/pages/progress_page.dart';
@@ -11,8 +11,10 @@ import 'package:nix/pages/sh_page.dart';
 import 'package:nix/pages/sleep_page.dart';
 import 'package:nix/pages/step_page.dart';
 import 'package:nix/pages/tips_page.dart';
+import 'package:nix/utils/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:fluttermoji/fluttermoji.dart';
+import 'package:provider/provider.dart';
 
 int currentsteps = (6000 / 10000 * 100).round();
 double hoursSleep = 9;
@@ -157,10 +159,12 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Sign out',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                onTap: () {
-                  Navigator.of(context).push(
+                onTap: () async {
+                  var prefs = await Provider.of<Preferences>(context, listen: false);
+                  prefs.logOut = true;
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => LoginPage(),
+                      builder: (context) => LoginUser(),
                     ),
                   );
                 },
