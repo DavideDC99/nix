@@ -55,16 +55,15 @@ class _LoginUserState extends State<LoginUser> {
         child: Form(
           key: _formKey,
           child: Column(
-            children: <Widget>[
+            children: [
               const Text('Login',
                   style: TextStyle(
                       color: Color(0xFF89453C),
                       fontSize: 28,
                       fontWeight: FontWeight.bold)),
-              const Text('Please login to use our app',
-                  style: TextStyle(
-                    fontSize: 16,
-                  )),
+              prefs.usernameUser == null || prefs.passwordUser == null ? 
+              Text('Choose username and password', style: TextStyle(fontSize: 16)) : 
+              Text('Please login to use our app', style: TextStyle(fontSize: 16,)),
               const SizedBox(
                 height: 20,
               ),
