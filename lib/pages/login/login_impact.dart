@@ -33,17 +33,20 @@ class _LoginImpactState extends State<LoginImpact> {
  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE4DFD4),
+      backgroundColor: Color.fromRGBO(13, 42, 106, 1),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Image.asset('images/others/impact_logo.png'),
+              const SizedBox(height: 50,),
+              Image.asset('images/others/impact_logo.png',),
+              const SizedBox(height: 20,),
               const Text('Please authorize to use our app',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromARGB(239, 44, 146, 223),
+                    fontSize: 18,
                   )),
               const SizedBox(
                 height: 20,
@@ -52,35 +55,36 @@ class _LoginImpactState extends State<LoginImpact> {
                 alignment: Alignment.topLeft,
                 child: Text('Username',
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(
                 height: 7,
               ),
               TextFormField(
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Username is required';
-                  }
-                  return null;
-                },
                 controller: userController,
-                cursorColor: const Color(0xFF83AA99),
+                cursorColor: Color.fromARGB(255, 131, 170, 153),
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: Color(0xFF89453C),
+                      color: Colors.white,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(239, 44, 146, 223),
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.person,
-                    color: Color(0xFF89453C),
+                    color: Colors.white,
                   ),
                   hintText: 'Username',
-                  hintStyle: const TextStyle(color: Color(0xFF89453C)),
+                  hintStyle: const TextStyle(color: Colors.white),
                 ),
               ),
               const SizedBox(
@@ -90,33 +94,34 @@ class _LoginImpactState extends State<LoginImpact> {
                 alignment: Alignment.topLeft,
                 child: Text('Password',
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(
                 height: 7,
               ),
               TextFormField(
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password is required';
-                  }
-                  return null;
-                },
                 controller: passwordController,
-                cursorColor: const Color(0xFF83AA99),
+                cursorColor: Color.fromARGB(255, 131, 170, 153),
+                style: TextStyle(color: Colors.white),
                 obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: Color(0xFF89453C),
+                      color: Colors.white,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(239, 44, 146, 223),
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.lock,
-                    color: Color(0xFF89453C),
+                    color: Colors.white,
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -124,14 +129,14 @@ class _LoginImpactState extends State<LoginImpact> {
                       _passwordVisible
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.grey,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       _showPassword();
                     },
                   ),
                   hintText: 'Password',
-                  hintStyle: const TextStyle(color: Color(0xFF89453C)),
+                  hintStyle: const TextStyle(color: Colors.white),
                 ),
               ),
               const Spacer(),
@@ -172,7 +177,7 @@ class _LoginImpactState extends State<LoginImpact> {
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF89453C))),
+                            Color.fromARGB(239, 44, 146, 223))),
                     child: const Text('Authorize'),
                   ),
                 ),

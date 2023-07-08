@@ -24,23 +24,12 @@ class _LoginUserState extends State<LoginUser> {
     });
   }
 
-  Future<bool> _loginUser(
-      String name, String password, BuildContext context) async {
-    var prefs = Provider.of<Preferences>(context, listen: false);
-    String? userName = await prefs.usernameUser;
-    String? userPassword = await prefs.passwordUser;
-    if (userName == null || userPassword == null) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var prefs = Provider.of<Preferences>(context, listen: false);
     return Scaffold(
-      backgroundColor: const Color(0xFFE4DFD4),
+      backgroundColor: Color.fromRGBO(13, 42, 106, 1),
+      /*
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFFE4DFD4),
@@ -49,21 +38,23 @@ class _LoginUserState extends State<LoginUser> {
                 color: Color(0xFF83AA99),
                 fontSize: 28,
                 fontWeight: FontWeight.bold)),
-      ),
+      ), */
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKey,
           child: Column(
-            children: [
+            children: <Widget>[
+              const SizedBox(height: 30,),
+              Image.asset('images/others/logo1.png', height: 190, width: 200,),
               const Text('Login',
                   style: TextStyle(
-                      color: Color(0xFF89453C),
-                      fontSize: 28,
+                      color: Color.fromARGB(239, 44, 146, 223),
+                      fontSize: 25,
                       fontWeight: FontWeight.bold)),
               prefs.usernameUser == null || prefs.passwordUser == null ? 
-              Text('Choose username and password', style: TextStyle(fontSize: 16)) : 
-              Text('Please login to use our app', style: TextStyle(fontSize: 16,)),
+              Text('Choose username and password', style: TextStyle(fontSize: 18, color: Color.fromARGB(239, 44, 146, 223))) : 
+              Text('Please login to use our app', style: TextStyle(fontSize: 18, color: Color.fromARGB(239, 44, 146, 223))),
               const SizedBox(
                 height: 20,
               ),
@@ -71,35 +62,36 @@ class _LoginUserState extends State<LoginUser> {
                 alignment: Alignment.topLeft,
                 child: Text('Username',
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(
                 height: 7,
               ),
               TextFormField(
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Username is required';
-                  }
-                  return null;
-                },
                 controller: userController,
-                cursorColor: const Color(0xFF83AA99),
+                cursorColor: Color.fromARGB(255, 131, 170, 153),
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: Color(0xFF89453C),
+                      color: Colors.white,
+                    ),
+                  ),
+                   enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(239, 44, 146, 223),
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.person,
-                    color: Color(0xFF89453C),
+                    color: Colors.white,
                   ),
                   hintText: 'Username',
-                  hintStyle: const TextStyle(color: Color(0xFF89453C)),
+                  hintStyle: const TextStyle(color: Colors.white),
                 ),
               ),
               const SizedBox(
@@ -109,33 +101,34 @@ class _LoginUserState extends State<LoginUser> {
                 alignment: Alignment.topLeft,
                 child: Text('Password',
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(
                 height: 7,
               ),
               TextFormField(
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password is required';
-                  }
-                  return null;
-                },
                 controller: passwordController,
-                cursorColor: const Color(0xFF83AA99),
+                cursorColor: Color.fromARGB(255, 131, 170, 153),
+                style: TextStyle(color: Colors.white),
                 obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: Color(0xFF89453C),
+                      color: Colors.white,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(239, 44, 146, 223),
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.lock,
-                    color: Color(0xFF89453C),
+                    color: Colors.white,
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -143,14 +136,14 @@ class _LoginUserState extends State<LoginUser> {
                       _passwordVisible
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.grey,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       _showPassword();
                     },
                   ),
                   hintText: 'Password',
-                  hintStyle: const TextStyle(color: Color(0xFF89453C)),
+                  hintStyle: const TextStyle(color: Colors.white),
                 ),
               ),
               const Spacer(),
@@ -159,10 +152,17 @@ class _LoginUserState extends State<LoginUser> {
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: ElevatedButton(
-                    onPressed: () async {
-                      bool? validation = await _loginUser(userController.text,
-                          passwordController.text, context);
-                      if (!validation) {
+                    onPressed: () {
+                      if (userController.text.isEmpty || passwordController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.all(8),
+                          content: Text('Credentials not inserted'),
+                          duration: Duration(seconds: 2),
+                        ));
+                      }
+                      else if (prefs.usernameUser == null || prefs.passwordUser == null) {
                         //new access
                         prefs.usernameUser = userController.text;
                         prefs.passwordUser = passwordController.text;
@@ -220,7 +220,7 @@ class _LoginUserState extends State<LoginUser> {
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF89453C))),
+                            Color.fromARGB(239, 44, 146, 223))),
                     child: const Text('Log In'),
                   ),
                 ),
