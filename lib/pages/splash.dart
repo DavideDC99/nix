@@ -6,6 +6,7 @@ import 'package:nix/pages/login/login_user.dart';
 import 'package:nix/services/impact.dart';
 import 'package:nix/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Splash extends StatelessWidget {
   const Splash({Key? key}) : super(key: key);
@@ -69,25 +70,29 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 1), () => _checkAuth(context));
+    Future.delayed(const Duration(seconds: 5), () => _checkAuth(context));
     return Material(
       child: Container(
-        color: Colors.blue.shade100,
+        color: Color.fromRGBO(13, 42, 106, 1),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const <Widget>[
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             Text(
               'NiX',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 65, 49, 185),
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
+              style: GoogleFonts.cinzelDecorative(
+                  textStyle: const TextStyle(
+                fontSize: 60,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 30, 171, 157),
+              )),
             ),
+            Image.asset('images/others/logo_login.png', height: 300, width: 300,),
+            SizedBox(height: 200,),
             Center(
               child: CircularProgressIndicator(
-                strokeWidth: 4,
+                strokeWidth: 5,
                 valueColor: AlwaysStoppedAnimation<Color>(
-                    Color.fromARGB(255, 30, 171, 157)),
+                    Colors.blue.shade100),
               ),
             ),
           ],
