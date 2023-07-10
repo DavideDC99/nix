@@ -5,6 +5,7 @@ import 'package:nix/services/impact.dart';
 import 'package:nix/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final db = await $FloorAppDatabase.databaseBuilder('app_database.db').build();

@@ -25,10 +25,12 @@ class Sleep {
     this.eff
   );
 
+/*
    Sleep.fromJson(this.id, Map<String, dynamic> json,)
-      : dateTime = DateFormat('MM-dd').parse('${json["data"]["date"]}'),
+      : dateTime = DateFormat('MM-dd').parse('${json["data"]["dateOfSleep"]}'),
         start = DateFormat('HH:MM:ss').parse('${json["data"]["startTime"]}'),
         end = DateFormat('HH:MM:ss').parse('${json["data"]["endTime"]}'),
         duration = double.parse(json["data"]["duration"]/3.6e+6),
         eff = int.parse(json["data"]["efficiency"]);
+        */
 }

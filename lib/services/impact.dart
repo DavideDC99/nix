@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nix/database/entities/entities.dart';
 import 'package:nix/database/entities/sleep.dart';
-import 'package:nix/models/step_model.dart';
-import 'package:nix/models/sleep_model.dart';
 import 'package:nix/services/server_strings.dart';
 import 'package:nix/utils/shared_preferences.dart';
 
@@ -153,29 +151,58 @@ class ImpactService {
     await updateBearer();
     Response r = await _dio.get(
        'data/v1/steps/patients/${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
+       //'/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}');
     List<dynamic> data = r.data['data'];
-    List<Steps> hr = [];
+    List<Steps> step = [];
     for (var daydata in data) {
       String day = daydata['date'];
       for (var dataday in daydata['data']) {
         String hour = dataday['time'];
         String datetime = '${day}T$hour';
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        Steps hrnew = Steps(null, timestamp, dataday['value'],);
-        if (!hr.any((e) => e.dateTime.isAtSameMomentAs(hrnew.dateTime))) {
-          hr.add(hrnew);
+        Steps stepnew = Steps(null, timestamp, int.parse(dataday['value']),);
+        if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
+          step.add(stepnew);
         }
       }
     }
-    var hrlist = hr.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    return hrlist;
+    var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    return steplist;
   }
   
-   DateTime _truncateSeconds(DateTime input) {
+  /*
+Future<List<Sleep>> getSleepFromDay(DateTime startTime) async {
+    await updateBearer();
+    Response r = await _dio.get(
+       'data/v1/sleep/patients/${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
+    List<dynamic> data = r.data['data'];
+    List<Sleep> sleep = [];
+    for (var daydata in data) {
+      String day = daydata['date'];
+      for (var dataday in daydata['data']) {
+        String hour = dataday['time'];
+        String datetime = '${day}T$hour';
+        DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
+        String duration =daydata['duration'];
+        String eff = daydata['efficiecy'];
+        Steps stepnew = Sleep(null, DateFormat('yyyy-MM-dd').parse('${json["data"]["dateOfSleep"]}'),, int.parse(dataday['value']),);
+        if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
+          step.add(stepnew);
+        }
+      }
+    }
+    var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    return steplist;
+  }
+  */
+
+  DateTime _truncateSeconds(DateTime input) {
     return DateTime(
         input.year, input.month, input.day, input.hour, input.minute);
   }
 
+
+/*
   Future<List<Sleep>> getSleepFromDay(DateTime startTime) async {
     await updateBearer();
     Response r = await _dio.get(
@@ -187,5 +214,5 @@ class ImpactService {
     }
     return sleeplist;
   }
-
+*/
 }

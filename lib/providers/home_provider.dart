@@ -10,17 +10,19 @@ import 'package:nix/services/impact.dart';
 class HomeProvider extends ChangeNotifier {
   // data to be used by the UI
   late int? dailysteps;
+  /*
   late int? wakeuptime;
   late int? bedtime;
   late double? duration;
   late int? eff;
   late int? monthscore;
   late int wellbeingscore;
+  */
   final AppDatabase database;
 
   // data fetched from external services
   late List<Steps> _steps;
-  late List<Sleep> _sleep;
+  //late List<Sleep> _sleep;
 
   // selected day of data to be shown
   DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
@@ -52,7 +54,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   // method to fetch all data
-  Future<void> _fetchAndCalculate() async {
+  Future<void> _fetchAndCalculate() async { //togliere il "calculate"
     lastFetch = await _getLastFetch() ??
         DateTime.now().subtract(const Duration(days: 2));
     // do nothing if already fetched
@@ -108,7 +110,31 @@ class HomeProvider extends ChangeNotifier {
     // after selecting all data we notify all consumers to rebuild
     notifyListeners();
   }
+
+   Future<void> downloadSteps(DateTime showDate) async { 
+    
+    var firstDay = await database.stepDao.findFirstDayInDb();
+    var lastDay = await database.stepDao.findLastDayInDb();
+    if (showDate.isAfter(lastDay!.dateTime)) return;
+
+    if (showDate.isBefore(firstDay!.dateTime)) {
+      _steps = await impactService.getStepsFromDay(showDate);
+    for (var element in _steps) {
+      database.stepDao.insertStep(element);
+      }
+    }
+
+    this.showDate = showDate;
+
+    dailysteps = await database.stepDao.findStepsbyDate(
+        DateUtils.dateOnly(showDate),
+        DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
+    // after selecting all data we notify all consumers to rebuild
+    notifyListeners();
+  }
+    
   
+  /*
   // method to select only the data of the chosen day
   Future<void> getSleepOfDay(DateTime showDate) async {
     // check if the day we want to show has data
@@ -140,5 +166,6 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
   }
+  */
 
 }

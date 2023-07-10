@@ -89,7 +89,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `value` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `value` INTEGER)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Sleep` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `duration` REAL NOT NULL, `eff` INTEGER NOT NULL)');
         await database.execute(
@@ -181,7 +181,7 @@ class _$StepDao extends StepDao {
         mapper: (Map<String, Object?> row) => Steps(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['value'] as int));
+            row['value'] as int?));
   }
 
   @override
@@ -191,7 +191,7 @@ class _$StepDao extends StepDao {
         mapper: (Map<String, Object?> row) => Steps(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['value'] as int));
+            row['value'] as int?));
   }
 
   @override
@@ -201,7 +201,7 @@ class _$StepDao extends StepDao {
         mapper: (Map<String, Object?> row) => Steps(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['value'] as int));
+            row['value'] as int?));
   }
 
   @override

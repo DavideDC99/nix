@@ -18,9 +18,9 @@ import 'package:nix/utils/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 import 'package:provider/provider.dart';
-import 'package:nix/database/entities/entities.dart' as db;
+import 'package:nix/database/entities/entities.dart' as database;
 
-int currentsteps = (6000 / 10000 * 100).round();
+//int currentsteps = (6000 / 10000 * 100).round();
 
 double hoursSleep = 9;
 int score = 65;
@@ -39,559 +39,629 @@ class _HomePageState extends State<HomePage> {
     String randomQuote = getRandomQuote();
 
     return ChangeNotifierProvider<HomeProvider>(
-      create: (context) => HomeProvider(
-          Provider.of<ImpactService>(context, listen: false),
-          Provider.of<AppDatabase>(context, listen: false)),
-      lazy: false,
-      builder: (context, child) =>Scaffold(
-      backgroundColor: Colors.blue.shade100,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-            color: Color.fromRGBO(187, 222, 251, 1), size: 40),
-        title: Row(
-          children: [
-            const SizedBox(
-              width: 90,
-            ),
-            Text(
-              'NiX',
-              style: GoogleFonts.cinzelDecorative(
-                  textStyle: const TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(187, 222, 251, 1),
-              )),
-            ),
-            const SizedBox(
-              width: 110,
-            ),
-            FluttermojiCircleAvatar(
+        create: (context) => HomeProvider(
+            Provider.of<ImpactService>(context, listen: false),
+            Provider.of<AppDatabase>(context, listen: false)),
+        lazy: false,
+        builder: (context, child) => Scaffold(
               backgroundColor: Colors.blue.shade100,
-              radius: 20,
-            ),
-          ],
-        ),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(13, 42, 106, 1),
-        elevation: 0,
-        actions: [
-              IconButton(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                  onPressed: () async {
-                    Provider.of<HomeProvider>(context, listen: false).refresh();
-  },
-                  icon: const Icon(
-                    Icons.download,
-                    size: 30,
-                    color: Color(0xFF89453C),
-                  )),
-      ]),
-
-      //changed
-      drawer: Drawer(
-          backgroundColor: Colors.blue.shade100,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              UserAccountsDrawerHeader(
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('images/others/background.jpg'),
-                          fit: BoxFit.cover)),
-                  accountName: const Text('User name',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  accountEmail: const Text('email'),
-                  currentAccountPicture: FluttermojiCircleAvatar(
-                      backgroundColor: Colors.blue.shade100)),
-              ListTile(
-                leading: const Icon(
-                  Icons.account_circle,
-                  color: Color.fromRGBO(13, 42, 106, 1),
-                ),
-                title: const Text('Profile',
-                    style: TextStyle(
-                        color: Color.fromRGBO(13, 42, 106, 1),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
-                onTap: () {
-                  //da modificare
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MainProfilePage(),
-                    ),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.check_box,
-                    color: Color.fromRGBO(32, 76, 170, 1)),
-                title: const Text('Sleep Hygiene',
-                    style: TextStyle(
-                        color: Color.fromRGBO(32, 76, 170, 1),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SHpage(),
-                    ),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.tips_and_updates,
-                  color: Color.fromRGBO(2, 119, 189, 1),
-                ),
-                title: const Text('Some tips',
-                    style: TextStyle(
-                        color: Color.fromRGBO(2, 119, 189, 1),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => tipsPage(),
-                    ),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.ballot_outlined,
-                    color: Color.fromRGBO(0, 176, 255, 1)),
-                title: const Text('Tests',
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 176, 255, 1),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => MainTestPage(),
-                    ),
-                  );
-                },
-              ),
-              const Divider(),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.black),
-                title: const Text('Sign out',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                onTap: () async {
-                  var prefs = await Provider.of<Preferences>(context, listen: false);
-                  prefs.logOut = true;
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => LoginUser(),
-                    ),
-                  );
-                },
-              ),
-            ],
-          )),
-
-      //changed (home)
-      body: Provider.of<HomeProvider>(context).doneInit 
-      ? SingleChildScrollView(
-        child: Consumer<HomeProvider>(
-          builder: (context, provider, child)
-          => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      height: 390,
-                      width: 800,
-                      color: const Color.fromRGBO(13, 42, 106, 1),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 100),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Color.fromRGBO(187, 222, 251, 1),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Text(
-                                    'Good day, ...!', //name
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(187, 222, 251, 1)),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 50,
-                              ),
-                              _dailyQuote(randomQuote),
-                            ],
-                          ),
-                        ],
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                  iconTheme: const IconThemeData(
+                      color: Color.fromRGBO(187, 222, 251, 1), size: 40),
+                  title: Row(
+                    children: [
+                      const SizedBox(
+                        width: 90,
                       ),
-                    ),
+                      Text(
+                        'NiX',
+                        style: GoogleFonts.cinzelDecorative(
+                            textStyle: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(187, 222, 251, 1),
+                        )),
+                      ),
+                      const SizedBox(
+                        width: 110,
+                      ),
+                      FluttermojiCircleAvatar(
+                        backgroundColor: Colors.blue.shade100,
+                        radius: 20,
+                      ),
+                    ],
                   ),
-                  Positioned(
-                      top: 275,
-                      child: Container(
-                        height: 400,
-                        width: 1000,
-                        color: const Color.fromRGBO(187, 222, 251, 1),
-                      )),
-                  Positioned(
-                    top: 200,
-                    child: Container(
-                      height: 150.0,
-                      width: 300.0,
-                      color: Colors.transparent,
-                      child: InkWell(
+                  centerTitle: true,
+                  backgroundColor: Color.fromRGBO(13, 42, 106, 1),
+                  elevation: 0,
+                  actions: [
+                    IconButton(
+                        padding:
+                            const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                        onPressed: () async {
+                          Provider.of<HomeProvider>(context, listen: false)
+                              .refresh();
+                        },
+                        icon: const Icon(
+                          Icons.download,
+                          size: 30,
+                          color: Color(0xFF89453C),
+                        )),
+                  ]),
+
+              //changed
+              drawer: Drawer(
+                  backgroundColor: Colors.blue.shade100,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      UserAccountsDrawerHeader(
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'images/others/background.jpg'),
+                                  fit: BoxFit.cover)),
+                          accountName: const Text('User name',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                          accountEmail: const Text('email'),
+                          currentAccountPicture: FluttermojiCircleAvatar(
+                              backgroundColor: Colors.blue.shade100)),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.account_circle,
+                          color: Color.fromRGBO(13, 42, 106, 1),
+                        ),
+                        title: const Text('Profile',
+                            style: TextStyle(
+                                color: Color.fromRGBO(13, 42, 106, 1),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
                         onTap: () {
+                          //da modificare
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => MainScorePage(),
+                              builder: (context) => const MainProfilePage(),
                             ),
                           );
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 69, 155, 75),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.check_box,
+                            color: Color.fromRGBO(32, 76, 170, 1)),
+                        title: const Text('Sleep Hygiene',
+                            style: TextStyle(
+                                color: Color.fromRGBO(32, 76, 170, 1),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => SHpage(),
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color.fromARGB(255, 15, 41, 17)
-                                    .withOpacity(0.8),
-                                spreadRadius: 5,
-                                blurRadius: 4,
-                                offset: const Offset(4, 8),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.tips_and_updates,
+                          color: Color.fromRGBO(2, 119, 189, 1),
+                        ),
+                        title: const Text('Some tips',
+                            style: TextStyle(
+                                color: Color.fromRGBO(2, 119, 189, 1),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => tipsPage(),
+                            ),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.ballot_outlined,
+                            color: Color.fromRGBO(0, 176, 255, 1)),
+                        title: const Text('Tests',
+                            style: TextStyle(
+                                color: Color.fromRGBO(0, 176, 255, 1),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => MainTestPage(),
+                            ),
+                          );
+                        },
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: const Icon(Icons.logout, color: Colors.black),
+                        title: const Text('Sign out',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        onTap: () async {
+                          var prefs = await Provider.of<Preferences>(context,
+                              listen: false);
+                          prefs.logOut = true;
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => LoginUser(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  )),
+
+              //changed (home)
+              body: Provider.of<HomeProvider>(context).doneInit
+                  ? SingleChildScrollView(
+                      child: Consumer<HomeProvider>(
+                        builder: (context, provider, child) => Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Stack(
+                              alignment: Alignment.bottomCenter,
                               children: [
-                                ClipPolygon(
-                                  sides: 6,
-                                  borderRadius: 10.0,
-                                  rotate: 90.0,
-                                  boxShadows: [
-                                    PolygonBoxShadow(
-                                        color: Colors.black, elevation: 10.0),
-                                  ],
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
                                   child: Container(
-                                    color:
-                                        const Color.fromARGB(255, 245, 190, 190),
-                                    child: Center(
-                                      child: Text(
-                                        "$score",
-                                        style: const TextStyle(
-                                          fontSize: 40,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color.fromARGB(255, 15, 41, 17),
+                                    padding: const EdgeInsets.all(16),
+                                    height: 390,
+                                    width: 800,
+                                    color: const Color.fromRGBO(13, 42, 106, 1),
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 100),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    color: Color.fromRGBO(
+                                                        187, 222, 251, 1),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const Text(
+                                                  'Good day, ...!', //name
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color.fromRGBO(
+                                                          187, 222, 251, 1)),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              width: 50,
+                                            ),
+                                            _dailyQuote(randomQuote),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                    top: 275,
+                                    child: Container(
+                                      height: 400,
+                                      width: 1000,
+                                      color: const Color.fromRGBO(
+                                          187, 222, 251, 1),
+                                    )),
+                                Positioned(
+                                  top: 200,
+                                  child: Container(
+                                    height: 150.0,
+                                    width: 300.0,
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MainScorePage(),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 69, 155, 75),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: const Color.fromARGB(
+                                                      255, 15, 41, 17)
+                                                  .withOpacity(0.8),
+                                              spreadRadius: 5,
+                                              blurRadius: 4,
+                                              offset: const Offset(4, 8),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              ClipPolygon(
+                                                sides: 6,
+                                                borderRadius: 10.0,
+                                                rotate: 90.0,
+                                                boxShadows: [
+                                                  PolygonBoxShadow(
+                                                      color: Colors.black,
+                                                      elevation: 10.0),
+                                                ],
+                                                child: Container(
+                                                  color: const Color.fromARGB(
+                                                      255, 245, 190, 190),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "$score",
+                                                      style: const TextStyle(
+                                                        fontSize: 40,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Color.fromARGB(
+                                                            255, 15, 41, 17),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const Text(
+                                                "Wellbeing\n    Score\n       💯",
+                                                style: TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color.fromARGB(
+                                                        255, 15, 41, 17)),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                const Text(
-                                  "Wellbeing\n    Score\n       💯",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 15, 41, 17)),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      const Spacer(),
-                      Container(
-                        height: 300.0,
-                        width: 200.0,
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => StepPage(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            //steps
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 143, 111, 202),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.purple.shade800.withOpacity(0.8),
-                                  spreadRadius: 5,
-                                  blurRadius: 4,
-                                  offset: const Offset(4, 8),
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Steps 👣",
-                                    style: TextStyle(
-                                        fontSize: 35,
-                                        color: Color.fromRGBO(66, 18, 95, 1),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  CircularStepProgressIndicator(
-                                    totalSteps: 100,
-                                    currentStep: currentsteps,
-                                    stepSize: 20,
-                                    selectedColor:
-                                        const Color.fromARGB(230, 247, 156, 37),
-                                    unselectedColor: Colors.grey[200],
-                                    padding: 0,
-                                    width: 175,
-                                    height: 175,
-                                    selectedStepSize: 20,
-                                    roundedCap: (_, __) => true,
-                                    child: Center(
-                                      child: Text(
-                                        "${currentsteps * 100}",
-                                        style: const TextStyle(
-                                          fontSize: 40,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color.fromRGBO(66, 18, 95, 1),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    Container(
+                                      height: 300.0,
+                                      width: 200.0,
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => StepPage(),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          //steps
+                                          decoration: BoxDecoration(
+                                            color: const Color.fromARGB(
+                                                255, 143, 111, 202),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.purple.shade800
+                                                    .withOpacity(0.8),
+                                                spreadRadius: 5,
+                                                blurRadius: 4,
+                                                offset: const Offset(4, 8),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  "Steps 👣",
+                                                  style: TextStyle(
+                                                      fontSize: 35,
+                                                      color: Color.fromRGBO(
+                                                          66, 18, 95, 1),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox(
+                                                  height: 30,
+                                                ),
+                                                CircularStepProgressIndicator(
+                                                  totalSteps: 100,
+                                                  currentStep: provider.dailysteps == null ? 0 : (provider.dailysteps! / 100).round(),
+                                                  stepSize: 20,
+                                                  selectedColor:
+                                                      const Color.fromARGB(230, 247, 156, 37),
+                                                  unselectedColor:
+                                                      Colors.grey[200],
+                                                  padding: 0,
+                                                  width: 175,
+                                                  height: 175,
+                                                  selectedStepSize: 20,
+                                                  roundedCap: (_, __) => true,
+                                                  child: Center(
+                                                    child: Text(
+                                                      "${provider.dailysteps!}",
+                                                      style: const TextStyle(
+                                                        fontSize: 40,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Color.fromRGBO(66, 18, 95, 1),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          Container(
-                            height: 120.0,
-                            width: 170.0,
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => SleepPage(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                //sleep
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 64, 99, 180),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color.fromARGB(255, 92, 1, 33)
-                                          .withOpacity(0.8),
-                                      spreadRadius: 5,
-                                      blurRadius: 4,
-                                      offset: const Offset(4, 8),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        "Sleep 💤 ",
-                                        style: TextStyle(
-                                            fontSize: 35,
-                                            color: Color.fromARGB(255, 92, 1, 33),
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Container(
-                                        width: 80,
-                                        decoration: const BoxDecoration(
-                                          color: Color.fromRGBO(187, 222, 251, 1),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
+                                    const Spacer(),
+                                    Column(
+                                      children: [
+                                        Container(
+                                          height: 120.0,
+                                          width: 170.0,
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SleepPage(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              //sleep
+                                              decoration: BoxDecoration(
+                                                color: const Color.fromARGB(
+                                                    255, 64, 99, 180),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: const Color.fromARGB(
+                                                            255, 92, 1, 33)
+                                                        .withOpacity(0.8),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 4,
+                                                    offset: const Offset(4, 8),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Text(
+                                                      "Sleep 💤 ",
+                                                      style: TextStyle(
+                                                          fontSize: 35,
+                                                          color: Color.fromARGB(
+                                                              255, 92, 1, 33),
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Container(
+                                                      width: 80,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Color.fromRGBO(
+                                                            187, 222, 251, 1),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(10.0),
+                                                        ),
+                                                      ),
+                                                      child: Text(
+                                                        "$hoursSleep h",
+                                                        style: const TextStyle(
+                                                            fontSize: 30,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    92,
+                                                                    1,
+                                                                    33),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                        child: Text(
-                                          "$hoursSleep h",
-                                          style: const TextStyle(
-                                              fontSize: 30,
-                                              color:
-                                                  Color.fromARGB(255, 92, 1, 33),
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          Container(
-                            height: 140.0,
-                            width: 170.0,
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => MainTestPage(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.purple.shade300,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          const Color.fromARGB(255, 96, 39, 106)
-                                              .withOpacity(0.8),
-                                      spreadRadius: 5,
-                                      blurRadius: 4,
-                                      offset: const Offset(4, 8),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        "Tests 📝",
-                                        style: TextStyle(
-                                            fontSize: 35,
-                                            color: Color.fromARGB(255, 92, 1, 33),
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        width: 60,
-                                        height: 25,
-                                        alignment: Alignment.center,
-                                        decoration: const BoxDecoration(
-                                          color: Color.fromRGBO(203, 0, 64, 1),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
+                                        const SizedBox(height: 30),
+                                        Container(
+                                          height: 140.0,
+                                          width: 170.0,
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MainTestPage(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.purple.shade300,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: const Color.fromARGB(
+                                                            255, 96, 39, 106)
+                                                        .withOpacity(0.8),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 4,
+                                                    offset: const Offset(4, 8),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Text(
+                                                      "Tests 📝",
+                                                      style: TextStyle(
+                                                          fontSize: 35,
+                                                          color: Color.fromARGB(
+                                                              255, 92, 1, 33),
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Container(
+                                                      width: 60,
+                                                      height: 25,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Color.fromRGBO(
+                                                            203, 0, 64, 1),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(10.0),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        "PSQI",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Container(
+                                                      width: 60,
+                                                      height: 25,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Color.fromRGBO(
+                                                            247, 157, 37, 1),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(10.0),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        "ESS",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Container(
+                                                      width: 60,
+                                                      height: 25,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Color.fromRGBO(
+                                                            118, 195, 76, 1),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(10.0),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        "PHQ-9",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                        child: const Text(
-                                          "PSQI",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        width: 60,
-                                        height: 25,
-                                        alignment: Alignment.center,
-                                        decoration: const BoxDecoration(
-                                          color: Color.fromRGBO(247, 157, 37, 1),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          "ESS",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        width: 60,
-                                        height: 25,
-                                        alignment: Alignment.center,
-                                        decoration: const BoxDecoration(
-                                          color: Color.fromRGBO(118, 195, 76, 1),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          "PHQ-9",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          /*
+                                        /*
                             child: FittedBox(
                                 child: FloatingActionButton(
                                     child: const Text(
@@ -643,96 +713,103 @@ class _HomePageState extends State<HomePage> {
                                   }),
                                   */
                                 ), */
-                        ],
-                      ),
-                      const Spacer(),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: 125.0,
-                    width: 380.0,
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ProgressPage(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.cyan.shade700,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color.fromARGB(255, 4, 104, 113)
-                                  .withOpacity(0.8),
-                              spreadRadius: 5,
-                              blurRadius: 4,
-                              offset: const Offset(4, 8),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                Container(
+                                  height: 125.0,
+                                  width: 380.0,
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => ProgressPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.cyan.shade700,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: const Color.fromARGB(
+                                                    255, 4, 104, 113)
+                                                .withOpacity(0.8),
+                                            spreadRadius: 5,
+                                            blurRadius: 4,
+                                            offset: const Offset(4, 8),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Text(
+                                              "Monthly Progress 🥇",
+                                              style: TextStyle(
+                                                fontSize: 30,
+                                                color: Color.fromRGBO(
+                                                    2, 65, 68, 1),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                              height: 50.0,
+                                              width: 100.0,
+                                              color: Colors.transparent,
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10.0),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    '🏆 $goalsAchieved ',
+                                                    style: const TextStyle(
+                                                        fontSize: 30,
+                                                        color: Color.fromRGBO(
+                                                            2, 65, 68, 1),
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 40,
+                                )
+                              ],
                             ),
                           ],
                         ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Monthly Progress 🥇",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Color.fromRGBO(2, 65, 68, 1),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 50.0,
-                                width: 100.0,
-                                color: Colors.transparent,
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '🏆 $goalsAchieved ',
-                                      style: const TextStyle(
-                                          fontSize: 30,
-                                          color: Color.fromRGBO(2, 65, 68, 1),
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ): const Center(
-                  child: CircularProgressIndicator(),
-                ) ,
-    ));
+            ));
   }
 
   Widget _dailyQuote(String quote) {
@@ -790,7 +867,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-    
   }
 
   final List<String> quotes = [

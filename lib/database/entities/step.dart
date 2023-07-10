@@ -10,7 +10,7 @@ class Steps {
   final int? id;
 
   final DateTime dateTime ;
-  final int value;
+  final int? value;
   //final int month;
 
   //Default constructor
