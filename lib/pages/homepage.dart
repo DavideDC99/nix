@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_polygon/flutter_polygon.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nix/database/database.dart';
 import 'package:nix/pages/login/login_user.dart';
 import 'package:nix/pages/maintests_page.dart';
 import 'package:nix/pages/profile_page.dart';
@@ -11,12 +12,16 @@ import 'package:nix/pages/sh_page.dart';
 import 'package:nix/pages/sleep_page.dart';
 import 'package:nix/pages/step_page.dart';
 import 'package:nix/pages/tips_page.dart';
+import 'package:nix/providers/home_provider.dart';
+import 'package:nix/services/impact.dart';
 import 'package:nix/utils/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 import 'package:provider/provider.dart';
+import 'package:nix/database/entities/entities.dart' as db;
 
 int currentsteps = (6000 / 10000 * 100).round();
+
 double hoursSleep = 9;
 int score = 65;
 int goalsAchieved = 5;
@@ -33,7 +38,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     String randomQuote = getRandomQuote();
 
-    return Scaffold(
+    return ChangeNotifierProvider<HomeProvider>(
+      create: (context) => HomeProvider(
+          Provider.of<ImpactService>(context, listen: false),
+          Provider.of<AppDatabase>(context, listen: false)),
+      lazy: false,
+      builder: (context, child) =>Scaffold(
       backgroundColor: Colors.blue.shade100,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -65,7 +75,18 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Color.fromRGBO(13, 42, 106, 1),
         elevation: 0,
-      ),
+        actions: [
+              IconButton(
+                  padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                  onPressed: () async {
+                    Provider.of<HomeProvider>(context, listen: false).refresh();
+  },
+                  icon: const Icon(
+                    Icons.download,
+                    size: 30,
+                    color: Color(0xFF89453C),
+                  )),
+      ]),
 
       //changed
       drawer: Drawer(
@@ -173,164 +194,90 @@ class _HomePageState extends State<HomePage> {
           )),
 
       //changed (home)
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    height: 390,
-                    width: 800,
-                    color: const Color.fromRGBO(13, 42, 106, 1),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 100),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Color.fromRGBO(187, 222, 251, 1),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const Text(
-                                  'Good day, ...!', //name
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromRGBO(187, 222, 251, 1)),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            _dailyQuote(randomQuote),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                    top: 275,
+      body: Provider.of<HomeProvider>(context).doneInit 
+      ? SingleChildScrollView(
+        child: Consumer<HomeProvider>(
+          builder: (context, provider, child)
+          => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
                     child: Container(
-                      height: 400,
-                      width: 1000,
-                      color: const Color.fromRGBO(187, 222, 251, 1),
-                    )),
-                Positioned(
-                  top: 200,
-                  child: Container(
-                    height: 150.0,
-                    width: 300.0,
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => MainScorePage(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 69, 155, 75),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color.fromARGB(255, 15, 41, 17)
-                                  .withOpacity(0.8),
-                              spreadRadius: 5,
-                              blurRadius: 4,
-                              offset: const Offset(4, 8),
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                      padding: const EdgeInsets.all(16),
+                      height: 390,
+                      width: 800,
+                      color: const Color.fromRGBO(13, 42, 106, 1),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 100),
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ClipPolygon(
-                                sides: 6,
-                                borderRadius: 10.0,
-                                rotate: 90.0,
-                                boxShadows: [
-                                  PolygonBoxShadow(
-                                      color: Colors.black, elevation: 10.0),
-                                ],
-                                child: Container(
-                                  color:
-                                      const Color.fromARGB(255, 245, 190, 190),
-                                  child: Center(
-                                    child: Text(
-                                      "$score",
-                                      style: const TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromARGB(255, 15, 41, 17),
-                                      ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromRGBO(187, 222, 251, 1),
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),
+                                  const Text(
+                                    'Good day, ...!', //name
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(187, 222, 251, 1)),
+                                  ),
+                                ],
                               ),
-                              const Text(
-                                "Wellbeing\n    Score\n       💯",
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 15, 41, 17)),
+                              const SizedBox(
+                                width: 50,
                               ),
+                              _dailyQuote(randomQuote),
                             ],
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    const Spacer(),
-                    Container(
-                      height: 300.0,
-                      width: 200.0,
+                  Positioned(
+                      top: 275,
+                      child: Container(
+                        height: 400,
+                        width: 1000,
+                        color: const Color.fromRGBO(187, 222, 251, 1),
+                      )),
+                  Positioned(
+                    top: 200,
+                    child: Container(
+                      height: 150.0,
+                      width: 300.0,
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => StepPage(),
+                              builder: (context) => MainScorePage(),
                             ),
                           );
                         },
                         child: Container(
-                          //steps
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 143, 111, 202),
+                            color: const Color.fromARGB(255, 69, 155, 75),
                             borderRadius: const BorderRadius.all(
                               Radius.circular(10.0),
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.purple.shade800.withOpacity(0.8),
+                                color: const Color.fromARGB(255, 15, 41, 17)
+                                    .withOpacity(0.8),
                                 spreadRadius: 5,
                                 blurRadius: 4,
                                 offset: const Offset(4, 8),
@@ -338,42 +285,39 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           child: Center(
-                            child: Column(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const Text(
-                                  "Steps 👣",
-                                  style: TextStyle(
-                                      fontSize: 35,
-                                      color: Color.fromRGBO(66, 18, 95, 1),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                CircularStepProgressIndicator(
-                                  totalSteps: 100,
-                                  currentStep: currentsteps,
-                                  stepSize: 20,
-                                  selectedColor:
-                                      const Color.fromARGB(230, 247, 156, 37),
-                                  unselectedColor: Colors.grey[200],
-                                  padding: 0,
-                                  width: 175,
-                                  height: 175,
-                                  selectedStepSize: 20,
-                                  roundedCap: (_, __) => true,
-                                  child: Center(
-                                    child: Text(
-                                      "${currentsteps * 100}",
-                                      style: const TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(66, 18, 95, 1),
+                                ClipPolygon(
+                                  sides: 6,
+                                  borderRadius: 10.0,
+                                  rotate: 90.0,
+                                  boxShadows: [
+                                    PolygonBoxShadow(
+                                        color: Colors.black, elevation: 10.0),
+                                  ],
+                                  child: Container(
+                                    color:
+                                        const Color.fromARGB(255, 245, 190, 190),
+                                    child: Center(
+                                      child: Text(
+                                        "$score",
+                                        style: const TextStyle(
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(255, 15, 41, 17),
+                                        ),
                                       ),
                                     ),
                                   ),
+                                ),
+                                const Text(
+                                  "Wellbeing\n    Score\n       💯",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 15, 41, 17)),
                                 ),
                               ],
                             ),
@@ -381,205 +325,307 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    Column(
-                      children: [
-                        Container(
-                          height: 120.0,
-                          width: 170.0,
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => SleepPage(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              //sleep
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 64, 99, 180),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color.fromARGB(255, 92, 1, 33)
-                                        .withOpacity(0.8),
-                                    spreadRadius: 5,
-                                    blurRadius: 4,
-                                    offset: const Offset(4, 8),
-                                  ),
-                                ],
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      Container(
+                        height: 300.0,
+                        width: 200.0,
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => StepPage(),
                               ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      "Sleep 💤 ",
-                                      style: TextStyle(
-                                          fontSize: 35,
-                                          color: Color.fromARGB(255, 92, 1, 33),
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 80,
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(187, 222, 251, 1),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                      ),
+                            );
+                          },
+                          child: Container(
+                            //steps
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 143, 111, 202),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.purple.shade800.withOpacity(0.8),
+                                  spreadRadius: 5,
+                                  blurRadius: 4,
+                                  offset: const Offset(4, 8),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Steps 👣",
+                                    style: TextStyle(
+                                        fontSize: 35,
+                                        color: Color.fromRGBO(66, 18, 95, 1),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  CircularStepProgressIndicator(
+                                    totalSteps: 100,
+                                    currentStep: currentsteps,
+                                    stepSize: 20,
+                                    selectedColor:
+                                        const Color.fromARGB(230, 247, 156, 37),
+                                    unselectedColor: Colors.grey[200],
+                                    padding: 0,
+                                    width: 175,
+                                    height: 175,
+                                    selectedStepSize: 20,
+                                    roundedCap: (_, __) => true,
+                                    child: Center(
                                       child: Text(
-                                        "$hoursSleep h",
+                                        "${currentsteps * 100}",
                                         style: const TextStyle(
-                                            fontSize: 30,
-                                            color:
-                                                Color.fromARGB(255, 92, 1, 33),
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromRGBO(66, 18, 95, 1),
+                                        ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        Container(
-                          height: 140.0,
-                          width: 170.0,
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => MainTestPage(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.purple.shade300,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color:
-                                        const Color.fromARGB(255, 96, 39, 106)
-                                            .withOpacity(0.8),
-                                    spreadRadius: 5,
-                                    blurRadius: 4,
-                                    offset: const Offset(4, 8),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      "Tests 📝",
-                                      style: TextStyle(
-                                          fontSize: 35,
-                                          color: Color.fromARGB(255, 92, 1, 33),
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      width: 60,
-                                      height: 25,
-                                      alignment: Alignment.center,
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(203, 0, 64, 1),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                      ),
-                                      child: const Text(
-                                        "PSQI",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      width: 60,
-                                      height: 25,
-                                      alignment: Alignment.center,
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(247, 157, 37, 1),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                      ),
-                                      child: const Text(
-                                        "ESS",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      width: 60,
-                                      height: 25,
-                                      alignment: Alignment.center,
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(118, 195, 76, 1),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                      ),
-                                      child: const Text(
-                                        "PHQ-9",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Column(
+                        children: [
+                          Container(
+                            height: 120.0,
+                            width: 170.0,
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => SleepPage(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                //sleep
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 64, 99, 180),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10.0),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color.fromARGB(255, 92, 1, 33)
+                                          .withOpacity(0.8),
+                                      spreadRadius: 5,
+                                      blurRadius: 4,
+                                      offset: const Offset(4, 8),
                                     ),
                                   ],
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "Sleep 💤 ",
+                                        style: TextStyle(
+                                            fontSize: 35,
+                                            color: Color.fromARGB(255, 92, 1, 33),
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        width: 80,
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromRGBO(187, 222, 251, 1),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "$hoursSleep h",
+                                          style: const TextStyle(
+                                              fontSize: 30,
+                                              color:
+                                                  Color.fromARGB(255, 92, 1, 33),
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        /*
-                          child: FittedBox(
-                              child: FloatingActionButton(
-                                  child: const Text(
-                                    'Daily Quote',
-                                    textAlign: TextAlign.center,
+                          const SizedBox(height: 30),
+                          Container(
+                            height: 140.0,
+                            width: 170.0,
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => MainTestPage(),
                                   ),
-                                  onPressed: () {
-                                    
-                                    final materialBanner = MaterialBanner(
-                                      elevation: 100,
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.purple.shade300,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10.0),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          const Color.fromARGB(255, 96, 39, 106)
+                                              .withOpacity(0.8),
+                                      spreadRadius: 5,
+                                      blurRadius: 4,
+                                      offset: const Offset(4, 8),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "Tests 📝",
+                                        style: TextStyle(
+                                            fontSize: 35,
+                                            color: Color.fromARGB(255, 92, 1, 33),
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        height: 25,
+                                        alignment: Alignment.center,
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromRGBO(203, 0, 64, 1),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "PSQI",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        height: 25,
+                                        alignment: Alignment.center,
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromRGBO(247, 157, 37, 1),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "ESS",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        height: 25,
+                                        alignment: Alignment.center,
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromRGBO(118, 195, 76, 1),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "PHQ-9",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          /*
+                            child: FittedBox(
+                                child: FloatingActionButton(
+                                    child: const Text(
+                                      'Daily Quote',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    onPressed: () {
+                                      
+                                      final materialBanner = MaterialBanner(
+                                        elevation: 100,
+                                        backgroundColor: Colors.transparent,
+                                        forceActionsBelow: false,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Hey!!',
+                                          message: randomQuote,
+                                          //message: quotes[9], //use this to test the length of the quote
+                                          messageFontSize: 14,
+                                          contentType: ContentType.success,
+                                          inMaterialBanner: true,
+                                          color: Colors.blue,
+                                        ),
+                                        actions: const [SizedBox.shrink()],
+                                      );
+        
+                                      ScaffoldMessenger.of(context)
+                                        ..hideCurrentMaterialBanner()
+                                        ..showMaterialBanner(materialBanner);
+                                    }) 
+                                /*
+                                    final snackBar = SnackBar(
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
                                       backgroundColor: Colors.transparent,
-                                      forceActionsBelow: false,
+                                      //forceActionsBelow: true,
                                       content: AwesomeSnackbarContent(
                                         title: 'Hey!!',
                                         message: randomQuote,
@@ -589,123 +635,104 @@ class _HomePageState extends State<HomePage> {
                                         inMaterialBanner: true,
                                         color: Colors.blue,
                                       ),
-                                      actions: const [SizedBox.shrink()],
+                                      action: SnackBarAction(label: 'X', onPressed: SizedBox.shrink),
                                     );
-
                                     ScaffoldMessenger.of(context)
-                                      ..hideCurrentMaterialBanner()
-                                      ..showMaterialBanner(materialBanner);
-                                  }) 
-                              /*
-                                  final snackBar = SnackBar(
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: Colors.transparent,
-                                    //forceActionsBelow: true,
-                                    content: AwesomeSnackbarContent(
-                                      title: 'Hey!!',
-                                      message: randomQuote,
-                                      //message: quotes[9], //use this to test the length of the quote
-                                      messageFontSize: 14,
-                                      contentType: ContentType.success,
-                                      inMaterialBanner: true,
-                                      color: Colors.blue,
-                                    ),
-                                    action: SnackBarAction(label: 'X', onPressed: SizedBox.shrink),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(snackBar);
-                                }),
-                                */
-                              ), */
-                      ],
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  height: 125.0,
-                  width: 380.0,
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ProgressPage(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.cyan.shade700,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color.fromARGB(255, 4, 104, 113)
-                                .withOpacity(0.8),
-                            spreadRadius: 5,
-                            blurRadius: 4,
-                            offset: const Offset(4, 8),
-                          ),
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+                                  }),
+                                  */
+                                ), */
                         ],
                       ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Monthly Progress 🥇",
-                              style: TextStyle(
-                                fontSize: 30,
-                                color: Color.fromRGBO(2, 65, 68, 1),
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: 50.0,
-                              width: 100.0,
-                              color: Colors.transparent,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '🏆 $goalsAchieved ',
-                                    style: const TextStyle(
-                                        fontSize: 30,
-                                        color: Color.fromRGBO(2, 65, 68, 1),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
+                      const Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    height: 125.0,
+                    width: 380.0,
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProgressPage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.cyan.shade700,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color.fromARGB(255, 4, 104, 113)
+                                  .withOpacity(0.8),
+                              spreadRadius: 5,
+                              blurRadius: 4,
+                              offset: const Offset(4, 8),
                             ),
                           ],
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Monthly Progress 🥇",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Color.fromRGBO(2, 65, 68, 1),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                height: 50.0,
+                                width: 100.0,
+                                color: Colors.transparent,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '🏆 $goalsAchieved ',
+                                      style: const TextStyle(
+                                          fontSize: 30,
+                                          color: Color.fromRGBO(2, 65, 68, 1),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 40,
-                )
-              ],
-            ),
-          ],
+                  const SizedBox(
+                    height: 40,
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      ): const Center(
+                  child: CircularProgressIndicator(),
+                ) ,
+    ));
   }
 
   Widget _dailyQuote(String quote) {
@@ -763,6 +790,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+    
   }
 
   final List<String> quotes = [

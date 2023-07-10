@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nix/database/database.dart';
 import 'package:nix/pages/splash.dart';
 import 'package:nix/services/impact.dart';
 import 'package:nix/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
-bool show = true;
-void main() async {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final db = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  runApp(Provider<AppDatabase>.value(value: db, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:nix/models/steps.dart';
-import 'package:nix/models/sleep.dart';
+import 'package:nix/database/entities/entities.dart';
+import 'package:nix/database/entities/sleep.dart';
+import 'package:nix/models/step_model.dart';
+import 'package:nix/models/sleep_model.dart';
 import 'package:nix/services/server_strings.dart';
 import 'package:nix/utils/shared_preferences.dart';
 
@@ -129,6 +132,7 @@ class ImpactService {
     }
   }
 
+/*
   Future<List<Steps>> getStepsFromDay(DateTime startTime) async {
     await updateBearer();
     Response r = await _dio.get(
@@ -138,10 +142,38 @@ class ImpactService {
     for (var i = 0; i < response['data'].length; i++) {
       Map<String, dynamic> daydata = response['data'][i];
       for (var j = 0; j < daydata['data'].length; j++) {
-        steplist.add(Steps.fromJson(daydata['date'], daydata['data'][j]));
+        steplist.add(Steps.fromJson(null, daydata['date'], daydata['data'][j]));
       }
     }
     return steplist;
+  }
+  */
+
+  Future<List<Steps>> getStepsFromDay(DateTime startTime) async {
+    await updateBearer();
+    Response r = await _dio.get(
+       'data/v1/steps/patients/${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
+    List<dynamic> data = r.data['data'];
+    List<Steps> hr = [];
+    for (var daydata in data) {
+      String day = daydata['date'];
+      for (var dataday in daydata['data']) {
+        String hour = dataday['time'];
+        String datetime = '${day}T$hour';
+        DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
+        Steps hrnew = Steps(null, timestamp, dataday['value'],);
+        if (!hr.any((e) => e.dateTime.isAtSameMomentAs(hrnew.dateTime))) {
+          hr.add(hrnew);
+        }
+      }
+    }
+    var hrlist = hr.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    return hrlist;
+  }
+  
+   DateTime _truncateSeconds(DateTime input) {
+    return DateTime(
+        input.year, input.month, input.day, input.hour, input.minute);
   }
 
   Future<List<Sleep>> getSleepFromDay(DateTime startTime) async {
@@ -151,7 +183,7 @@ class ImpactService {
     Map<String,dynamic> response = r.data;
     List<Sleep> sleeplist = [];
     for (var i = 0; i < response['data'].length; i++) {
-      sleeplist.add(Sleep.fromJson(response['data'][i]));
+      sleeplist.add(Sleep.fromJson(null, response['data'][i]));
     }
     return sleeplist;
   }
