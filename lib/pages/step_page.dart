@@ -25,6 +25,7 @@ class _StepPageState extends State<StepPage> {
             ),
         lazy: false,
         builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: Scaffold(
                 backgroundColor: Colors.deepPurple.shade200,
                 appBar: AppBar(

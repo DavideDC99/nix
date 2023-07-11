@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nix/database/entities/entities.dart';
-import 'package:nix/database/entities/sleep.dart';
 import 'package:nix/services/server_strings.dart';
 import 'package:nix/utils/shared_preferences.dart';
 

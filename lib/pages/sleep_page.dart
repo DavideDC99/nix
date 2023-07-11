@@ -28,6 +28,7 @@ class _SleepPageState extends State<SleepPage> {
             ),
         lazy: false,
         builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
               home: Scaffold(
                 backgroundColor: Color.fromARGB(255, 64, 99, 180),
                 appBar: AppBar(
