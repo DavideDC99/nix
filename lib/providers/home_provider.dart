@@ -27,7 +27,7 @@ class HomeProvider extends ChangeNotifier {
   // selected day of data to be shown
   DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
 
-  late DateTime lastFetch;
+  late DateTime? lastFetch;
   final ImpactService impactService;
 
   bool doneInit = false;
@@ -39,7 +39,8 @@ class HomeProvider extends ChangeNotifier {
   // constructor of provider which manages the fetching of all data from the servers and then notifies the ui to build
   Future<void> _init() async {
     await _fetchAndCalculate();
-    await getStepOfDay(showDate);
+    await downloadSteps(showDate);
+    //await getStepOfDay(showDate);
     // await getSleepOfDay(showDate);
     doneInit = true;
     notifyListeners();
@@ -55,26 +56,16 @@ class HomeProvider extends ChangeNotifier {
 
   // method to fetch all data
   Future<void> _fetchAndCalculate() async { //togliere il "calculate"
-    lastFetch = await _getLastFetch() ??
-        DateTime.now().subtract(const Duration(days: 2));
-    // do nothing if already fetched
-    if (lastFetch.day == DateTime.now().subtract(const Duration(days: 1)).day) {
+    lastFetch = await _getLastFetch();
+    
+    if (lastFetch == null) {
+      _steps = await impactService.getStepsFromDay(showDate);
+      for (var element in _steps) {
+        database.stepDao.insertStep(element);
+    } 
+    } else {
       return;
     }
-    _steps = await impactService.getStepsFromDay(lastFetch);
-    for (var element in _steps) {
-      database.stepDao.insertStep(element);
-    } // db add to the table
-/*
-    _sleep = await impactService.getSleepFromDay(lastFetch);
-    for (var element in _sleep) {
-      database.sleepDao.insertSleep(element);
-    } // db add to the table
-    */
-/*
-    wellbeingscore = _calculateWellbeing(_steps.last.value);
-    _calculateExposure(_heartRates, _pm25);
-    */
   }
 
   // method to trigger a new data fetching

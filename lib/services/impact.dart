@@ -150,12 +150,38 @@ class ImpactService {
   Future<List<Steps>> getStepsFromDay(DateTime startTime) async {
     await updateBearer();
     Response r = await _dio.get(
-       'data/v1/steps/patients/${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-       //'/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}');
+       //'data/v1/steps/patients/${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
+       '/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}');
+       
+       Map<String, dynamic> data = r.data;
+       if (data['data'] is List) { //dati giorni vuoti
+         Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'time': '00:00:10', 'value': '0' }]};
+         data['data'] = values;
+       }
+       Map<String, dynamic> daydata = data['data'];
+       List<Steps> step = [];
+        String day = daydata['date'];
+      for (var dataday in daydata['data']) {
+        String hour = dataday['time'];
+        String datetime = '${day}T$hour';
+        DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
+        Steps stepnew = Steps(null, timestamp, int.parse(dataday['value']),);
+        if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
+          step.add(stepnew);
+        }
+      }
+    var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    return steplist;
+  }
+
+       /*
     List<dynamic> data = r.data['data'];
     List<Steps> step = [];
     for (var daydata in data) {
       String day = daydata['date'];
+      if (daydata['data'].isEmpty) {
+        daydata['data'].add({'time': '00:00:10', 'value': '0' });
+      }
       for (var dataday in daydata['data']) {
         String hour = dataday['time'];
         String datetime = '${day}T$hour';
@@ -169,7 +195,7 @@ class ImpactService {
     var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return steplist;
   }
-  
+  */
   /*
 Future<List<Sleep>> getSleepFromDay(DateTime startTime) async {
     await updateBearer();

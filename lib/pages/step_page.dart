@@ -15,7 +15,6 @@ class StepPage extends StatefulWidget {
 }
 
 class _StepPageState extends State<StepPage> {
-  int currentsteps = (6000 / 10000 * 100).round();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class _StepPageState extends State<StepPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 20),
+                      SizedBox(height: 40),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.7,
                         alignment: Alignment.center,
@@ -55,7 +54,7 @@ class _StepPageState extends State<StepPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                                icon: const Icon(Icons.navigate_before),
+                                icon: const Icon(Icons.navigate_before, color: Colors.white, size: 24,),
                                 onPressed: () {
                                   // here we use the access method to retrieve the Provider and use its values and methods
                                 DateTime day =
@@ -68,9 +67,15 @@ class _StepPageState extends State<StepPage> {
                                 Consumer<HomeProvider>(
                                 builder: (context, value, child) => Text(
                                     DateFormat('dd MMMM yyyy')
-                                        .format(value.showDate))),
+                                        .format(value.showDate),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
                             IconButton(
-                                icon: const Icon(Icons.navigate_next),
+                                icon: const Icon(Icons.navigate_next, color: Colors.white, size: 24,),
                                 onPressed: () {
                                   DateTime day =
                             Provider.of<HomeProvider>(context, listen: false)
@@ -122,9 +127,10 @@ class _StepPageState extends State<StepPage> {
                               Consumer<HomeProvider>(
                                 builder: (context, provider, child) => Text(
                                   'You have walked ${provider.dailysteps == null ? 0 : (provider.dailysteps! / 100).round()}% of your goal!',
+                                  textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 20,
+                                    fontSize: 25,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -141,9 +147,7 @@ class _StepPageState extends State<StepPage> {
                               builder: (context, provider, child) =>
                                   CircularStepProgressIndicator(
                                 totalSteps: 100,
-                                currentStep: provider.dailysteps == null
-                                    ? 0
-                                    : provider.dailysteps!,
+                                currentStep: (provider.dailysteps! / 100).round(),
                                 stepSize: 20,
                                 selectedColor:
                                     Color.fromARGB(230, 247, 156, 37),

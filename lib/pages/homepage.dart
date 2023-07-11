@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
                   centerTitle: true,
                   backgroundColor: Color.fromRGBO(13, 42, 106, 1),
                   elevation: 0,
+                  /*
                   actions: [
                     IconButton(
                         padding:
@@ -88,7 +89,8 @@ class _HomePageState extends State<HomePage> {
                           size: 30,
                           color: Color(0xFF89453C),
                         )),
-                  ]),
+                  ] */
+                  ),
 
               //changed
               drawer: Drawer(
