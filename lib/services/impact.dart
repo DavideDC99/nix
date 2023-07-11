@@ -130,28 +130,10 @@ class ImpactService {
     }
   }
 
-/*
   Future<List<Steps>> getStepsFromDay(DateTime startTime) async {
     await updateBearer();
     Response r = await _dio.get(
-        '${ServerStrings.stepsEndpoint}${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-    Map<String, dynamic> response = r.data;
-    List<Steps> steplist = [];
-    for (var i = 0; i < response['data'].length; i++) {
-      Map<String, dynamic> daydata = response['data'][i];
-      for (var j = 0; j < daydata['data'].length; j++) {
-        steplist.add(Steps.fromJson(null, daydata['date'], daydata['data'][j]));
-      }
-    }
-    return steplist;
-  }
-  */
-
-  Future<List<Steps>> getStepsFromDay(DateTime startTime) async {
-    await updateBearer();
-    Response r = await _dio.get(
-       //'data/v1/steps/patients/${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-       '/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}');
+       '/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}/');
        
        Map<String, dynamic> data = r.data;
        if (data['data'] is List) { //dati giorni vuoti
@@ -173,72 +155,33 @@ class ImpactService {
     var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return steplist;
   }
-
-       /*
-    List<dynamic> data = r.data['data'];
-    List<Steps> step = [];
-    for (var daydata in data) {
-      String day = daydata['date'];
-      if (daydata['data'].isEmpty) {
-        daydata['data'].add({'time': '00:00:10', 'value': '0' });
-      }
-      for (var dataday in daydata['data']) {
-        String hour = dataday['time'];
-        String datetime = '${day}T$hour';
-        DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        Steps stepnew = Steps(null, timestamp, int.parse(dataday['value']),);
-        if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
-          step.add(stepnew);
-        }
-      }
-    }
-    var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    return steplist;
-  }
-  */
-  /*
-Future<List<Sleep>> getSleepFromDay(DateTime startTime) async {
-    await updateBearer();
-    Response r = await _dio.get(
-       'data/v1/sleep/patients/${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-    List<dynamic> data = r.data['data'];
-    List<Sleep> sleep = [];
-    for (var daydata in data) {
-      String day = daydata['date'];
-      for (var dataday in daydata['data']) {
-        String hour = dataday['time'];
-        String datetime = '${day}T$hour';
-        DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        String duration =daydata['duration'];
-        String eff = daydata['efficiecy'];
-        Steps stepnew = Sleep(null, DateFormat('yyyy-MM-dd').parse('${json["data"]["dateOfSleep"]}'),, int.parse(dataday['value']),);
-        if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
-          step.add(stepnew);
-        }
-      }
-    }
-    var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    return steplist;
-  }
-  */
-
+  
   DateTime _truncateSeconds(DateTime input) {
     return DateTime(
         input.year, input.month, input.day, input.hour, input.minute);
   }
 
-
-/*
-  Future<List<Sleep>> getSleepFromDay(DateTime startTime) async {
+  Future<Sleep> getSleepFromDay(DateTime startTime) async {
     await updateBearer();
     Response r = await _dio.get(
-      '${ServerStrings.sleepEndpoint}${ServerStrings.subjectUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-    Map<String,dynamic> response = r.data;
-    List<Sleep> sleeplist = [];
-    for (var i = 0; i < response['data'].length; i++) {
-      sleeplist.add(Sleep.fromJson(null, response['data'][i]));
-    }
-    return sleeplist;
+        '/data/v1/sleep/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}/');
+    Map<String, dynamic> data = r.data;
+       if (data['data'] is List) { //dati giorni vuoti
+         Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'startTime': '00-00 00:00:00', 'endTime': '00-00 00:00:00', 'duration': 0, 'efficiency': 0}]};
+         data['data'] = values;
+       }
+    Map<String, dynamic> daydata = data['data'];
+    String day = daydata['date'];
+    DateTime timestamp = _truncateSeconds(DateTime.parse(day));
+    Map<String, dynamic> dataday = daydata['data'][0];
+    String startSleep = dataday['startTime'].substring(6);
+    String endSleep = dataday['endTime'].substring(6);
+    double duration = dataday['duration']/3.6e+6;
+    String durationInStr = duration.toStringAsFixed(1);
+    double durationHours = double.parse(durationInStr);
+    int eff = dataday['efficiency'];
+    Sleep sleep = Sleep(null, timestamp, startSleep, endSleep, durationHours, eff);
+    return sleep;
   }
-*/
+    
 }

@@ -405,7 +405,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 CircularStepProgressIndicator(
                                                   totalSteps: 100,
-                                                  currentStep: provider.dailysteps == null ? 0 : (provider.dailysteps! / 100).round(),
+                                                  currentStep: (provider.dailysteps! / 100).round(),
                                                   stepSize: 20,
                                                   selectedColor:
                                                       const Color.fromARGB(230, 247, 156, 37),
@@ -500,7 +500,7 @@ class _HomePageState extends State<HomePage> {
                                                         ),
                                                       ),
                                                       child: Text(
-                                                        "$hoursSleep h",
+                                                        "${provider.duration} h",
                                                         style: const TextStyle(
                                                             fontSize: 30,
                                                             color:

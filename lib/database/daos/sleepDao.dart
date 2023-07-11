@@ -5,11 +5,11 @@ import 'package:nix/database/entities/entities.dart';
 
 @dao
 abstract class SleepDao {
-  @Query('SELECT start FROM Sleep WHERE dateTime = :time')
-  Future<int?> findBedTime(DateTime time); // time = datetime.now - 1
+  @Query('SELECT goSleep FROM Sleep WHERE dateTime = :time')
+  Future<String?> findBedTime(DateTime time); // time = datetime.now - 1
 
-  @Query('SELECT end FROM Sleep WHERE dateTime = :time')
-  Future<int?> findWakeup(DateTime time); // time = datetime.now - 1
+  @Query('SELECT wakeUp FROM Sleep WHERE dateTime = :time')
+  Future<String?> findWakeup(DateTime time); // time = datetime.now - 1
 
   @Query('SELECT duration FROM Sleep WHERE dateTime = :time')
   Future<double?> findSleepDuration(DateTime time); // time = datetime.now - 1
@@ -29,10 +29,10 @@ abstract class SleepDao {
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateSleep(Sleep sleep);
 
-  @Query('SELECT * FROM Exposure ORDER BY dateTime ASC LIMIT 1')
+  @Query('SELECT * FROM Sleep ORDER BY dateTime ASC LIMIT 1')
   Future<Sleep?> findFirstDayInDb();
 
-  @Query('SELECT * FROM Exposure ORDER BY dateTime DESC LIMIT 1')
+  @Query('SELECT * FROM Sleep ORDER BY dateTime DESC LIMIT 1')
   Future<Sleep?> findLastDayInDb();
   
 }//HeartRatesDao

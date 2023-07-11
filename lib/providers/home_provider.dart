@@ -10,19 +10,17 @@ import 'package:nix/services/impact.dart';
 class HomeProvider extends ChangeNotifier {
   // data to be used by the UI
   late int? dailysteps;
-  /*
-  late int? wakeuptime;
-  late int? bedtime;
+  late String? startSleep;
+  late String? endSleep;
   late double? duration;
   late int? eff;
-  late int? monthscore;
-  late int wellbeingscore;
-  */
+  //late int? monthscore;
+  //late int wellbeingscore;
   final AppDatabase database;
 
   // data fetched from external services
   late List<Steps> _steps;
-  //late List<Sleep> _sleep;
+  late Sleep _sleep;
 
   // selected day of data to be shown
   DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
@@ -40,8 +38,7 @@ class HomeProvider extends ChangeNotifier {
   Future<void> _init() async {
     await _fetchAndCalculate();
     await downloadSteps(showDate);
-    //await getStepOfDay(showDate);
-    // await getSleepOfDay(showDate);
+    await downloadSleep(showDate);
     doneInit = true;
     notifyListeners();
   }
@@ -59,20 +56,18 @@ class HomeProvider extends ChangeNotifier {
     lastFetch = await _getLastFetch();
     
     if (lastFetch == null) {
+
       _steps = await impactService.getStepsFromDay(showDate);
       for (var element in _steps) {
         database.stepDao.insertStep(element);
-    } 
+      }
+
+      _sleep = await impactService.getSleepFromDay(showDate);
+        database.sleepDao.insertSleep(_sleep);
+
     } else {
       return;
     }
-  }
-
-  // method to trigger a new data fetching
-  Future<void> refresh() async {
-    await _fetchAndCalculate();
-    await getStepOfDay(showDate);
-    //await getSleepOfDay(showDate);
   }
   
   /*
@@ -85,24 +80,7 @@ class HomeProvider extends ChangeNotifier {
     } // db add to the table
   }*/
 
-  // method to select only the data of the chosen day
-  Future<void> getStepOfDay(DateTime showDate) async {
-    // check if the day we want to show has data
-    var firstDay = await database.stepDao.findFirstDayInDb();
-    var lastDay = await database.stepDao.findLastDayInDb();
-    if (showDate.isAfter(lastDay!.dateTime) ||
-        showDate.isBefore(firstDay!.dateTime)) return;
-        
-    this.showDate = showDate;
-
-    dailysteps = await database.stepDao.findStepsbyDate(
-        DateUtils.dateOnly(showDate),
-        DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
-    // after selecting all data we notify all consumers to rebuild
-    notifyListeners();
-  }
-
-   Future<void> downloadSteps(DateTime showDate) async { 
+  Future<void> downloadSteps(DateTime showDate) async { 
     
     var firstDay = await database.stepDao.findFirstDayInDb();
     var lastDay = await database.stepDao.findLastDayInDb();
@@ -110,7 +88,7 @@ class HomeProvider extends ChangeNotifier {
 
     if (showDate.isBefore(firstDay!.dateTime)) {
       _steps = await impactService.getStepsFromDay(showDate);
-    for (var element in _steps) {
+      for (var element in _steps) {
       database.stepDao.insertStep(element);
       }
     }
@@ -124,39 +102,42 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
     
-  
-  /*
-  // method to select only the data of the chosen day
-  Future<void> getSleepOfDay(DateTime showDate) async {
-    // check if the day we want to show has data
+
+  Future<void> downloadSleep(DateTime showDate) async {
+
+    DateTime truncatedShowDate = DateTime(showDate.year, showDate.month, showDate.day);
+
     var firstDay = await database.sleepDao.findFirstDayInDb();
     var lastDay = await database.sleepDao.findLastDayInDb();
-    if (showDate.isAfter(lastDay!.dateTime) ||
-        showDate.isBefore(firstDay!.dateTime)) return;
-        
+    if (truncatedShowDate.isAfter(lastDay!.dateTime)) return;
+
+    if (truncatedShowDate.isBefore(firstDay!.dateTime)) {
+      _sleep = await impactService.getSleepFromDay(showDate);
+        database.sleepDao.insertSleep(_sleep);
+    }
+
     this.showDate = showDate;
   
-    wakeuptime = await database.sleepDao.findWakeup(
+    endSleep = await database.sleepDao.findWakeup(
         DateUtils.dateOnly(showDate),);
     // after selecting all data we notify all consumers to rebuild
     notifyListeners();
     
-     bedtime = await database.sleepDao.findBedTime(
+    startSleep = await database.sleepDao.findBedTime(
         DateUtils.dateOnly(showDate),);
     // after selecting all data we notify all consumers to rebuild
     notifyListeners();
 
-     duration = await database.sleepDao.findSleepDuration(
+    duration = await database.sleepDao.findSleepDuration(
         DateUtils.dateOnly(showDate),);
     // after selecting all data we notify all consumers to rebuild
     notifyListeners();
 
-     eff = await database.sleepDao.findSleepEff(
+    eff = await database.sleepDao.findSleepEff(
         DateUtils.dateOnly(showDate),);
     // after selecting all data we notify all consumers to rebuild
     notifyListeners();
 
   }
-  */
 
 }

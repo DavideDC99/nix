@@ -89,9 +89,9 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `value` INTEGER)');
+            'CREATE TABLE IF NOT EXISTS `Steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `value` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Sleep` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `start` INTEGER NOT NULL, `end` INTEGER NOT NULL, `duration` REAL NOT NULL, `eff` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Sleep` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `goSleep` TEXT NOT NULL, `wakeUp` TEXT NOT NULL, `duration` REAL NOT NULL, `eff` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Stats` (`id` INTEGER NOT NULL, `month` INTEGER NOT NULL, `score` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
@@ -181,7 +181,7 @@ class _$StepDao extends StepDao {
         mapper: (Map<String, Object?> row) => Steps(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['value'] as int?));
+            row['value'] as int));
   }
 
   @override
@@ -191,7 +191,7 @@ class _$StepDao extends StepDao {
         mapper: (Map<String, Object?> row) => Steps(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['value'] as int?));
+            row['value'] as int));
   }
 
   @override
@@ -201,7 +201,7 @@ class _$StepDao extends StepDao {
         mapper: (Map<String, Object?> row) => Steps(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['value'] as int?));
+            row['value'] as int));
   }
 
   @override
@@ -231,8 +231,8 @@ class _$SleepDao extends SleepDao {
             (Sleep item) => <String, Object?>{
                   'id': item.id,
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
-                  'start': _dateTimeConverter.encode(item.start),
-                  'end': _dateTimeConverter.encode(item.end),
+                  'goSleep': item.goSleep,
+                  'wakeUp': item.wakeUp,
                   'duration': item.duration,
                   'eff': item.eff
                 }),
@@ -243,8 +243,8 @@ class _$SleepDao extends SleepDao {
             (Sleep item) => <String, Object?>{
                   'id': item.id,
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
-                  'start': _dateTimeConverter.encode(item.start),
-                  'end': _dateTimeConverter.encode(item.end),
+                  'goSleep': item.goSleep,
+                  'wakeUp': item.wakeUp,
                   'duration': item.duration,
                   'eff': item.eff
                 }),
@@ -255,8 +255,8 @@ class _$SleepDao extends SleepDao {
             (Sleep item) => <String, Object?>{
                   'id': item.id,
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
-                  'start': _dateTimeConverter.encode(item.start),
-                  'end': _dateTimeConverter.encode(item.end),
+                  'goSleep': item.goSleep,
+                  'wakeUp': item.wakeUp,
                   'duration': item.duration,
                   'eff': item.eff
                 });
@@ -274,16 +274,16 @@ class _$SleepDao extends SleepDao {
   final DeletionAdapter<Sleep> _sleepDeletionAdapter;
 
   @override
-  Future<int?> findBedTime(DateTime time) async {
-    return _queryAdapter.query('SELECT start FROM Sleep WHERE dateTime = ?1',
-        mapper: (Map<String, Object?> row) => row.values.first as int,
+  Future<String?> findBedTime(DateTime time) async {
+    return _queryAdapter.query('SELECT goSleep FROM Sleep WHERE dateTime = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
         arguments: [_dateTimeConverter.encode(time)]);
   }
 
   @override
-  Future<int?> findWakeup(DateTime time) async {
-    return _queryAdapter.query('SELECT end FROM Sleep WHERE dateTime = ?1',
-        mapper: (Map<String, Object?> row) => row.values.first as int,
+  Future<String?> findWakeup(DateTime time) async {
+    return _queryAdapter.query('SELECT wakeUp FROM Sleep WHERE dateTime = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as String,
         arguments: [_dateTimeConverter.encode(time)]);
   }
 
@@ -304,12 +304,12 @@ class _$SleepDao extends SleepDao {
   @override
   Future<Sleep?> findFirstDayInDb() async {
     return _queryAdapter.query(
-        'SELECT * FROM Exposure ORDER BY dateTime ASC LIMIT 1',
+        'SELECT * FROM Sleep ORDER BY dateTime ASC LIMIT 1',
         mapper: (Map<String, Object?> row) => Sleep(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            _dateTimeConverter.decode(row['start'] as int),
-            _dateTimeConverter.decode(row['end'] as int),
+            row['goSleep'] as String,
+            row['wakeUp'] as String,
             row['duration'] as double,
             row['eff'] as int));
   }
@@ -317,12 +317,12 @@ class _$SleepDao extends SleepDao {
   @override
   Future<Sleep?> findLastDayInDb() async {
     return _queryAdapter.query(
-        'SELECT * FROM Exposure ORDER BY dateTime DESC LIMIT 1',
+        'SELECT * FROM Sleep ORDER BY dateTime DESC LIMIT 1',
         mapper: (Map<String, Object?> row) => Sleep(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            _dateTimeConverter.decode(row['start'] as int),
-            _dateTimeConverter.decode(row['end'] as int),
+            row['goSleep'] as String,
+            row['wakeUp'] as String,
             row['duration'] as double,
             row['eff'] as int));
   }
