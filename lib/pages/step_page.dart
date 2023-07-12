@@ -4,7 +4,6 @@ import 'package:nix/database/database.dart';
 import 'package:nix/providers/home_provider.dart';
 import 'package:nix/services/impact.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:nix/pages/graphs/step_graph.dart';
 import 'package:provider/provider.dart';
 
 class StepPage extends StatefulWidget {
