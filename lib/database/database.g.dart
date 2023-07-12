@@ -352,7 +352,7 @@ class _$StatsDao extends StatsDao {
             database,
             'Stats',
             (Stats item) => <String, Object?>{
-                  'month': item.month,
+                  'month': _dateTimeConverter.encode(item.month),
                   'id': item.id,
                   'score': item.score
                 }),
@@ -361,7 +361,7 @@ class _$StatsDao extends StatsDao {
             'Stats',
             ['month', 'id'],
             (Stats item) => <String, Object?>{
-                  'month': item.month,
+                  'month': _dateTimeConverter.encode(item.month),
                   'id': item.id,
                   'score': item.score
                 }),
@@ -370,7 +370,7 @@ class _$StatsDao extends StatsDao {
             'Stats',
             ['month', 'id'],
             (Stats item) => <String, Object?>{
-                  'month': item.month,
+                  'month': _dateTimeConverter.encode(item.month),
                   'id': item.id,
                   'score': item.score
                 });
@@ -389,18 +389,18 @@ class _$StatsDao extends StatsDao {
 
   @override
   Future<int?> findScore(
-    int month,
+    DateTime month,
     int id,
   ) async {
     return _queryAdapter.query(
         'SELECT score FROM Stats WHERE month = ?1 AND id =?2',
         mapper: (Map<String, Object?> row) => row.values.first as int,
-        arguments: [month, id]);
+        arguments: [_dateTimeConverter.encode(month), id]);
   }
 
   @override
   Future<void> insertScore(Stats stats) async {
-    await _statsInsertionAdapter.insert(stats, OnConflictStrategy.abort);
+    await _statsInsertionAdapter.insert(stats, OnConflictStrategy.replace);
   }
 
   @override

@@ -14,7 +14,9 @@ class HomeProvider extends ChangeNotifier {
   late String? endSleep;
   late double? duration;
   late int? eff;
-  //late int? monthscore;
+  late int? scorePSQI;
+  late int? scoreESS;
+  late int? scorePHQ;
   //late int wellbeingscore;
   final AppDatabase database;
 
@@ -39,6 +41,7 @@ class HomeProvider extends ChangeNotifier {
     await _fetchAndCalculate();
     await downloadSteps(showDate);
     await downloadSleep(showDate);
+    await getScoreTest(showDate);
     doneInit = true;
     notifyListeners();
   }
@@ -136,6 +139,34 @@ class HomeProvider extends ChangeNotifier {
     eff = await database.sleepDao.findSleepEff(
         DateUtils.dateOnly(showDate),);
     // after selecting all data we notify all consumers to rebuild
+    notifyListeners();
+
+  }
+  
+  Future<void> getScoreTest(DateTime showDate) async {
+
+    if (showDate.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
+      return;
+    }
+    
+    this.showDate = showDate;
+
+    scorePSQI = await database.statsDao.findScore(DateTime(showDate.year, showDate.month), 1);
+    notifyListeners();
+
+    scoreESS = await database.statsDao.findScore(DateTime(showDate.year, showDate.month), 2);
+    notifyListeners();
+
+    scorePHQ = await database.statsDao.findScore(DateTime(showDate.year, showDate.month), 3);
+    notifyListeners();
+
+  }
+
+  void insertScoreTest(Stats stats) {
+    
+    //this.showDate = showDate;
+
+    database.statsDao.insertScore(stats);
     notifyListeners();
 
   }

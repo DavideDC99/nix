@@ -7,10 +7,10 @@ import 'package:nix/database/entities/entities.dart';
 abstract class StatsDao {
   //Query #0: SELECT -> this allows to obtain the sum of steps done in a certain date
   @Query('SELECT score FROM Stats WHERE month = :month AND id =:id')
-  Future<int?> findScore(int month, int id);
+  Future<int?> findScore(DateTime month, int id);
 
   //Query #2: INSERT -> this allows to add a HR in the table
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertScore(Stats stats);
 
   //Query #3: DELETE -> this allows to delete a HR from the table

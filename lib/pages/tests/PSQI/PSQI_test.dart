@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nix/database/daos/daos.dart';
+import 'package:nix/database/database.dart';
+import 'package:nix/database/entities/stats.dart';
 import 'package:nix/pages/tests/PSQI/PSQI_db.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:nix/pages/maintests_page.dart';
+import 'package:nix/providers/home_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:nix/services/impact.dart';
 
 class PSQITest extends StatefulWidget {
   const PSQITest({super.key});
@@ -30,7 +36,17 @@ class _PSQITestState extends State<PSQITest> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    /*
+    return ChangeNotifierProvider<HomeProvider>(
+        create: (context) => HomeProvider(
+              Provider.of<ImpactService>(context, listen: false),
+              Provider.of<AppDatabase>(context, listen: false),
+            ),
+        lazy: false,
+        builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(*/
+          return Scaffold(
       backgroundColor: const Color.fromARGB(174, 203, 0, 64),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
@@ -248,7 +264,8 @@ class _PSQITestState extends State<PSQITest> {
           foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(243, 203, 0, 64), shape: const StadiumBorder(),
         ),
         onPressed: () {
-            showDialog(context: context, builder: (_) => _showScoreDialog());
+            _calculatingScore();
+            Navigator.pop(context, score);
         },
         child: const Text( "Submit")
       )
@@ -280,7 +297,7 @@ class _PSQITestState extends State<PSQITest> {
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(243, 203, 0, 64), shape: const StadiumBorder(),
         ),
-        onPressed:null,
+        onPressed: null,
         child: const Text("Answer the question"),
       ),
     );
@@ -331,10 +348,13 @@ class _PSQITestState extends State<PSQITest> {
     }
 
     score=partial_score+c1+c2+c3;
+
+    //Stats stats = Stats(DateTime(DateTime.now().subtract(const Duration(days: 1)).month), 1, score);
+    //Provider.of<HomeProvider>(context, listen: false).insertScoreTest(stats);
   }
 
 
-
+/*
   _showScoreDialog() { 
     _calculatingScore();
     
@@ -348,7 +368,8 @@ class _PSQITestState extends State<PSQITest> {
       severity = 'severe sleep difficulty';
     }
 
-   return AlertDialog(
+   
+   AlertDialog(
     shape: RoundedRectangleBorder(
 		borderRadius: BorderRadius.circular(14)),
       title: Text(
@@ -364,17 +385,17 @@ class _PSQITestState extends State<PSQITest> {
         style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(243, 203, 0, 64), shape: const StadiumBorder(),
         ),
-        onPressed: () {
-          Navigator.pop(context);
+        onPressed: () async { 
+          //Navigator.pop(context);
           setState(() {
             currentQuestionIndex = 0;
-            score = 0;
+            //score = 0;
             selectedAnswer = null;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const MainTestPage())); 
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainTestPage())); 
           });
         },
         child: const Text("Finish"),
       ),
   ]);
-  }
+  }*/
 }

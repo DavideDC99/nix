@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final db = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
-  runApp(Provider<AppDatabase>.value(value: db, child: const MyApp()));
+  final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  runApp(Provider<AppDatabase>.value(value: database, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
