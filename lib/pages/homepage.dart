@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     String randomQuote = getRandomQuote();
+    var prefs = Provider.of<Preferences>(context, listen: false);
 
     return ChangeNotifierProvider<HomeProvider>(
         create: (context) => HomeProvider(
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                           accountName: const Text('User name',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          accountEmail: const Text('email'),
+                          accountEmail: Text('${prefs.usernameUser}'),
                           currentAccountPicture: FluttermojiCircleAvatar(
                               backgroundColor: Colors.blue.shade100)),
                       ListTile(
@@ -228,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                                  "${DateTime.now().subtract(const Duration(days: 1)).day}/${DateTime.now().subtract(const Duration(days: 1)).month}/${DateTime.now().subtract(const Duration(days: 1)).year}",
                                                   style: const TextStyle(
                                                     fontSize: 18,
                                                     color: Color.fromRGBO(

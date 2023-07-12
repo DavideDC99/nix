@@ -53,14 +53,14 @@ class _LoginUserState extends State<LoginUser> {
                       fontSize: 25,
                       fontWeight: FontWeight.bold)),
               prefs.usernameUser == null || prefs.passwordUser == null ? 
-              Text('Choose username and password', style: TextStyle(fontSize: 18, color: Color.fromARGB(239, 44, 146, 223))) : 
+              Text('Choose e-mail and password', style: TextStyle(fontSize: 18, color: Color.fromARGB(239, 44, 146, 223))) : 
               Text('Please login to use our app', style: TextStyle(fontSize: 18, color: Color.fromARGB(239, 44, 146, 223))),
               const SizedBox(
                 height: 20,
               ),
               const Align(
                 alignment: Alignment.topLeft,
-                child: Text('Username',
+                child: Text('E-mail',
                     style:
                         TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
               ),
@@ -90,7 +90,7 @@ class _LoginUserState extends State<LoginUser> {
                     Icons.person,
                     color: Colors.white,
                   ),
-                  hintText: 'Username',
+                  hintText: 'E-mail',
                   hintStyle: const TextStyle(color: Colors.white),
                 ),
               ),

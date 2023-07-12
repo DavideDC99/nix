@@ -70,10 +70,7 @@ class ImpactService {
   Future<bool> getTokens(String username, String password) async {
     try {
       Response response = await _dio.post(ServerStrings.tokenEndpoint,
-          data: {
-            'username': username,
-            'password': password,
-          },
+          data: {'username': username, 'password': password},
           options: Options(
               contentType: 'application/json',
               followRedirects: false,

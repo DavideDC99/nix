@@ -93,7 +93,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Sleep` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `goSleep` TEXT NOT NULL, `wakeUp` TEXT NOT NULL, `duration` REAL NOT NULL, `eff` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Stats` (`id` INTEGER NOT NULL, `month` INTEGER NOT NULL, `score` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Stats` (`month` INTEGER NOT NULL, `id` INTEGER NOT NULL, `score` INTEGER NOT NULL, PRIMARY KEY (`month`, `id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -352,26 +352,26 @@ class _$StatsDao extends StatsDao {
             database,
             'Stats',
             (Stats item) => <String, Object?>{
-                  'id': item.id,
                   'month': item.month,
+                  'id': item.id,
                   'score': item.score
                 }),
         _statsUpdateAdapter = UpdateAdapter(
             database,
             'Stats',
-            ['id'],
+            ['month', 'id'],
             (Stats item) => <String, Object?>{
-                  'id': item.id,
                   'month': item.month,
+                  'id': item.id,
                   'score': item.score
                 }),
         _statsDeletionAdapter = DeletionAdapter(
             database,
             'Stats',
-            ['id'],
+            ['month', 'id'],
             (Stats item) => <String, Object?>{
-                  'id': item.id,
                   'month': item.month,
+                  'id': item.id,
                   'score': item.score
                 });
 
