@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:nix/services/impact.dart';
 import 'package:nix/database/database.dart';
 import 'package:nix/providers/home_provider.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart'; //cerchietto
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:nix/pages/tests/ESS/ESS_test.dart';
 import 'package:nix/pages/tests/PHQ/PHQ_test.dart';
 import 'package:nix/pages/tests/PSQI/PSQI_test.dart';
@@ -44,8 +44,7 @@ class _MainTestPageState extends State<MainTestPage> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              HomePage(), //non ritorna nel drawer, direttamente sull'HomePage
+                          builder: (context) => HomePage(),
                         ),
                       );
                     },
@@ -75,17 +74,24 @@ class _MainTestPageState extends State<MainTestPage> {
                                     ),
                                     onPressed: () {
                                       // here we use the access method to retrieve the Provider and use its values and methods
-                                      DateTime day = Provider.of<HomeProvider>(context, listen: false).showDate;
-                                      DateTime previousMonth = DateTime(day.year, day.month - 1, day.day);
-                                      //da cambiare
-                                      Provider.of<HomeProvider>(context, listen: false).getScoreTest(previousMonth);
+                                      DateTime day = Provider.of<HomeProvider>(
+                                              context,
+                                              listen: false)
+                                          .showDate;
+                                      DateTime previousMonth = DateTime(
+                                          day.year, day.month - 1, day.day);
+                                      Provider.of<HomeProvider>(context,
+                                              listen: false)
+                                          .getScoreTest(previousMonth);
                                     }),
                                 Consumer<HomeProvider>(
-                                    builder: (context, value, child) => Text(DateFormat('MMMM').format(value.showDate),
+                                    builder: (context, value, child) => Text(
+                                          DateFormat('MMMM yy')
+                                              .format(value.showDate),
                                           style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         )),
                                 IconButton(
@@ -94,12 +100,16 @@ class _MainTestPageState extends State<MainTestPage> {
                                       color: Colors.white,
                                       size: 24,
                                     ),
-                                    onPressed: () { 
-                                    
-                                      DateTime day = Provider.of<HomeProvider>(context, listen: false).showDate;
-                                      DateTime nextMonth = DateTime(day.year, day.month + 1, day.day);
-                                          //cambiare
-                                      Provider.of<HomeProvider>(context, listen: false).getScoreTest(nextMonth);
+                                    onPressed: () {
+                                      DateTime day = Provider.of<HomeProvider>(
+                                              context,
+                                              listen: false)
+                                          .showDate;
+                                      DateTime nextMonth = DateTime(
+                                          day.year, day.month + 1, day.day);
+                                      Provider.of<HomeProvider>(context,
+                                              listen: false)
+                                          .getScoreTest(nextMonth);
                                     })
                               ],
                             ),
@@ -131,7 +141,8 @@ class _MainTestPageState extends State<MainTestPage> {
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           //Button container
@@ -141,25 +152,79 @@ class _MainTestPageState extends State<MainTestPage> {
                                             style: ElevatedButton.styleFrom(
                                               foregroundColor: Colors.white,
                                               backgroundColor:
-                                                  const Color.fromARGB(
-                                                      255, 203, 0, 64),
+                                                  Color.fromARGB(255, 150, 1, 48),
                                               shape: const StadiumBorder(),
                                             ),
-                                            onPressed: ! Provider.of<HomeProvider>(context, listen: false).showDate.isBefore(DateTime(DateTime.now().subtract(const Duration(days: 1)).year, DateTime.now().subtract(const Duration(days: 1)).month)) ?
-                                              () async {
-                                              final scorePSQI = await Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const PSQITest()));
-                                            Stats stats = Stats(DateTime(DateTime.now().subtract(const Duration(days: 1)).year, DateTime.now().subtract(const Duration(days: 1)).month), 1, scorePSQI);
-                                            Provider.of<HomeProvider>(context, listen: false).insertScoreTest(stats);
-                                            Provider.of<HomeProvider>(context, listen: false).getScoreTest(DateTime(DateTime.now().subtract(const Duration(days: 1)).year, DateTime.now().subtract(const Duration(days: 1)).month));
-                                            } : null,
-                                            child: const Text("Do the test", style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),),
+                                            onPressed: !Provider.of<
+                                                            HomeProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .showDate
+                                                    .isBefore(DateTime(
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .year,
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .month))
+                                                ? () async {
+                                                    final scorePSQI =
+                                                        await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const PSQITest()));
+                                                    Stats stats = Stats(
+                                                        DateTime(
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .year,
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .month),
+                                                        1,
+                                                        scorePSQI);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .insertScoreTest(stats);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .getScoreTest(DateTime(
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .year,
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .month));
+                                                  }
+                                                : null,
+                                            child: const Text(
+                                              "Do the test",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(
@@ -176,32 +241,33 @@ class _MainTestPageState extends State<MainTestPage> {
                                           ),
                                           child: Consumer<HomeProvider>(
                                             builder: (context, provider,
-                                                child) =>
-                                            CircularStepProgressIndicator(
-                                              startingAngle: pi/2,
-                                             arcSize: pi, 
-                                          totalSteps: 21,
-                                          currentStep: provider.scorePSQI == null ? 0 : provider.scorePSQI!,
-                                          stepSize: 20,
-                                          selectedColor: Color.fromARGB(
-                                              230, 247, 156, 37),
-                                          unselectedColor: Color.fromARGB(
-                                              255, 194, 221, 225),
-                                          padding: 0,
-                                          width: 20,
-                                          height: 20,
-                                          selectedStepSize: 20,
-                                          roundedCap: (_, __) => true,
-                                          child: Center(
-                                            child: Text(
-                                              "${provider.scorePSQI}",
-                                              style: const TextStyle(
-                                                  fontSize: 35,
-                                                  fontWeight:
-                                                      FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
+                                                    child) =>
+                                                CircularStepProgressIndicator(
+                                              startingAngle: pi / 2,
+                                              arcSize: pi,
+                                              totalSteps: 21,
+                                              currentStep:
+                                                  provider.scorePSQI == null
+                                                      ? 0
+                                                      : provider.scorePSQI!,
+                                              stepSize: 20,
+                                              selectedColor:Color.fromARGB(255, 150, 1, 48),
+                                              unselectedColor: Colors.indigo.shade100,
+                                              padding: 0,
+                                              width: 20,
+                                              height: 20,
+                                              selectedStepSize: 20,
+                                              roundedCap: (_, __) => true,
+                                              child: Center(
+                                                child: Text(
+                                                  "${provider.scorePSQI}",
+                                                  style: const TextStyle(
+                                                      fontSize: 35,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
                                             ),
                                           ), //inserire score
                                         )
@@ -210,11 +276,10 @@ class _MainTestPageState extends State<MainTestPage> {
                                     const SizedBox(
                                       height: 30,
                                     ),
-                                    /*
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
-                                          MessagePSQI(),
-                                    )*/
+                                          MessagePSQI(provider.scorePSQI),
+                                    )
                                   ],
                                 ),
                               )),
@@ -225,7 +290,7 @@ class _MainTestPageState extends State<MainTestPage> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(14),
-                                color: const Color.fromARGB(187, 247, 156, 37),
+                                color: Color.fromARGB(255, 240, 161, 58),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(14.0),
@@ -253,48 +318,105 @@ class _MainTestPageState extends State<MainTestPage> {
                                             style: ElevatedButton.styleFrom(
                                               foregroundColor: Colors.white,
                                               backgroundColor:
-                                                  const Color.fromARGB(
-                                                      255, 247, 157, 37),
+                                                  Color.fromARGB(255, 131, 46, 0),
                                               shape: const StadiumBorder(),
                                             ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const ESSTest()));
-                                            },
-                                            child: const Text("Do the test",style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          )),
+                                             onPressed: !Provider.of<
+                                                            HomeProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .showDate
+                                                    .isBefore(DateTime(
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .year,
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .month))
+                                                ? () async {
+                                                    final scoreESS =
+                                                        await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const ESSTest()));
+                                                    Stats stats = Stats(
+                                                        DateTime(
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .year,
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .month),
+                                                        2,
+                                                        scoreESS);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .insertScoreTest(stats);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .getScoreTest(DateTime(
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .year,
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .month));
+                                                  }
+                                                : null,
+                                            child: const Text("Do the test",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
                                           ),
                                         ),
                                         const SizedBox(
                                           width: 20,
                                         ),
                                         Container(
-                                          width: 175,
-                                          height: 100,
+                                          width: 130,
+                                          height: 130,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Color.fromARGB(255, 80, 48, 6),
+                                            color: Colors.transparent,
                                           ),
                                           child: Container(
                                               child: Consumer<HomeProvider>(
                                             builder: (context, provider,
                                                     child) =>
                                                 CircularStepProgressIndicator(
-                                              totalSteps: 24,
-                                              currentStep: provider.scoreESS == null ? 0 : provider.scoreESS!,
+                                              startingAngle: pi / 2,
                                               arcSize: pi,
+                                              totalSteps: 24,
+                                              currentStep:
+                                                  provider.scoreESS == null
+                                                      ? 0
+                                                      : provider.scoreESS!,
                                               stepSize: 20,
-                                              selectedColor: Color.fromARGB(
-                                                  230, 247, 156, 37),
-                                              unselectedColor: Color.fromARGB(
-                                                  255, 194, 221, 225),
+                                              selectedColor: Color.fromARGB(255, 131, 46, 0),
+                                              unselectedColor: Colors.indigo.shade100,
                                               padding: 0,
                                               width: 150,
                                               height: 150,
@@ -320,12 +442,12 @@ class _MainTestPageState extends State<MainTestPage> {
                                     ),
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
-                                          MessageESS(scoreESS),
+                                          MessageESS(provider.scoreESS),
                                       //MessagePSQI(provider.score),
                                     )
                                   ],
                                 ),
-                              )),        
+                              )),
                           Container(
                               // container 3
                               margin: const EdgeInsets.all(10),
@@ -333,7 +455,7 @@ class _MainTestPageState extends State<MainTestPage> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(14),
-                                color: const Color.fromARGB(158, 118, 195, 76),
+                                color: Color.fromARGB(183, 43, 120, 1),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(14.0),
@@ -360,48 +482,105 @@ class _MainTestPageState extends State<MainTestPage> {
                                             style: ElevatedButton.styleFrom(
                                               foregroundColor: Colors.white,
                                               backgroundColor:
-                                                  const Color.fromARGB(
-                                                      252, 118, 195, 76),
+                                                  Color.fromARGB(255, 52, 87, 34),
                                               shape: const StadiumBorder(),
                                             ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const PHQTest())); //mandare a fare il test
-                                            },
-                                            child: const Text("Do the test",style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          )),
+                                              onPressed: !Provider.of<
+                                                            HomeProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .showDate
+                                                    .isBefore(DateTime(
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .year,
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .month))
+                                                ? () async {
+                                                    final scorePHQ =
+                                                        await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const PHQTest()));
+                                                    Stats stats = Stats(
+                                                        DateTime(
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .year,
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .month),
+                                                        3,
+                                                        scorePHQ);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .insertScoreTest(stats);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .getScoreTest(DateTime(
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .year,
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .month));
+                                                  }
+                                                : null,
+                                            child: const Text("Do the test",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
                                           ),
                                         ),
                                         const SizedBox(
                                           width: 20,
                                         ),
                                         Container(
-                                          width: 175,
-                                          height: 100,
+                                          width: 130,
+                                          height: 130,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: const Color.fromARGB(
-                                                158, 118, 195, 76),
+                                            color: Colors.transparent,
                                           ),
                                           child: Container(
                                               child: Consumer<HomeProvider>(
                                             builder: (context, provider,
                                                     child) =>
                                                 CircularStepProgressIndicator(
+                                              startingAngle: pi / 2,
+                                              arcSize: pi,
                                               totalSteps: 27,
-                                              currentStep: provider.scorePHQ == null ? 0 : provider.scorePHQ!,
+                                              currentStep:
+                                                  provider.scorePHQ == null
+                                                      ? 0
+                                                      : provider.scorePHQ!,
                                               stepSize: 20,
-                                              selectedColor: Color.fromARGB(
-                                                  230, 247, 156, 37),
-                                              unselectedColor: Color.fromARGB(
-                                                  255, 194, 221, 225),
+                                              selectedColor: Color.fromARGB(255, 52, 87, 34),
+                                              unselectedColor: Colors.indigo.shade100,
                                               padding: 0,
                                               width: 150,
                                               height: 150,
@@ -427,7 +606,7 @@ class _MainTestPageState extends State<MainTestPage> {
                                     ),
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
-                                          MessageESS(scorePHQ),
+                                          MessagePHQ(provider.scorePHQ),
                                       //MessagePSQI(provider.score),
                                     )
                                   ],
@@ -442,16 +621,16 @@ class _MainTestPageState extends State<MainTestPage> {
 
   MessagePSQI(score) {
     String severity = '';
-    if (score >= 1 && score <= 7) {
-      severity = "mild sleep difficulty";
+    if (score == null) {
+      severity = 'This test has not been done';
+    } else if (score >= 1 && score <= 7) {
+      severity = "This score corresponds to a mild sleep difficulty";
     } else if (score >= 8 && score <= 14) {
-      severity = 'moderate sleep difficulty';
+      severity = 'This score corresponds to a moderate sleep difficulty';
     } else if (score == 0) {
-      severity = 'no sleep difficulty';
-    } else if (score == null) {
-      severity = 'this test has not been done';
+      severity = 'This score corresponds to no sleep difficulty';
     } else {
-      severity = 'severe sleep difficulty';
+      severity = 'This score corresponds to a severe sleep difficulty';
     }
 
     return Text(
@@ -463,16 +642,18 @@ class _MainTestPageState extends State<MainTestPage> {
 
   MessageESS(score) {
     String severity = '';
-    if (score >= 0 && score <= 9) {
-      severity = " normal range";
+    if (score == null) {
+      severity = 'This test has not been done';
+    }  else if (score >= 0 && score <= 9) {
+      severity = "This score corresponds to a normal range level";
     } else if (score >= 10 && score <= 12) {
-      severity = ' borderline';
+      severity = 'This score corresponds to a borderline level';
     } else {
-      severity = 'n abnormal';
+      severity = 'This score corresponds to an abnormal level';
     }
 
     return Text(
-      "This score corresponds to a$severity level",
+      "$severity",
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 18.0, color: Colors.white),
     );
@@ -480,25 +661,26 @@ class _MainTestPageState extends State<MainTestPage> {
 
   MessagePHQ(score) {
     String severity = '';
-    if (score >= 1 && score <= 4) {
-      severity = "minimal depression";
+    if (score == null) {
+      severity = 'This test has not been done';
+    }  else if (score >= 1 && score <= 4) {
+      severity = "This score corresponds to a minimal depression level";
     } else if (score >= 5 && score <= 9) {
-      severity = 'mild depression';
+      severity = 'This score corresponds to a mild depression level';
     } else if (score >= 10 && score <= 14) {
-      severity = 'moderate depression';
+      severity = 'This score corresponds to a moderate depression level';
     } else if (score >= 15 && score <= 19) {
-      severity = 'moderately severe depression';
+      severity = 'This score corresponds to a moderately severe depression level';
     } else if (score >= 20) {
-      severity = 'severe depression';
+      severity = 'This score corresponds to a severe depression level';
     } else {
-      severity = 'null depression';
+      severity = 'This score corresponds to a null depression level';
     }
 
     return Text(
-      "This score corresponds to a $severity level",
+      "$severity",
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 18.0, color: Colors.white),
     );
   }
-
 }

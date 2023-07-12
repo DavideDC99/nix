@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:nix/pages/graphs/score_graph.dart';
 
 const double _kItemExtent = 32.0;
 const List<String> _monthNames = <String>[
@@ -84,7 +83,6 @@ class _ScoreResultsState extends State<ScoreResults> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       )),
-                  BarChartScore(),
                   SizedBox(
                     height: 20,
                   ),

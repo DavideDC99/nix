@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nix/pages/tests/PHQ/PHQ_db.dart';
-import 'package:nix/pages/maintests_page.dart';
 
 class PHQTest extends StatefulWidget {
   const PHQTest({super.key});
@@ -15,15 +14,13 @@ class _PHQTestState extends State<PHQTest> {
   int currentQuestionIndex = 0;
   int score = 0;
   Answer? selectedAnswer;
-  String severity='';
-  bool answerGiven=false;
-  
-  
+  String severity = '';
+  bool answerGiven = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(158, 118, 195, 76),
+      backgroundColor: Color.fromARGB(255, 52, 87, 34),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child:
@@ -104,20 +101,23 @@ class _PHQTestState extends State<PHQTest> {
       margin: const EdgeInsets.symmetric(vertical: 8),
       height: 48,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: isSelected ? Colors.white : Colors.black, backgroundColor: isSelected ? const Color.fromARGB(158, 118, 195, 76) : Colors.white, shape: const StadiumBorder(),
-        ),
-        onPressed: () {
-          if (selectedAnswer == null) {
-              score=score + answer.answerScore ;
+          style: ElevatedButton.styleFrom(
+            foregroundColor: isSelected ? Colors.white : Colors.black,
+            backgroundColor: isSelected
+                ? const Color.fromARGB(158, 118, 195, 76)
+                : Colors.white,
+            shape: const StadiumBorder(),
+          ),
+          onPressed: () {
+            if (selectedAnswer == null) {
+              score = score + answer.answerScore;
             }
             setState(() {
               selectedAnswer = answer;
-              answerGiven=true;
+              answerGiven = true;
             });
           },
-        child: Text(answer.answerText)
-      ),
+          child: Text(answer.answerText)),
     );
   }
 
@@ -127,87 +127,45 @@ class _PHQTestState extends State<PHQTest> {
       isLastQuestion = true;
     }
 
-    if (answerGiven==true) {
+    if (answerGiven == true) {
       return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
-      height: 48,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(158, 118, 195, 76), shape: const StadiumBorder(),
+        width: MediaQuery.of(context).size.width * 0.5,
+        height: 48,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: const Color.fromARGB(158, 118, 195, 76),
+            shape: const StadiumBorder(),
+          ),
+          onPressed: () {
+            if (isLastQuestion) {
+              Navigator.pop(context, score);
+            } else {
+              //next question
+              setState(() {
+                selectedAnswer = null;
+                currentQuestionIndex++;
+                answerGiven = false;
+              });
+            }
+          },
+          child: Text(isLastQuestion ? "Submit" : "Next"),
         ),
-        onPressed: () {
-          if (isLastQuestion) {
-
-            showDialog(context: context, builder: (_) => _showScoreDialog());
-          } else {
-            //next question
-            setState(() {
-              selectedAnswer = null;
-              currentQuestionIndex++;
-              answerGiven=false;
-            });
-          }
-        },
-        child: Text(isLastQuestion ? "Submit" : "Next"),
-      ),
-    );
+      );
     } else {
       return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
-      height: 48,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(158, 118, 195, 76), shape: const StadiumBorder(),
+        width: MediaQuery.of(context).size.width * 0.5,
+        height: 48,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: const Color.fromARGB(158, 118, 195, 76),
+            shape: const StadiumBorder(),
+          ),
+          onPressed: null,
+          child: const Text("Answer the question"),
         ),
-        onPressed:null,
-        child: const Text("Answer the question"),
-      ),
-    );
+      );
     }
-  }
-
-  _showScoreDialog() {
-    if (score >= 1 && score <= 4) {
-      severity = "minimal depression";
-    } else if (score >= 5 && score <= 9) {
-      severity = 'mild depression';
-    } else if (score >= 10 && score <= 14) {
-      severity = 'moderate depression';
-    } else if (score >= 15 && score <= 19) {
-      severity = 'moderately severe depression';
-    } else if (score >= 20) {
-      severity = 'severe depression';
-    } else {
-      severity = 'null depression';
-    }
-
-   return AlertDialog(
-    shape: RoundedRectangleBorder(
-		borderRadius: BorderRadius.circular(14)),
-      title: Text(
-        "You achieved a final score of: '$score'",
-        style: const TextStyle(color: Colors.black),
-      ),
-      content:Text (
-        "This score corresponds to a $severity level",
-         style: const TextStyle(color: Colors.black),
-        ),
-      actions: <Widget> [
-       ElevatedButton(
-        style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(158, 118, 195, 76), shape: const StadiumBorder(),
-        ),
-        child: const Text("Finish"),
-        onPressed: () {
-          Navigator.pop(context);
-          setState(() {
-            currentQuestionIndex = 0;
-            score = 0;
-            selectedAnswer = null;
-             Navigator.push(context, MaterialPageRoute(builder: (context) => const MainTestPage()));
-          });
-        },
-      ),
-  ]);
   }
 }

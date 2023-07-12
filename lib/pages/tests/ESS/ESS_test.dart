@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:nix/pages/tests/ESS/ESS_db.dart';
-import 'package:nix/pages/maintests_page.dart';
 
 class ESSTest extends StatefulWidget {
   const ESSTest({super.key});
@@ -24,7 +22,7 @@ class _ESSTestState extends State<ESSTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(187, 247, 156, 37),
+      backgroundColor: Color.fromARGB(255, 131, 46, 0),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child:
@@ -144,8 +142,7 @@ class _ESSTestState extends State<ESSTest> {
         ),
         onPressed: () {
           if (isLastQuestion) {
-
-            showDialog(context: context, builder: (_) => _showScoreDialog());
+            Navigator.pop(context, score);
           } else {
             
             setState(() {
@@ -172,43 +169,4 @@ class _ESSTestState extends State<ESSTest> {
     );
     }   
   } 
-
-  _showScoreDialog() {
-    if (score >= 0 && score <= 9) {
-      severity = " normal range";
-    } else if (score >= 10 && score <= 12) {
-      severity = ' borderline';
-    } else {
-      severity = 'n abnormal';
-    }
-
-   return AlertDialog(
-    shape: RoundedRectangleBorder(
-		borderRadius: BorderRadius.circular(14)),
-      title: Text(
-        "You achieved a final score of: '$score'",
-        style: const TextStyle(color: Colors.black),
-      ),
-      content:Text (
-        "This score corresponds to a$severity level",
-         style: const TextStyle(color: Colors.black),
-        ),
-      actions: <Widget> [
-       ElevatedButton(
-        style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 247, 157, 37), shape: const StadiumBorder(),
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-          setState(() {
-            currentQuestionIndex = 0;
-            score = 0;
-            selectedAnswer = null;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const MainTestPage()));
-          });
-        },
-        child: const Text("Finish"),
-      ),
-  ]);
-  }
 }
