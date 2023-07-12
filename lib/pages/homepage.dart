@@ -320,7 +320,7 @@ class _HomePageState extends State<HomePage> {
                                                       255, 245, 190, 190),
                                                   child: Center(
                                                     child: Text(
-                                                      "$score",
+                                                      "${provider.wellbeingscore}",
                                                       style: const TextStyle(
                                                         fontSize: 40,
                                                         fontWeight:

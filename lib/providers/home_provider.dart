@@ -17,7 +17,7 @@ class HomeProvider extends ChangeNotifier {
   late int? scorePSQI;
   late int? scoreESS;
   late int? scorePHQ;
-  //late int wellbeingscore;
+  late int wellbeingscore;
   final AppDatabase database;
 
   // data fetched from external services
@@ -42,6 +42,7 @@ class HomeProvider extends ChangeNotifier {
     await downloadSteps(showDate);
     await downloadSleep(showDate);
     await getScoreTest(showDate);
+    await getWellBeingScore();
     doneInit = true;
     notifyListeners();
   }
@@ -167,6 +168,52 @@ class HomeProvider extends ChangeNotifier {
     //this.showDate = showDate;
 
     database.statsDao.insertScore(stats);
+    notifyListeners();
+
+  }
+
+  Future<void> getWellBeingScore() async {
+
+    double pointStep;
+    double pointDur;
+    double pointEff;
+    double pointPSQI;
+    double pointESS;
+    double pointPHQ;
+
+    if (dailysteps! >= 10000) {
+      pointStep = 30;
+    } else {
+      pointStep = ((dailysteps! * 30) / 10000);
+    }
+
+    if (duration! >= 8) {
+      pointDur = 20;
+    } else {
+      pointDur = ((duration! * 20) / 8);
+    }
+
+    pointEff = ((eff! * 20)/100);
+
+    if (scorePSQI == null) {
+      pointPSQI = 3;
+    } else {
+      pointPSQI = 10 - ((scorePSQI! * 10) / 21);
+    }
+
+    if (scoreESS == null) {
+      pointESS = 3;
+    } else {
+      pointESS = 10 - ((scoreESS! * 10) / 24);
+    }
+
+    if (scorePHQ == null) {
+      pointPHQ = 3;
+    } else {
+      pointPHQ = 10 - ((scorePHQ! * 10) / 27);
+    }
+    
+    wellbeingscore = (pointStep + pointDur + pointEff + pointPSQI + pointESS + pointPHQ).round();
     notifyListeners();
 
   }
