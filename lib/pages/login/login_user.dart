@@ -185,8 +185,7 @@ class _LoginUserState extends State<LoginUser> {
                         ImpactService service =
                             Provider.of<ImpactService>(context, listen: false);
                         bool responseAccessToken = service.checkSavedToken();
-                        bool refreshAccessToken =
-                            service.checkSavedToken(refresh: true);
+                        bool refreshAccessToken = service.checkSavedToken(refresh: true);
                         if (refreshAccessToken && responseAccessToken) {
                           Future.delayed(
                               const Duration(milliseconds: 300),
