@@ -64,7 +64,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         status = 'Obesity class 3';
       }
     });
-  }
+  } //calculateBMI
 
   @override
   Widget build(BuildContext context) {
@@ -77,90 +77,93 @@ class _ProfileEditState extends State<ProfileEdit> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromRGBO(13, 42, 106, 1),
-        title: const Text('Profile edit',
-            style: TextStyle(color: Colors.white)),
+        title: const Text('Profile edit', style: TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
           Container(
-              height: screenHeight * 0.3,
-              child: Stack(children: [
+            height: screenHeight * 0.3,
+            child: Stack(
+              children: [
                 Container(
-                    width: screenWidth,
-                    height: screenHeight * 0.2,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('images/others/background.jpg'),
-                            fit: BoxFit.cover),),),
+                  width: screenWidth,
+                  height: screenHeight * 0.2,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('images/others/background.jpg'),
+                        fit: BoxFit.cover),
+                  ),
+                ),
                 Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      margin: const EdgeInsets.all(2),
-                      child: FluttermojiCircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        radius: 100,
-                      ),
-                    )),
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    margin: const EdgeInsets.all(2),
+                    child: FluttermojiCircleAvatar(
+                      backgroundColor: Colors.grey[200],
+                      radius: 100,
+                    ),
+                  ),
+                ),
                 Align(
-                    alignment: Alignment(0.7, 0.9),
-                    child: Container(
-                      height: 35,
-                      child: ElevatedButton.icon(
-                        icon: Icon(Icons.edit),
-                        label: Text("Customize"),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Color.fromRGBO(13, 42, 106, 1)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          ),
+                  alignment: Alignment(0.7, 0.9),
+                  child: Container(
+                    height: 35,
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.edit),
+                      label: Text("Customize"),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(13, 42, 106, 1)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
                         ),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AvatarCustomization())),
                       ),
-                    )),
-              ])),
+                      onPressed: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AvatarCustomization())),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-          // parte del form
+          // Form
           Expanded(
               child: Container(
                   margin: const EdgeInsets.all(8),
-                  //width: double.infinity,
-                  //height: screenHeight*0.3,
                   child: SingleChildScrollView(
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
                           Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: TextFormField(
-                                  controller: nameController,
-                                  decoration: InputDecoration(
-                                      hintText: 'Name:',
-                                      labelStyle: TextStyle(fontSize: 20.0),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(25)))))),
+                            padding: const EdgeInsets.all(20),
+                            child: TextFormField(
+                              controller: nameController,
+                              decoration: InputDecoration(
+                                hintText: 'Name:',
+                                labelStyle: TextStyle(fontSize: 20.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(25))
+                                ),
+                              ),
+                            ),
+                          ),
                           Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: TextFormField(
-                                  controller: surnameController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Surname:',
-                                    labelStyle: TextStyle(fontSize: 20.0),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(25))),
-                                  ))),
+                            padding: const EdgeInsets.all(20),
+                            child: TextFormField(
+                              controller: surnameController,
+                              decoration: InputDecoration(
+                                hintText: 'Surname:',
+                                labelStyle: TextStyle(fontSize: 20.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(25))
+                                ),
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(20),
                             child: TextFormField(
@@ -169,8 +172,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 hintText: 'Nickname:',
                                 labelStyle: TextStyle(fontSize: 20.0),
                                 border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
+                                  borderRadius: BorderRadius.all(Radius.circular(25))
+                                ),
                               ),
                             ),
                           ),
@@ -183,18 +186,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Color.fromRGBO(13, 42, 106, 1)),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                        ),
-                                      ),
+                                          MaterialStateProperty.all<Color>(Color.fromRGBO(13, 42, 106, 1)),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      )),
                                     ),
                                     child: const Text(
-                                        'Press to select your date of birthday', style: TextStyle(fontSize: 18),),
+                                        'Press to select your date of birthday',
+                                        style: TextStyle(fontSize: 18)),
                                     onPressed: () async {
                                       DateTime? newDate = await showDatePicker(
                                         context: context,
@@ -204,57 +203,64 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       );
                                       if (newDate == null) return;
                                       setState(() => date = newDate);
-                                      String dateStr =
-                                          date.toString().substring(0, 10);
+                                      String dateStr = date.toString().substring(0, 10);
                                       prefs.birthdate = dateStr;
                                     }),
                               ],
                             ),
                           ),
                           Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Text("Select your sex : ",
-                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                        SizedBox(height: 5,),
-                                    FlutterToggleTab(
-                                      width: 60,
-                                      borderRadius: 20,
-                                      selectedIndex: prefs.sex,
-                                      selectedBackgroundColors: const [
-                                        Color.fromRGBO(13, 42, 106, 1),
-                                        Colors.greenAccent
-                                      ],
-                                      selectedTextStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                      unSelectedTextStyle: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400),
-                                      labels: _listGenderText,
-                                      icons: _listIconTabToggle,
-                                      selectedLabelIndex: (index) {
-                                        setState(() {
-                                          prefs.sex = index;
-                                        });
-                                      },
-                                      marginSelected:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 4, vertical: 4),
-                                    ),
-                                  ])),
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Text("Select your sex : ",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                FlutterToggleTab(
+                                  width: 60,
+                                  borderRadius: 20,
+                                  selectedIndex: prefs.sex,
+                                  selectedBackgroundColors: const [
+                                    Color.fromRGBO(13, 42, 106, 1),
+                                    Colors.greenAccent
+                                  ],
+                                  selectedTextStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                  unSelectedTextStyle: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                  labels: _listGenderText,
+                                  icons: _listIconTabToggle,
+                                  selectedLabelIndex: (index) {
+                                    setState(() {
+                                      prefs.sex = index;
+                                    });
+                                  },
+                                  marginSelected: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                ),
+                              ],
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(20),
                             child: Column(
                               children: [
                                 const Text("Do you smoke? : ",
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                    SizedBox(height: 5,),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 FlutterToggleTab(
                                   width: 60,
                                   borderRadius: 20,
@@ -277,15 +283,18 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       prefs.smoke = index;
                                     });
                                   },
-                                  marginSelected: const EdgeInsets.symmetric(
-                                      horizontal: 4, vertical: 4),
+                                  marginSelected: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                                 ),
                                 const SizedBox(
                                   height: 30,
                                 ),
                                 const Text("Are you a sporty person? : ",
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                    SizedBox(height: 5,),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 FlutterToggleTab(
                                   width: 80,
                                   borderRadius: 20,
@@ -308,8 +317,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       prefs.sporty = index;
                                     });
                                   },
-                                  marginSelected: const EdgeInsets.symmetric(
-                                      horizontal: 0, vertical: 0),
+                                  marginSelected: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                 ),
                                 const SizedBox(
                                   height: 50,
@@ -355,8 +363,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                         shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
                                           RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25.0),
+                                            borderRadius: BorderRadius.circular(25.0),
                                           ),
                                         ),
                                       ),
@@ -394,26 +401,17 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                   fontSize: 60,
                                                   color: status == 'Underweight'
                                                       ? Colors.blue
-                                                      : status ==
-                                                              'Normal weight'
-                                                          ? Colors.green
-                                                          : status ==
-                                                                  'Pre-Obesity'
-                                                              ? Colors.yellow
-                                                                  .shade700
-                                                              : status ==
-                                                                      'Obesity class 1'
-                                                                  ? Colors
-                                                                      .orange
-                                                                  : status ==
-                                                                          'Obesity class 2'
-                                                                      ? Colors
-                                                                          .deepOrangeAccent
-                                                                      : status ==
-                                                                              'Obesity class 3'
-                                                                          ? Colors
-                                                                              .red
-                                                                          : null),
+                                                        : status == 'Normal weight'
+                                                        ? Colors.green
+                                                          : status == 'Pre-Obesity'
+                                                          ? Colors.yellow.shade700
+                                                            : status == 'Obesity class 1'
+                                                            ? Colors.orange
+                                                              : status == 'Obesity class 2'
+                                                              ? Colors.deepOrangeAccent
+                                                                : status == 'Obesity class 3'
+                                                                ? Colors.red
+                                                                  : null),
                                             ),
                                             const SizedBox(
                                               width: 10,
@@ -425,28 +423,19 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 Text(
                                                   status,
                                                   style: TextStyle(
-                                                      color: status ==
-                                                              'Underweight'
+                                                      color: status == 'Underweight'
                                                           ? Colors.blue
-                                                          : status ==
-                                                                  'Normal weight'
-                                                              ? Colors.green
-                                                              : status ==
-                                                                      'Pre-Obesity'
-                                                                  ? Colors
-                                                                      .yellow
-                                                                      .shade700
-                                                                  : status ==
-                                                                          'Obesity class 1'
-                                                                      ? Colors
-                                                                          .orange
-                                                                      : status ==
-                                                                              'Obesity class 2'
-                                                                          ? Colors
-                                                                              .deepOrangeAccent
-                                                                          : status == 'Obesity class 3'
-                                                                              ? Colors.red
-                                                                              : null),
+                                                            : status == 'Normal weight'
+                                                            ? Colors.green
+                                                              : status == 'Pre-Obesity'
+                                                              ? Colors.yellow.shade700
+                                                                : status == 'Obesity class 1'
+                                                                ? Colors.orange
+                                                                  : status == 'Obesity class 2'
+                                                                  ? Colors.deepOrangeAccent
+                                                                    : status == 'Obesity class 3'
+                                                                    ? Colors.red
+                                                                      : null),
                                                 ),
                                                 const Text(
                                                   'BMI',
@@ -487,9 +476,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 height: 25,
                                                 decoration: const BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.horizontal(
-                                                          left: Radius.circular(
-                                                              15)),
+                                                      BorderRadius.horizontal(left: Radius.circular(15)),
                                                   color: Colors.blue,
                                                 ),
                                                 child: const Center(
@@ -607,11 +594,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     MaterialStateProperty.all<Color>(
                                         Color.fromRGBO(13, 42, 106, 1)),
                                 shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                  ),
-                                ),
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                )),
                               ),
                               onPressed: () {
                                 prefs.name = nameController.text;
@@ -627,7 +613,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   ),
                                 );
                               },
-                              child: const Text('Save changes', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                              child: const Text('Save changes',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
                         ],

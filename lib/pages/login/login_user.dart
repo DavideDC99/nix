@@ -29,40 +29,52 @@ class _LoginUserState extends State<LoginUser> {
     var prefs = Provider.of<Preferences>(context, listen: false);
     return Scaffold(
       backgroundColor: Color.fromRGBO(13, 42, 106, 1),
-      /*
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFFE4DFD4),
-        title: const Text('Nix',
-            style: TextStyle(
-                color: Color(0xFF83AA99),
-                fontSize: 28,
-                fontWeight: FontWeight.bold)),
-      ), */
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 30,),
-              Image.asset('images/others/logo1.png', height: 190, width: 200,),
+              const SizedBox(
+                height: 30,
+              ),
+              Image.asset(
+                'images/others/logo1.png',
+                height: 190,
+                width: 200,
+              ),
               const Text('Login',
-                  style: TextStyle(
-                      color: Color.fromARGB(239, 44, 146, 223),
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold)),
-              prefs.usernameUser == null || prefs.passwordUser == null ? 
-              Text('Choose e-mail and password', style: TextStyle(fontSize: 18, color: Color.fromARGB(239, 44, 146, 223))) : 
-              Text('Please login to use our app', style: TextStyle(fontSize: 18, color: Color.fromARGB(239, 44, 146, 223))),
+                style: TextStyle(
+                  color: Color.fromARGB(239, 44, 146, 223),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+              prefs.usernameUser == null || prefs.passwordUser == null
+                ? Text('Choose e-mail and password',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(239, 44, 146, 223)
+                    )
+                  )
+                : Text('Please login to use our app',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(239, 44, 146, 223)
+                    )
+                  ),
               const SizedBox(
                 height: 20,
               ),
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text('E-mail',
-                    style:
-                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(239, 44, 146, 223),
+                    fontWeight: FontWeight.bold
+                  )
+                ),
               ),
               const SizedBox(
                 height: 7,
@@ -78,14 +90,15 @@ class _LoginUserState extends State<LoginUser> {
                       color: Colors.white,
                     ),
                   ),
-                   enabledBorder: OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
                       color: Color.fromARGB(239, 44, 146, 223),
                     ),
                   ),
                   border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
                   prefixIcon: const Icon(
                     Icons.person,
                     color: Colors.white,
@@ -100,8 +113,12 @@ class _LoginUserState extends State<LoginUser> {
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text('Password',
-                    style:
-                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(239, 44, 146, 223),
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 7,
@@ -125,7 +142,8 @@ class _LoginUserState extends State<LoginUser> {
                     ),
                   ),
                   border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
                   prefixIcon: const Icon(
                     Icons.lock,
                     color: Colors.white,
@@ -134,8 +152,8 @@ class _LoginUserState extends State<LoginUser> {
                     icon: Icon(
                       // Based on passwordVisible state choose the icon
                       _passwordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                       color: Colors.white,
                     ),
                     onPressed: () {
@@ -161,61 +179,54 @@ class _LoginUserState extends State<LoginUser> {
                           content: Text('Credentials not inserted'),
                           duration: Duration(seconds: 2),
                         ));
-                      }
-                      else if (prefs.usernameUser == null || prefs.passwordUser == null) {
-                        //new access
+                      } else if (prefs.usernameUser == null || prefs.passwordUser == null) {
+                        // password setting because new access
                         prefs.usernameUser = userController.text;
                         prefs.passwordUser = passwordController.text;
                         Future.delayed(
                             const Duration(milliseconds: 300),
                             () => Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => LoginImpact())));
-                      } else if (userController.text != prefs.usernameUser ||
-                          passwordController.text != prefs.passwordUser) {
+                                MaterialPageRoute(builder: (context) => LoginImpact())));
+                      } else if (userController.text != prefs.usernameUser || passwordController.text != prefs.passwordUser) {
+                        // wrong credentials
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: Colors.red,
                           behavior: SnackBarBehavior.floating,
                           margin: EdgeInsets.all(8),
-                          content: Text('Wrong Credentials'),
+                          content: Text('Wrong credentials'),
                           duration: Duration(seconds: 2),
                         ));
                       } else {
                         prefs.logOut = false;
-                        ImpactService service =
-                            Provider.of<ImpactService>(context, listen: false);
+                        ImpactService service = Provider.of<ImpactService>(context, listen: false);
                         bool responseAccessToken = service.checkSavedToken();
                         bool refreshAccessToken = service.checkSavedToken(refresh: true);
+                        // Impact token validity check
                         if (refreshAccessToken && responseAccessToken) {
                           Future.delayed(
                               const Duration(milliseconds: 300),
                               () => Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage())));
+                                  MaterialPageRoute(builder: (context) => HomePage())));
                         } else if (refreshAccessToken && responseAccessToken == false) {
                           service.refreshTokens();
                           Future.delayed(
                               const Duration(milliseconds: 300),
                               () => Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage())));
+                                  MaterialPageRoute(builder: (context) => HomePage())));
                         } else {
                           Future.delayed(
                               const Duration(milliseconds: 300),
                               () => Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginImpact())));
+                                  MaterialPageRoute(builder: (context) => LoginImpact())));
                         }
                       }
                     },
                     style: ButtonStyle(
-                        //maximumSize: const MaterialStatePropertyAll(Size(50, 20)),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                         elevation: MaterialStateProperty.all(0),
                         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                            const EdgeInsets.symmetric(
-                                horizontal: 80, vertical: 12)),
+                            const EdgeInsets.symmetric(horizontal: 80, vertical: 12)),
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor: MaterialStateProperty.all<Color>(

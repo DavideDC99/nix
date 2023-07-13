@@ -2,9 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 
-
-
-
 class AvatarCustomization extends StatelessWidget {
   const AvatarCustomization({Key? key}) : super(key: key);
 
@@ -14,12 +11,14 @@ class AvatarCustomization extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(13, 42, 106, 1),
-        title: const Text('Avatar Customization', style: TextStyle(color: Colors.white)),
-          iconTheme: const IconThemeData(color: Colors.white),
-          leading: IconButton(onPressed:() {
-            Navigator.pop(context);
-          }, 
-          icon: const Icon(Icons.arrow_circle_left_outlined)),
+        title: const Text('Avatar Customization',
+            style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_circle_left_outlined)),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -63,4 +62,3 @@ class AvatarCustomization extends StatelessWidget {
     );
   }
 }
-

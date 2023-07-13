@@ -4,7 +4,6 @@ import 'package:nix/services/impact.dart';
 import 'package:provider/provider.dart';
 
 class LoginImpact extends StatefulWidget {
-
   LoginImpact({Key? key}) : super(key: key);
 
   @override
@@ -16,21 +15,20 @@ class _LoginImpactState extends State<LoginImpact> {
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   void _showPassword() {
     setState(() {
       _passwordVisible = !_passwordVisible;
     });
-  }
+  } //_showPassword
 
-  Future<bool> _loginImpact(
-      String name, String password, BuildContext context) async {
+  Future<bool> _loginImpact(String name, String password, BuildContext context) async {
     ImpactService service = Provider.of<ImpactService>(context, listen: false);
     bool logged = await service.getTokens(name, password);
     return logged;
-  }
+  } //_loginImpact
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(13, 42, 106, 1),
@@ -40,22 +38,33 @@ class _LoginImpactState extends State<LoginImpact> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 50,),
-              Image.asset('images/others/impact_logo.png',),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 50,
+              ),
+              Image.asset(
+                'images/others/impact_logo.png',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               const Text('Please authorize to use our app',
-                  style: TextStyle(
-                    color: Color.fromARGB(239, 44, 146, 223),
-                    fontSize: 18,
-                  )),
+                style: TextStyle(
+                  color: Color.fromARGB(239, 44, 146, 223),
+                  fontSize: 18,
+                )
+              ),
               const SizedBox(
                 height: 20,
               ),
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text('Username',
-                    style:
-                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(239, 44, 146, 223),
+                    fontWeight: FontWeight.bold,
+                  )
+                ),
               ),
               const SizedBox(
                 height: 7,
@@ -78,7 +87,8 @@ class _LoginImpactState extends State<LoginImpact> {
                     ),
                   ),
                   border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
                   prefixIcon: const Icon(
                     Icons.person,
                     color: Colors.white,
@@ -93,8 +103,12 @@ class _LoginImpactState extends State<LoginImpact> {
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text('Password',
-                    style:
-                        TextStyle(fontSize: 18, color:Color.fromARGB(239, 44, 146, 223), fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(239, 44, 146, 223),
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 7,
@@ -118,7 +132,8 @@ class _LoginImpactState extends State<LoginImpact> {
                     ),
                   ),
                   border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
                   prefixIcon: const Icon(
                     Icons.lock,
                     color: Colors.white,
@@ -146,12 +161,10 @@ class _LoginImpactState extends State<LoginImpact> {
                   padding: const EdgeInsets.all(12.0),
                   child: ElevatedButton(
                     onPressed: () async {
-                      bool? validation = await _loginImpact(userController.text,
-                          passwordController.text, context);
+                      bool? validation = await _loginImpact(userController.text, passwordController.text, context);
                       if (!validation) {
-                        // if not correct show message
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(
+                        // Impact credentials are not correct
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: Colors.red,
                           behavior: SnackBarBehavior.floating,
                           margin: EdgeInsets.all(8),
@@ -159,25 +172,27 @@ class _LoginImpactState extends State<LoginImpact> {
                           duration: Duration(seconds: 2),
                         ));
                       } else {
-                          Future.delayed(
-                              const Duration(milliseconds: 300),
-                              () => Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage())));
-                        }
+                        Future.delayed(
+                            const Duration(milliseconds: 300),
+                            () => Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => HomePage())));
+                      }
                     },
                     style: ButtonStyle(
-                        //maximumSize: const MaterialStatePropertyAll(Size(50, 20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                        elevation: MaterialStateProperty.all(0),
-                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                            const EdgeInsets.symmetric(
-                                horizontal: 80, vertical: 12)),
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(239, 44, 146, 223))),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))
+                      ),
+                      elevation: MaterialStateProperty.all(0),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                          horizontal: 80, vertical: 12
+                        )
+                      ),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(239, 44, 146, 223)
+                      ),
+                    ),
                     child: const Text('Authorize'),
                   ),
                 ),

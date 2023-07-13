@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                 Text('Good day!!!', //name
+                                                 Text('Good day!!!',
                                                   style: TextStyle(
                                                       fontSize: 30,
                                                       fontWeight:

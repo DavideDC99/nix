@@ -5,8 +5,8 @@ import 'package:nix/database/entities/entities.dart';
 import 'package:nix/services/impact.dart';
 
 
-// this is the change notifier. it will manage all the logic of the home page: fetching the correct data from the database
-// and on startup fetching the data from the online services
+// This is the change notifier. It will manage all the logic of the application: fetching the correct data from the database
+// and fetching the data from the online service when needed
 class HomeProvider extends ChangeNotifier {
   // data to be used by the UI
   late int? dailysteps;
@@ -36,16 +36,16 @@ class HomeProvider extends ChangeNotifier {
     _init();
   }
 
-  // constructor of provider which manages the fetching of all data from the servers and then notifies the ui to build
+  // constructor which manages the fetching of all data from the servers and then notifies the ui to build
   Future<void> _init() async {
-    await _fetchAndCalculate();
+    await _fetch();
     await downloadSteps(showDate);
     await downloadSleep(showDate);
     await getScoreTest(showDate);
     await getWellBeingScore();
     doneInit = true;
     notifyListeners();
-  }
+  } //_init
 
   Future<DateTime?> _getLastFetch() async {
     var data = await database.stepDao.findAllSteps();
@@ -53,10 +53,10 @@ class HomeProvider extends ChangeNotifier {
       return null;
     }
     return data.last.dateTime;
-  }
+  } //_getLastFetch
 
-  // method to fetch all data
-  Future<void> _fetchAndCalculate() async { //togliere il "calculate"
+  // Method to fetch all data
+  Future<void> _fetch() async {
     lastFetch = await _getLastFetch();
     
     if (lastFetch == null) {
@@ -72,18 +72,8 @@ class HomeProvider extends ChangeNotifier {
     } else {
       return;
     }
-  }
+  } //_fetch
   
-  /*
-  // method that implements the state of the art formula
-  void _calculateExposure(List<HR> hr, List<PM25> pm25) {
-    var vent = getMinuteVentilation(hr, 0);
-    _exposure = getInhalation(vent, pm25);
-    for (var element in _exposure) {
-      db.exposuresDao.insertExposure(element);
-    } // db add to the table
-  }*/
-
   Future<void> downloadSteps(DateTime showDate) async { 
     
     var firstDay = await database.stepDao.findFirstDayInDb();
@@ -102,9 +92,8 @@ class HomeProvider extends ChangeNotifier {
     dailysteps = await database.stepDao.findStepsbyDate(
         DateUtils.dateOnly(showDate),
         DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
-    // after selecting all data we notify all consumers to rebuild
     notifyListeners();
-  }
+  } //downloadSteps
     
 
   Future<void> downloadSleep(DateTime showDate) async {
@@ -124,25 +113,25 @@ class HomeProvider extends ChangeNotifier {
   
     endSleep = await database.sleepDao.findWakeup(
         DateUtils.dateOnly(showDate),);
-    // after selecting all data we notify all consumers to rebuild
+    
     notifyListeners();
     
     startSleep = await database.sleepDao.findBedTime(
         DateUtils.dateOnly(showDate),);
-    // after selecting all data we notify all consumers to rebuild
+
     notifyListeners();
 
     duration = await database.sleepDao.findSleepDuration(
         DateUtils.dateOnly(showDate),);
-    // after selecting all data we notify all consumers to rebuild
+    
     notifyListeners();
 
     eff = await database.sleepDao.findSleepEff(
         DateUtils.dateOnly(showDate),);
-    // after selecting all data we notify all consumers to rebuild
+  
     notifyListeners();
 
-  }
+  } //downloadSleep
   
   Future<void> getScoreTest(DateTime showDate) async {
 
@@ -161,16 +150,14 @@ class HomeProvider extends ChangeNotifier {
     scorePHQ = await database.statsDao.findScore(DateTime(showDate.year, showDate.month), 3);
     notifyListeners();
 
-  }
+  } //getScoreTest
 
   void insertScoreTest(Stats stats) {
     
-    //this.showDate = showDate;
-
     database.statsDao.insertScore(stats);
     notifyListeners();
 
-  }
+  } //insertScoreTest
 
   Future<void> getWellBeingScore() async {
 
@@ -216,6 +203,6 @@ class HomeProvider extends ChangeNotifier {
     wellbeingscore = (pointStep + pointDur + pointEff + pointPSQI + pointESS + pointPHQ).round();
     notifyListeners();
 
-  }
+  } //getWellBeingScore
 
 }

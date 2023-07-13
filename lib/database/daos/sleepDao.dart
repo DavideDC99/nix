@@ -5,34 +5,40 @@ import 'package:nix/database/entities/entities.dart';
 
 @dao
 abstract class SleepDao {
+  //SELECT -> this allows to obtain the bedTime in a certain date
   @Query('SELECT goSleep FROM Sleep WHERE dateTime = :time')
-  Future<String?> findBedTime(DateTime time); // time = datetime.now - 1
-
+  Future<String?> findBedTime(DateTime time);
+  
+  //SELECT -> this allows to obtain the wakeUpTime in a certain date
   @Query('SELECT wakeUp FROM Sleep WHERE dateTime = :time')
-  Future<String?> findWakeup(DateTime time); // time = datetime.now - 1
-
+  Future<String?> findWakeup(DateTime time); 
+  
+  //SELECT -> this allows to obtain the duration of sleep in a certain date
   @Query('SELECT duration FROM Sleep WHERE dateTime = :time')
-  Future<double?> findSleepDuration(DateTime time); // time = datetime.now - 1
+  Future<double?> findSleepDuration(DateTime time); 
 
+  //SELECT -> this allows to obtain the efficiency of sleep in a certain date
   @Query('SELECT eff FROM Sleep WHERE dateTime = :time')
-  Future<int?> findSleepEff(DateTime time); // time = datetime.now - 1
+  Future<int?> findSleepEff(DateTime time); 
 
-  //Query #2: INSERT -> this allows to add a HR in the table
+  //INSERT -> this allows to add a Sleep in the table
   @insert
   Future<void> insertSleep(Sleep sleep);
 
-  //Query #3: DELETE -> this allows to delete a HR from the table
+  //DELETE -> this allows to delete a Sleep from the table
   @delete
   Future<void> deleteSleep(Sleep sleep);
 
-  //Query #4: UPDATE -> this allows to update a HR entry
+  //UPDATE -> this allows to update a Sleep entry
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateSleep(Sleep sleep);
-
+  
+  //SELECT -> this allows to obtain the first entry of the Sleep table
   @Query('SELECT * FROM Sleep ORDER BY dateTime ASC LIMIT 1')
   Future<Sleep?> findFirstDayInDb();
-
+  
+  //SELECT -> this allows to obtain the last entry of the Sleep table
   @Query('SELECT * FROM Sleep ORDER BY dateTime DESC LIMIT 1')
   Future<Sleep?> findLastDayInDb();
   
-}//HeartRatesDao
+} //SleepDao

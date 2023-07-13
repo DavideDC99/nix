@@ -5,19 +5,20 @@ import 'package:nix/database/entities/entities.dart';
 
 @dao
 abstract class StatsDao {
-  //Query #0: SELECT -> this allows to obtain the sum of steps done in a certain date
+  //SELECT -> this allows to obtain the score of a certain test done in a certain month
   @Query('SELECT score FROM Stats WHERE month = :month AND id =:id')
   Future<int?> findScore(DateTime month, int id);
 
-  //Query #2: INSERT -> this allows to add a HR in the table
+  //INSERT -> this allows to add a Stats in the table
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertScore(Stats stats);
 
-  //Query #3: DELETE -> this allows to delete a HR from the table
+  //DELETE -> this allows to delete a Stats from the table
   @delete
   Future<void> deleteScore(Stats stats);
 
-  //Query #4: UPDATE -> this allows to update a HR entry
+  //UPDATE -> this allows to update a Stats entry
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateScore(Stats stats);
-}//HeartRatesDao
+
+} //StatsDao

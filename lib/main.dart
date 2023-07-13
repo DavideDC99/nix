@@ -10,7 +10,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
   runApp(Provider<AppDatabase>.value(value: database, child: const MyApp()));
-}
+} //main
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
         Provider(create: (context) => ImpactService(Provider.of<Preferences>(context, listen: false),)),
       ],
       child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const Splash(),  
-    ),
+        debugShowCheckedModeBanner: false,
+        home: const Splash(),  
+      ),
     );
   } //build
 }//MyApp

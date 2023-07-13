@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:intl/intl.dart';
 
 //Here, we are saying to floor that this is a class that defines an entity
 @entity
@@ -11,18 +10,11 @@ class Steps {
 
   final DateTime dateTime ;
   final int value;
-  //final int month;
 
   //Default constructor
   Steps(
     this.id,
     this.dateTime,
     this.value,
-    //this.month
   );
-/*
-  Steps.fromJson(this.id, String date, Map<String, dynamic> json)
-    : dateTime = DateFormat('yyyy-MM-dd HH:MM:ss').parse('$date${json["time"]}'),
-      value = int.parse(json["value"]);
-      */
 }

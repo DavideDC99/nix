@@ -4,13 +4,9 @@ class Preferences {
 
   Future<void> init() async {
     _pref = await SharedPreferences.getInstance();
-  }
+  } //init
 
   late SharedPreferences _pref;
-
-  Future<bool> resetSettings() async {
-    return _pref.clear();
-  }
 
   //helper method to manage default values of preferences without the need to call the specific getType method of SharedPreferences
   dynamic _getFromDisk(String key, {dynamic defaultVal}) {
@@ -51,12 +47,10 @@ class Preferences {
   // The getter allows us to forget the specific string used as key in the SharedPreferences and get a list of all saved preferences as variables of the class
 
   String? get impactRefreshToken => _getFromDisk('impactRefreshToken');
-  set impactRefreshToken(String? newImpactRefreshToken) =>
-      _saveToDisk("impactRefreshToken", newImpactRefreshToken);
+  set impactRefreshToken(String? newImpactRefreshToken) => _saveToDisk("impactRefreshToken", newImpactRefreshToken);
 
   String? get impactAccessToken => _getFromDisk('impactAccessToken');
-  set impactAccessToken(String? newImpactAccessToken) =>
-      _saveToDisk("impactAccessToken", newImpactAccessToken);
+  set impactAccessToken(String? newImpactAccessToken) => _saveToDisk("impactAccessToken", newImpactAccessToken);
 
   String? get usernameUser => _getFromDisk('usernameUser');
   set usernameUser(String? newusernameUser) => _saveToDisk("usernameUser", newusernameUser);

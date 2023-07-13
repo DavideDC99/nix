@@ -15,7 +15,7 @@ class Splash extends StatelessWidget {
   void _toIntroPage(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: ((context) => IntroScreen())));
-  }
+  } //_toIntroPage
 
   // Method for navigation SplashPage -> LoginImpact
   void _toLoginImpact(BuildContext context) {
@@ -31,8 +31,8 @@ class Splash extends StatelessWidget {
 
   // Method for navigation SplashPage -> HomePage
   void _toHomePage(BuildContext context) {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: ((context) => HomePage())));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: ((context) => HomePage())));
   } //_toHomePage
 
   void _checkAuth(BuildContext context) async {
@@ -41,18 +41,18 @@ class Splash extends StatelessWidget {
     String? password = prefs.passwordUser;
     bool logOut = prefs.logOut;
 
-    // the user never logged in the app
-    if (username == null || password == null) {
+    // the user has never logged into the app
+    if (username == null || password == null) { 
       Future.delayed(const Duration(seconds: 1), () => _toIntroPage(context));
     } else {
-      if (logOut) {
+      // the user has done the logout
+      if (logOut) { 
         Future.delayed(const Duration(seconds: 1), () => _toLoginUser(context));
       } else {
-        ImpactService service =
-            Provider.of<ImpactService>(context, listen: false);
+        ImpactService service = Provider.of<ImpactService>(context, listen: false);
         bool responseAccessToken = service.checkSavedToken();
         bool refreshAccessToken = service.checkSavedToken(refresh: true);
-        // check impact tokens
+        // Impact token validity check
         if (refreshAccessToken && responseAccessToken) {
           Future.delayed(
               const Duration(seconds: 1), () => _toHomePage(context));
@@ -66,7 +66,7 @@ class Splash extends StatelessWidget {
         }
       }
     }
-  }
+  } //_checkAuth
 
   @override
   Widget build(BuildContext context) {
@@ -80,19 +80,25 @@ class Splash extends StatelessWidget {
             Text(
               'NiX',
               style: GoogleFonts.cinzelDecorative(
-                  textStyle: const TextStyle(
-                fontSize: 60,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(197, 202, 233, 1),
-              )),
+                textStyle: const TextStyle(
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(197, 202, 233, 1),
+                )
+              ),
             ),
-            Image.asset('images/others/logo_login.png', height: 300, width: 300,),
-            SizedBox(height: 200,),
+            Image.asset(
+              'images/others/logo_login.png',
+              height: 300,
+              width: 300,
+            ),
+            SizedBox(
+              height: 200,
+            ),
             Center(
               child: CircularProgressIndicator(
                 strokeWidth: 5,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.blue.shade100),
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue.shade100),
               ),
             ),
           ],

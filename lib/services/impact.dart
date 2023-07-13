@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nix/database/entities/entities.dart';
@@ -21,7 +20,7 @@ class ImpactService {
     } else {
       return prefs.impactAccessToken;
     }
-  }
+  } //retriveSavedToken
 
   bool checkSavedToken({bool refresh = false}) {
     String? token = retrieveSavedToken(refresh);
@@ -34,7 +33,7 @@ class ImpactService {
     } catch (_) {
       return false;
     }
-  }
+  } //checkSavedToken
 
   // this method is static because we might want to check the token outside the class itself
   static bool checkToken(String token) {
@@ -69,13 +68,16 @@ class ImpactService {
   // make the call to get the tokens
   Future<bool> getTokens(String username, String password) async {
     try {
-      Response response = await _dio.post(ServerStrings.tokenEndpoint,
-          data: {'username': username, 'password': password},
-          options: Options(
-              contentType: 'application/json',
-              followRedirects: false,
-              validateStatus: (status) => true,
-              headers: {"Accept": "application/json"}));
+      Response response = await _dio.post(
+        ServerStrings.tokenEndpoint,
+        data: {'username': username, 'password': password},
+        options: Options(
+          contentType: 'application/json',
+          followRedirects: false,
+          validateStatus: (status) => true,
+          headers: {"Accept": "application/json"}
+        )
+      );
 
       if (ImpactService.checkToken(response.data['access']) &&
           ImpactService.checkToken(response.data['refresh'])) {
@@ -94,13 +96,16 @@ class ImpactService {
   Future<bool> refreshTokens() async {
     String? refToken = await retrieveSavedToken(true);
     try {
-      Response response = await _dio.post(ServerStrings.refreshEndpoint,
-          data: {'refresh': refToken},
-          options: Options(
-              contentType: 'application/json',
-              followRedirects: false,
-              validateStatus: (status) => true,
-              headers: {"Accept": "application/json"}));
+      Response response = await _dio.post(
+        ServerStrings.refreshEndpoint,
+        data: {'refresh': refToken},
+        options: Options(
+          contentType: 'application/json',
+          followRedirects: false,
+          validateStatus: (status) => true,
+          headers: {"Accept": "application/json"}
+        )
+      );
 
       if (ImpactService.checkToken(response.data['access']) &&
           ImpactService.checkToken(response.data['refresh'])) {
@@ -131,14 +136,14 @@ class ImpactService {
     Response r = await _dio.get(
        '/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}/');
        
-       Map<String, dynamic> data = r.data;
-       if (data['data'] is List) { //dati giorni vuoti
-         Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'time': '00:00:10', 'value': '0' }]};
-         data['data'] = values;
-       }
-       Map<String, dynamic> daydata = data['data'];
-       List<Steps> step = [];
-        String day = daydata['date'];
+      Map<String, dynamic> data = r.data;
+      if (data['data'] is List) { //dati giorni vuoti
+        Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'time': '00:00:10', 'value': '0' }]};
+        data['data'] = values;
+      }
+      Map<String, dynamic> daydata = data['data'];
+      List<Steps> step = [];
+      String day = daydata['date'];
       for (var dataday in daydata['data']) {
         String hour = dataday['time'];
         String datetime = '${day}T$hour';
@@ -162,10 +167,10 @@ class ImpactService {
     Response r = await _dio.get(
         '/data/v1/sleep/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}/');
     Map<String, dynamic> data = r.data;
-       if (data['data'] is List) { //dati giorni vuoti
-         Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'startTime': '00-00 00:00:00', 'endTime': '00-00 00:00:00', 'duration': 0, 'efficiency': 0}]};
-         data['data'] = values;
-       }
+      if (data['data'] is List) { //dati giorni vuoti
+        Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'startTime': '00-00 00:00:00', 'endTime': '00-00 00:00:00', 'duration': 0, 'efficiency': 0}]};
+        data['data'] = values;
+      }
     Map<String, dynamic> daydata = data['data'];
     String day = daydata['date'];
     DateTime timestamp = _truncateSeconds(DateTime.parse(day));
