@@ -211,8 +211,7 @@ class _HomePageState extends State<HomePage> {
                                                 Text('Good day!!!', 
                                                   style: TextStyle(
                                                       fontSize: 30,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      fontWeight: FontWeight.bold,
                                                       color: Color.fromRGBO( 187, 222, 251, 1)),
                                                 ),
                                               ],
