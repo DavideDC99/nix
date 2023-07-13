@@ -88,10 +88,10 @@ class _HomePageState extends State<HomePage> {
                                   image: AssetImage(
                                       'images/others/background.jpg'),
                                   fit: BoxFit.cover)),
-                          accountName: Text('${prefs.name} ${prefs.surname}',
+                          accountName: Text('${prefs.usernameUser}',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          accountEmail: Text('${prefs.usernameUser}'),
+                          accountEmail: Text(''),
                           currentAccountPicture: FluttermojiCircleAvatar(
                               backgroundColor: Colors.blue.shade100)),
                       ListTile(
@@ -224,8 +224,7 @@ class _HomePageState extends State<HomePage> {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                 Text(prefs.name == null ? 'Good day!!!' :
-                                                  'Good day, ${prefs.name}!!', //name
+                                                 Text('Good day!!!', //name
                                                   style: TextStyle(
                                                       fontSize: 30,
                                                       fontWeight:
@@ -236,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                                               ],
                                             ),
                                             const SizedBox(
-                                              width: 50,
+                                              width: 170,
                                             ),
                                             _dailyQuote(randomQuote),
                                           ],
@@ -328,335 +327,339 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    const Spacer(),
-                                    Container(
-                                      height: 300.0,
-                                      width: 200.0,
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => StepPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          //steps
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 143, 111, 202),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.purple.shade800
-                                                    .withOpacity(0.8),
-                                                spreadRadius: 5,
-                                                blurRadius: 4,
-                                                offset: const Offset(4, 8),
+                            SizedBox(height: 20,),
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Spacer(),
+                                      Container(
+                                        height: 350.0,
+                                        width: 170.0,
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) => StepPage(),
                                               ),
-                                            ],
-                                          ),
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                const Text(
-                                                  "Steps 👣",
-                                                  style: TextStyle(
-                                                      fontSize: 35,
-                                                      color: Color.fromRGBO(
-                                                          66, 18, 95, 1),
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                            );
+                                          },
+                                          child: Container(
+                                            //steps
+                                            decoration: BoxDecoration(
+                                              color: const Color.fromARGB(
+                                                  255, 143, 111, 202),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.purple.shade800
+                                                      .withOpacity(0.8),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 4,
+                                                  offset: const Offset(4, 8),
                                                 ),
-                                                const SizedBox(
-                                                  height: 30,
-                                                ),
-                                                CircularStepProgressIndicator(
-                                                  totalSteps: 100,
-                                                  currentStep:
-                                                      (provider.dailysteps! /
-                                                              100)
-                                                          .round(),
-                                                  stepSize: 20,
-                                                  selectedColor:
-                                                      const Color.fromARGB(
-                                                          230, 247, 156, 37),
-                                                  unselectedColor:
-                                                      Colors.grey[200],
-                                                  padding: 0,
-                                                  width: 175,
-                                                  height: 175,
-                                                  selectedStepSize: 20,
-                                                  roundedCap: (_, __) => true,
-                                                  child: Center(
-                                                    child: Text(
-                                                      "${provider.dailysteps!}",
-                                                      style: const TextStyle(
-                                                        fontSize: 40,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  const Text(
+                                                    "Steps 👣",
+                                                    style: TextStyle(
+                                                        fontSize: 35,
                                                         color: Color.fromRGBO(
                                                             66, 18, 95, 1),
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 50,
+                                                  ),
+                                                  CircularStepProgressIndicator(
+                                                    totalSteps: 100,
+                                                    currentStep:
+                                                        (provider.dailysteps! /
+                                                                100)
+                                                            .round(),
+                                                    stepSize: 20,
+                                                    selectedColor:
+                                                        const Color.fromARGB(
+                                                            230, 247, 156, 37),
+                                                    unselectedColor:
+                                                        Colors.grey[200],
+                                                    padding: 0,
+                                                    width: 150,
+                                                    height: 150,
+                                                    selectedStepSize: 20,
+                                                    roundedCap: (_, __) => true,
+                                                    child: Center(
+                                                      child: Text(
+                                                        "${provider.dailysteps!}",
+                                                        style: const TextStyle(
+                                                          fontSize: 32,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color.fromRGBO(
+                                                              66, 18, 95, 1),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 120.0,
-                                          width: 170.0,
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SleepPage(),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              //sleep
-                                              decoration: BoxDecoration(
-                                                color: const Color.fromARGB(
-                                                    255, 64, 99, 180),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  Radius.circular(10.0),
-                                                ),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Color.fromARGB(255, 29, 45, 81),
-                                                    spreadRadius: 5,
-                                                    blurRadius: 4,
-                                                    offset: const Offset(4, 8),
+                                      const SizedBox(width: 30),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            height: 145.0,
+                                            width: 170.0,
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SleepPage(),
                                                   ),
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    const Text(
-                                                      "Sleep 💤 ",
-                                                      style: TextStyle(
-                                                          fontSize: 35,
-                                                          color: Color.fromARGB(
-                                                              255, 92, 1, 33),
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      textAlign:
-                                                          TextAlign.center,
+                                                );
+                                              },
+                                              child: Container(
+                                                //sleep
+                                                decoration: BoxDecoration(
+                                                  color: const Color.fromARGB(
+                                                      255, 64, 99, 180),
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    Radius.circular(10.0),
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Color.fromARGB(255, 29, 45, 81),
+                                                      spreadRadius: 5,
+                                                      blurRadius: 4,
+                                                      offset: const Offset(4, 8),
                                                     ),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    Container(
-                                                      width: 80,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            187, 222, 251, 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(10.0),
-                                                        ),
-                                                      ),
-                                                      child: Text(
-                                                        "${provider.duration} h",
-                                                        style: const TextStyle(
-                                                            fontSize: 30,
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    92,
-                                                                    1,
-                                                                    33),
+                                                  ],
+                                                ),
+                                                child: Center(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      const Text(
+                                                        "Sleep 💤 ",
+                                                        style: TextStyle(
+                                                            fontSize: 35,
+                                                            color: Color.fromARGB(
+                                                                255, 92, 1, 33),
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                                FontWeight.bold),
                                                         textAlign:
                                                             TextAlign.center,
                                                       ),
-                                                    )
-                                                  ],
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      Container(
+                                                        width: 80,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromRGBO(
+                                                              187, 222, 251, 1),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10.0),
+                                                          ),
+                                                        ),
+                                                        child: Text(
+                                                          "${provider.duration} h",
+                                                          style: const TextStyle(
+                                                              fontSize: 30,
+                                                              color:
+                                                                  Color.fromARGB(
+                                                                      255,
+                                                                      92,
+                                                                      1,
+                                                                      33),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 30),
-                                        Container(
-                                          height: 140.0,
-                                          width: 170.0,
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MainTestPage(),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.purple.shade300,
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  Radius.circular(10.0),
-                                                ),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: const Color.fromARGB(
-                                                            255, 96, 39, 106)
-                                                        .withOpacity(0.8),
-                                                    spreadRadius: 5,
-                                                    blurRadius: 4,
-                                                    offset: const Offset(4, 8),
+                                          const SizedBox(height: 30),
+                                          Container(
+                                            height: 170.0,
+                                            width: 170.0,
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MainTestPage(),
                                                   ),
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    const Text(
-                                                      "Tests 📝",
-                                                      style: TextStyle(
-                                                          fontSize: 35,
-                                                          color: Color.fromARGB(
-                                                              255, 92, 1, 33),
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                      width: 60,
-                                                      height: 25,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            203, 0, 64, 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(10.0),
-                                                        ),
-                                                      ),
-                                                      child: const Text(
-                                                        "PSQI",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                      width: 60,
-                                                      height: 25,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            247, 157, 37, 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(10.0),
-                                                        ),
-                                                      ),
-                                                      child: const Text(
-                                                        "ESS",
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                      width: 60,
-                                                      height: 25,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            118, 195, 76, 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(10.0),
-                                                        ),
-                                                      ),
-                                                      child: const Text(
-                                                        "PHQ-9",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.purple.shade300,
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    Radius.circular(10.0),
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: const Color.fromARGB(
+                                                              255, 96, 39, 106)
+                                                          .withOpacity(0.8),
+                                                      spreadRadius: 5,
+                                                      blurRadius: 4,
+                                                      offset: const Offset(4, 8),
                                                     ),
                                                   ],
+                                                ),
+                                                child: Center(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      const Text(
+                                                        "Tests 📝",
+                                                        style: TextStyle(
+                                                            fontSize: 35,
+                                                            color: Color.fromARGB(
+                                                                255, 92, 1, 33),
+                                                            fontWeight:
+                                                                FontWeight.bold),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Container(
+                                                        width: 60,
+                                                        height: 25,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromRGBO(
+                                                              203, 0, 64, 1),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10.0),
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                          "PSQI",
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Container(
+                                                        width: 60,
+                                                        height: 25,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromRGBO(
+                                                              247, 157, 37, 1),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10.0),
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                          "ESS",
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Container(
+                                                        width: 60,
+                                                        height: 25,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromRGBO(
+                                                              118, 195, 76, 1),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10.0),
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                          "PHQ-9",
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                ),
-                                const SizedBox(height: 20),
-                                const SizedBox(
-                                  height: 40,
-                                )
-                              ],
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  const SizedBox(
+                                    height: 40,
+                                  )
+                                ],
+                              ),
                             ),
                           ],
                         ),

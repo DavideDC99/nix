@@ -268,7 +268,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child:
                 Padding(
                   padding: const EdgeInsets.all(20),
-                    child: Row( children: [Text('BMI: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.bmi == null ? Text('00.00') : Text('${prefs.bmi!.toStringAsFixed(2)}', style: TextStyle(fontSize: 20))]))), 
+                    child: Row( children: [Text('BMI: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.bmi == null ? Text('00.00', style: TextStyle(fontSize: 20)) : Text('${prefs.bmi!.toStringAsFixed(2)}', style: TextStyle(fontSize: 20))]))), 
                 
                 Container(
                   margin: const EdgeInsets.all(10),
@@ -288,14 +288,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   padding: const EdgeInsets.all(20),
                     child: Row( children: [Text('BMI status: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.status == null ? Text('') : Text('${prefs.status}',style: TextStyle(
                                 fontSize: 20,
-                                color:
-                                prefs.status == 'Underweight' ? Colors.blue
-                                    : prefs.status == 'Normal weight' ? Colors.green
-                                    : prefs.status == 'Pre-Obesity' ? Colors.yellow.shade700
-                                    : prefs.status == 'Obesity class 1' ? Colors.orange
-                                    : prefs.status == 'Obesity class 2' ? Colors.deepOrangeAccent
-                                    : prefs.status == 'Obesity class 3' ? Colors.red
-                                    : null
                             ),)]))),     
                       const SizedBox(height: 20,),
                       const Text('Nutritional Status',

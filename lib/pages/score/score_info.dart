@@ -15,12 +15,14 @@ class _ScoreDescriptionState extends State<ScoreDescription> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 20,),
              Align(
               alignment: Alignment.bottomCenter,
               child:
                 Container(
+                  margin: EdgeInsets.all(16),
                   width: 500.0,
-                  height:500.0,
+                  height: 600.0,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 151, 63, 116),
                     borderRadius: BorderRadius.circular(25.0)

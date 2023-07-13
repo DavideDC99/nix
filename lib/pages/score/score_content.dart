@@ -61,6 +61,7 @@ class _ScoreResultsState extends State<ScoreResults> {
                         margin: const EdgeInsets.all(10),
                         padding: const EdgeInsets.all(16.0),
                         width: double.infinity,
+                        height: 250,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                           color: Color.fromARGB(255, 35, 95, 38),

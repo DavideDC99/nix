@@ -136,158 +136,141 @@ class _MainTestPageState extends State<MainTestPage> {
                                           color: Colors.white,
                                         )),
                                     const SizedBox(
-                                      height: 5,
+                                      height: 20,
                                     ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      //crossAxisAlignment:
-                                          //CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        Column(
-                                          
-                                          children: [
-                                            SizedBox(height:20),
-                                            SizedBox(
-                                              
-                                              width: 120,
-                                              height: 50,
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  foregroundColor: Colors.white,
-                                                  backgroundColor:
-                                                      Color.fromARGB(255, 150, 1, 48),
-                                                  shape: const StadiumBorder(),
-                                                ),
-                                                onPressed: !Provider.of<
-                                                                HomeProvider>(
+                                        SizedBox(
+                                          width: 120,
+                                          height: 50,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              backgroundColor:
+                                                  Color.fromARGB(255, 150, 1, 48),
+                                              shape: const StadiumBorder(),
+                                            ),
+                                            onPressed: !Provider.of<
+                                                            HomeProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .showDate
+                                                    .isBefore(DateTime(
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .year,
+                                                        DateTime.now()
+                                                            .subtract(
+                                                                const Duration(
+                                                                    days: 1))
+                                                            .month))
+                                                ? () async {
+                                                    final scorePSQI =
+                                                        await Navigator.push(
                                                             context,
-                                                            listen: false)
-                                                        .showDate
-                                                        .isBefore(DateTime(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const PSQITest()));
+                                                    Stats stats = Stats(
+                                                        DateTime(
                                                             DateTime.now()
                                                                 .subtract(
                                                                     const Duration(
-                                                                        days: 1))
+                                                                        days:
+                                                                            1))
                                                                 .year,
                                                             DateTime.now()
                                                                 .subtract(
                                                                     const Duration(
-                                                                        days: 1))
-                                                                .month))
-                                                    ? () async {
-                                                        final scorePSQI =
-                                                            await Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const PSQITest()));
-                                                        Stats stats = Stats(
-                                                            DateTime(
-                                                                DateTime.now()
-                                                                    .subtract(
-                                                                        const Duration(
-                                                                            days:
-                                                                                1))
-                                                                    .year,
-                                                                DateTime.now()
-                                                                    .subtract(
-                                                                        const Duration(
-                                                                            days:
-                                                                                1))
-                                                                    .month),
-                                                            1,
-                                                            scorePSQI);
-                                                        Provider.of<HomeProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .insertScoreTest(stats);
-                                                        Provider.of<HomeProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .getScoreTest(DateTime(
-                                                                DateTime.now()
-                                                                    .subtract(
-                                                                        const Duration(
-                                                                            days:
-                                                                                1))
-                                                                    .year,
-                                                                DateTime.now()
-                                                                    .subtract(
-                                                                        const Duration(
-                                                                            days:
-                                                                                1))
-                                                                    .month));
-                                                      }
-                                                    : null,
-                                                child: const Text(
-                                                  "Do the test",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
+                                                                        days:
+                                                                            1))
+                                                                .month),
+                                                        1,
+                                                        scorePSQI);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .insertScoreTest(stats);
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .getScoreTest(DateTime(
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .year,
+                                                            DateTime.now()
+                                                                .subtract(
+                                                                    const Duration(
+                                                                        days:
+                                                                            1))
+                                                                .month));
+                                                  }
+                                                : null,
+                                            child: const Text(
+                                              "Do the test",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                          ],
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 20,
                                         ),
-                                        Column(
-                                          children: [
-                                            const SizedBox(
-                                      height: 30,
-                                    ),
-                                            Container(
-                                              //results
-                                              width: 130,
-                                              height: 130,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Colors.transparent,
-                                              ),
-                                              child: Consumer<HomeProvider>(
-                                                builder: (context, provider,
-                                                        child) =>
-                                                    CircularStepProgressIndicator(
-                                                  startingAngle: pi / 2,
-                                                  arcSize: pi,
-                                                  totalSteps: 21,
-                                                  currentStep:
-                                                      provider.scorePSQI == null
-                                                          ? 0
-                                                          : provider.scorePSQI!,
-                                                  stepSize: 20,
-                                                  selectedColor:Color.fromARGB(255, 150, 1, 48),
-                                                  unselectedColor: Colors.indigo.shade100,
-                                                  padding: 0,
-                                                  width: 20,
-                                                  height: 20,
-                                                  selectedStepSize: 20,
-                                                  roundedCap: (_, __) => true,
-                                                  child: Center(
-                                                    child: Text(
-                                                      "${provider.scorePSQI}",
-                                                      style: const TextStyle(
-                                                          fontSize: 35,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
+                                        Container(
+                                          //results
+                                          width: 130,
+                                          height: 130,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.transparent,
+                                          ),
+                                          child: Consumer<HomeProvider>(
+                                            builder: (context, provider,
+                                                    child) =>
+                                                CircularStepProgressIndicator(
+                                              startingAngle: pi / 2,
+                                              arcSize: pi,
+                                              totalSteps: 21,
+                                              currentStep:
+                                                  provider.scorePSQI == null
+                                                      ? 0
+                                                      : provider.scorePSQI!,
+                                              stepSize: 20,
+                                              selectedColor:Color.fromARGB(255, 150, 1, 48),
+                                              unselectedColor: Colors.indigo.shade100,
+                                              padding: 0,
+                                              width: 20,
+                                              height: 20,
+                                              selectedStepSize: 20,
+                                              roundedCap: (_, __) => true,
+                                              child: Center(
+                                                child: Text(
+                                                  "${provider.scorePSQI}",
+                                                  style: const TextStyle(
+                                                      fontSize: 35,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
                                                 ),
-                                              ), //inserire score
+                                              ),
                                             ),
-                                          ],
+                                          ), //inserire score
                                         )
                                       ],
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
                                     ),
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
@@ -317,7 +300,7 @@ class _MainTestPageState extends State<MainTestPage> {
                                           color: Colors.white,
                                         )),
                                     const SizedBox(
-                                      height: 10,
+                                      height: 20,
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -450,9 +433,6 @@ class _MainTestPageState extends State<MainTestPage> {
                                         )
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
                                           MessageESS(provider.scoreESS),
@@ -482,7 +462,7 @@ class _MainTestPageState extends State<MainTestPage> {
                                           color: Colors.white,
                                         )),
                                     const SizedBox(
-                                      height: 10,
+                                      height: 20,
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -613,9 +593,6 @@ class _MainTestPageState extends State<MainTestPage> {
                                           )),
                                         )
                                       ],
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
                                     ),
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
