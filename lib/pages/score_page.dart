@@ -11,16 +11,13 @@ class MainScorePage extends StatefulWidget {
 }
 
 class _MainScorePageState extends State<MainScorePage> {
-
   final _pageController = PageController(initialPage: 0);
 
   int maxCount = 2;
 
-  
   final List<Widget> bottomBarPages = [
     ScoreResults(),
     ScoreDescription(),
-
   ];
 
   @override
@@ -34,19 +31,19 @@ class _MainScorePageState extends State<MainScorePage> {
     super.initState();
   }
 
-
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 63, 151, 69),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(63, 101, 151, 1),
+        backgroundColor: Color.fromARGB(255, 35, 95, 38),
         title: const Text('Score', style: TextStyle(color: Colors.white)),
-          iconTheme: const IconThemeData(color: Colors.white),
-          leading: IconButton(onPressed:() {
-            Navigator.pop(context);
-          }, 
-          icon: const Icon(Icons.arrow_circle_left_outlined)),
+        iconTheme: const IconThemeData(color: Colors.white),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_circle_left_outlined)),
       ),
       body: Container(
         height: 800,
@@ -61,31 +58,27 @@ class _MainScorePageState extends State<MainScorePage> {
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
               showBlurBottomBar: false,
-              
               pageController: _pageController,
-              color: Color.fromRGBO(63, 101, 151, 1),
+              color: Color.fromARGB(255, 35, 95, 38),
               showLabel: true,
-              itemLabelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0
-                              ),
+              itemLabelStyle: TextStyle(color: Colors.white, fontSize: 12.0),
               notchColor: Color.fromARGB(255, 151, 63, 116),
               bottomBarItems: [
-                 BottomBarItem(
+                BottomBarItem(
                   inActiveItem: Icon(
                     Icons.fact_check,
-                    color: Color.fromARGB(255, 239, 74, 83),
+                    color: Color.fromARGB(255, 151, 63, 116),
                   ),
                   activeItem: Icon(
-                    Icons.home_filled,
+                    Icons.fact_check,
                     color: Color.fromARGB(255, 63, 151, 69),
                   ),
                   itemLabel: 'Results',
                 ),
-                 BottomBarItem(
+                BottomBarItem(
                   inActiveItem: Icon(
                     Icons.info,
-                    color:Color.fromARGB(255, 239, 74, 83),
+                    color: Color.fromARGB(255, 151, 63, 116),
                   ),
                   activeItem: Icon(
                     Icons.info,
@@ -93,7 +86,6 @@ class _MainScorePageState extends State<MainScorePage> {
                   ),
                   itemLabel: 'Info',
                 ),
- 
               ],
               onTap: (index) {
                 /// control your animation using page controller

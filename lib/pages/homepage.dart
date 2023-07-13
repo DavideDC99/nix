@@ -271,13 +271,13 @@ class _HomePageState extends State<HomePage> {
                                         padding: EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           color:
-                                              Colors.cyan.shade600,
+                                              Color.fromARGB(213, 63, 151, 69),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(10.0),
                                           ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Color.fromARGB(255, 3, 102, 105),
+                                              color: Color.fromARGB(255, 35, 95, 38),
                                               spreadRadius: 5,
                                               blurRadius: 4,
                                               offset: const Offset(4, 8),
@@ -296,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                                                 borderRadius: 10.0,
                                                 rotate: 90.0,
                                                 child: Container(
-                                                  color: Colors.cyan.shade300,
+                                                  color: _polygonColor(provider.wellbeingscore),
                                                   child: Center(
                                                     child: Text(
                                                       "${provider.wellbeingscore}",
@@ -727,6 +727,23 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+   _polygonColor(score) {
+    Color color=Colors.black;
+    if (score >= 0 && score <= 20) {
+      color = Colors.red;
+    } else if (score >= 21 && score <= 40) {
+      color = Colors.deepOrange;
+    } else if (score >= 41 && score <= 60) {
+      color = Colors.orange;
+    } else if (score >= 61 && score <= 80) {
+      color =  Color.fromARGB(255, 106, 216, 109);
+    } else {
+      color = Color.fromARGB(255, 33, 199, 39);
+    }
+    return color;
+  }
+
 
   final List<String> quotes = [
     "'Always remember that you are stronger than you think.'",

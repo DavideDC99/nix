@@ -92,8 +92,8 @@ class _ScoreResultsState extends State<ScoreResults> {
         selectedColor: Color.fromARGB(255, 151, 63, 116),
         unselectedColor: Color.fromARGB(255, 245, 190, 190),
         padding: 0,
-        width: 250,
-        height: 250,
+        width: 220,
+        height: 220,
         selectedStepSize: 20,
         roundedCap: (_, __) => true,
         child: Center(
@@ -112,22 +112,42 @@ class _ScoreResultsState extends State<ScoreResults> {
 
   Widget _summary(int score) {
     String severity = '';
-    if (score == null) {
-      severity = 'This test has not been done';
-    } else if (score >= 0 && score <= 9) {
-      severity = "This score corresponds to a normal range level";
-    } else if (score >= 10 && score <= 12) {
-      severity = 'This score corresponds to a borderline level';
+    if (score >= 0 && score <= 20) {
+      severity = "You reached a very low score!";
+    } else if (score >= 21 && score <= 40) {
+      severity = "You reached a low score!";
+    } else if (score >= 41 && score <= 60) {
+      severity = "You reached a medium score!";
+    } else if (score >= 61 && score <= 80) {
+      severity = "You reached a high score!";
     } else {
-      severity = 'This score corresponds to an abnormal level';
+      severity = 'You reached a very high score!';
+    }
+
+    String message = '';
+    if (score >= 0 && score <= 20) {
+      message =
+          "Make an effort to take more steps and improve your sleep quality to feel more energetic and fit!";
+    } else if (score >= 21 && score <= 40) {
+      message =
+          "Work on incorporating more physical activity and establishing a more regular sleep routine to improve your overall health!";
+    } else if (score >= 41 && score <= 60) {
+      message =
+          "You can do better! Try to increase your daily step count and aim for more rejuvenating sleep to reach higher levels of well-being!";
+    } else if (score >= 61 && score <= 80) {
+      message =
+          "Keep engaging in physical activity and maintaining good sleep habits to sustain this optimal level of health!";
+    } else {
+      message =
+          'Congratulations! Keep taking steps forward and prioritize your rest to enjoy a healthy and fulfilling life!';
     }
     return Column(children: [
-      Text('Range',
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          )),
+      Text(
+        "$severity",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 18.0, color: Colors.white, fontWeight: FontWeight.bold),
+      ),
       SizedBox(height: 20),
       Row(
         children: [
@@ -137,11 +157,27 @@ class _ScoreResultsState extends State<ScoreResults> {
               decoration: const BoxDecoration(
                 borderRadius:
                     BorderRadius.horizontal(left: Radius.circular(15)),
-                color: Colors.green,
+                color: Colors.red,
               ),
               child: const Center(
-                  child: Text('Normal  \n0 - 10',
-                      style: TextStyle(fontSize: 10, color: Colors.white),
+                  child: Text('Very low',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center)),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: 25,
+              color: Colors.deepOrangeAccent,
+              child: const Center(
+                  child: Text('Low',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center)),
             ),
           ),
@@ -150,8 +186,24 @@ class _ScoreResultsState extends State<ScoreResults> {
               height: 25,
               color: Colors.orange,
               child: const Center(
-                  child: Text('Borderline \n10 - 12',
-                      style: TextStyle(fontSize: 10, color: Colors.white),
+                  child: Text('Medium',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center)),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: 25,
+              color: Color.fromARGB(255, 106, 216, 109),
+              child: const Center(
+                  child: Text('High',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center)),
             ),
           ),
@@ -161,22 +213,55 @@ class _ScoreResultsState extends State<ScoreResults> {
               decoration: const BoxDecoration(
                 borderRadius:
                     BorderRadius.horizontal(right: Radius.circular(15)),
-                color: Colors.red,
+                color: Colors.green,
               ),
               child: const Center(
-                  child: Text('Abnormal \n12 - 24',
-                      style: TextStyle(fontSize: 10, color: Colors.white),
+                  child: Text('Very High',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center)),
             ),
           ),
         ],
       ),
-      SizedBox(height: 20),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          Text('00',
+              style: TextStyle(
+                color: Colors.transparent,
+              )),
+          Text('20',
+              style: TextStyle(
+                color: Colors.white,
+              )),
+          Text('40',
+              style: TextStyle(
+                color: Colors.white,
+              )),
+          Text('60',
+              style: TextStyle(
+                color: Colors.white,
+              )),
+          Text('80',
+              style: TextStyle(
+                color: Colors.white,
+              )),
+          Text('00',
+              style: TextStyle(
+                color: Colors.transparent,
+              )),
+        ],
+      ),
+       SizedBox(height: 20),
       Text(
-        "$severity",
+        "$message",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 18.0, color: Colors.white),
-      )
+        style: TextStyle(
+            fontSize: 18.0, color: Colors.white),
+      ),
     ]);
   }
 }
