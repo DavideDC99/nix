@@ -83,7 +83,7 @@ class Splash extends StatelessWidget {
                   textStyle: const TextStyle(
                 fontSize: 60,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 30, 171, 157),
+                color: Color.fromRGBO(197, 202, 233, 1),
               )),
             ),
             Image.asset('images/others/logo_login.png', height: 300, width: 300,),

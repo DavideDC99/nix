@@ -16,7 +16,7 @@ class _MainScorePageState extends State<MainScorePage> {
 
   int maxCount = 2;
 
-  /// widget list
+  
   final List<Widget> bottomBarPages = [
     ScoreResults(),
     ScoreDescription(),

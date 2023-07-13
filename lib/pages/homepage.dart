@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_polygon/flutter_polygon.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:nix/database/database.dart';
 import 'package:nix/pages/login/login_user.dart';
 import 'package:nix/pages/maintests_page.dart';
 import 'package:nix/pages/profile_page.dart';
-import 'package:nix/pages/progress_page.dart';
 import 'package:nix/pages/score_page.dart';
 import 'package:nix/pages/sh_page.dart';
 import 'package:nix/pages/sleep_page.dart';
@@ -48,52 +48,35 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.blue.shade100,
               extendBodyBehindAppBar: true,
               appBar: AppBar(
-                  iconTheme: const IconThemeData(
-                      color: Color.fromRGBO(187, 222, 251, 1), size: 40),
-                  title: Row(
-                    children: [
-                      const SizedBox(
-                        width: 90,
-                      ),
-                      Text(
-                        'NiX',
-                        style: GoogleFonts.cinzelDecorative(
-                            textStyle: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(187, 222, 251, 1),
-                        )),
-                      ),
-                      const SizedBox(
-                        width: 110,
-                      ),
-                      FluttermojiCircleAvatar(
-                        backgroundColor: Colors.blue.shade100,
-                        radius: 20,
-                      ),
-                    ],
-                  ),
-                  centerTitle: true,
-                  backgroundColor: Color.fromRGBO(13, 42, 106, 1),
-                  elevation: 0,
-                  /*
-                  actions: [
-                    IconButton(
-                        padding:
-                            const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                        onPressed: () async {
-                          Provider.of<HomeProvider>(context, listen: false)
-                              .refresh();
-                        },
-                        icon: const Icon(
-                          Icons.download,
-                          size: 30,
-                          color: Color(0xFF89453C),
-                        )),
-                  ] */
-                  ),
-
-              //changed
+                iconTheme: const IconThemeData(
+                    color: Color.fromRGBO(187, 222, 251, 1), size: 40),
+                title: Row(
+                  children: [
+                    const SizedBox(
+                      width: 90,
+                    ),
+                    Text(
+                      'NiX',
+                      style: GoogleFonts.cinzelDecorative(
+                          textStyle: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(187, 222, 251, 1),
+                      )),
+                    ),
+                    const SizedBox(
+                      width: 110,
+                    ),
+                    FluttermojiCircleAvatar(
+                      backgroundColor: Colors.blue.shade100,
+                      radius: 20,
+                    ),
+                  ],
+                ),
+                centerTitle: true,
+                backgroundColor: Color.fromRGBO(13, 42, 106, 1),
+                elevation: 0,
+              ),
               drawer: Drawer(
                   backgroundColor: Colors.blue.shade100,
                   child: ListView(
@@ -199,8 +182,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   )),
-
-              //changed (home)
               body: Provider.of<HomeProvider>(context).doneInit
                   ? SingleChildScrollView(
                       child: Consumer<HomeProvider>(
@@ -229,7 +210,13 @@ class _HomePageState extends State<HomePage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "${DateTime.now().subtract(const Duration(days: 1)).day}/${DateTime.now().subtract(const Duration(days: 1)).month}/${DateTime.now().subtract(const Duration(days: 1)).year}",
+                                                  DateFormat(
+                                                          'EEE, dd MMMM yyyy')
+                                                      .format(DateTime.now()
+                                                          .subtract(
+                                                              const Duration(
+                                                                  days: 1))),
+                                                  //"${DateTime.now().subtract(const Duration(days: 1)).day}/${DateTime.now().subtract(const Duration(days: 1)).month}/${DateTime.now().subtract(const Duration(days: 1)).year}",
                                                   style: const TextStyle(
                                                     fontSize: 18,
                                                     color: Color.fromRGBO(
@@ -238,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                                 const Text(
-                                                  'Good day, ...!', //name
+                                                  'Good day, ...!',
                                                   style: TextStyle(
                                                       fontSize: 30,
                                                       fontWeight:
@@ -282,17 +269,16 @@ class _HomePageState extends State<HomePage> {
                                         );
                                       },
                                       child: Container(
+                                        padding: EdgeInsets.all(6),
                                         decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                              255, 69, 155, 75),
+                                          color:
+                                              Colors.cyan.shade600,
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(10.0),
                                           ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: const Color.fromARGB(
-                                                      255, 15, 41, 17)
-                                                  .withOpacity(0.8),
+                                              color: Color.fromARGB(255, 3, 102, 105),
                                               spreadRadius: 5,
                                               blurRadius: 4,
                                               offset: const Offset(4, 8),
@@ -310,14 +296,8 @@ class _HomePageState extends State<HomePage> {
                                                 sides: 6,
                                                 borderRadius: 10.0,
                                                 rotate: 90.0,
-                                                boxShadows: [
-                                                  PolygonBoxShadow(
-                                                      color: Colors.black,
-                                                      elevation: 10.0),
-                                                ],
                                                 child: Container(
-                                                  color: const Color.fromARGB(
-                                                      255, 245, 190, 190),
+                                                  color: Colors.cyan.shade300,
                                                   child: Center(
                                                     child: Text(
                                                       "${provider.wellbeingscore}",
@@ -325,8 +305,7 @@ class _HomePageState extends State<HomePage> {
                                                         fontSize: 40,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: Color.fromARGB(
-                                                            255, 15, 41, 17),
+                                                        color: Color.fromRGBO(0, 65, 68, 1),
                                                       ),
                                                     ),
                                                   ),
@@ -335,10 +314,10 @@ class _HomePageState extends State<HomePage> {
                                               const Text(
                                                 "Wellbeing\n    Score\n       💯",
                                                 style: TextStyle(
-                                                    fontSize: 30,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        255, 15, 41, 17)),
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromRGBO(0, 65, 68, 1),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -406,10 +385,14 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 CircularStepProgressIndicator(
                                                   totalSteps: 100,
-                                                  currentStep: (provider.dailysteps! / 100).round(),
+                                                  currentStep:
+                                                      (provider.dailysteps! /
+                                                              100)
+                                                          .round(),
                                                   stepSize: 20,
                                                   selectedColor:
-                                                      const Color.fromARGB(230, 247, 156, 37),
+                                                      const Color.fromARGB(
+                                                          230, 247, 156, 37),
                                                   unselectedColor:
                                                       Colors.grey[200],
                                                   padding: 0,
@@ -422,8 +405,10 @@ class _HomePageState extends State<HomePage> {
                                                       "${provider.dailysteps!}",
                                                       style: const TextStyle(
                                                         fontSize: 40,
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Color.fromRGBO(66, 18, 95, 1),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Color.fromRGBO(
+                                                            66, 18, 95, 1),
                                                       ),
                                                     ),
                                                   ),
@@ -461,9 +446,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: const Color.fromARGB(
-                                                            255, 92, 1, 33)
-                                                        .withOpacity(0.8),
+                                                    color: Color.fromARGB(255, 29, 45, 81),
                                                     spreadRadius: 5,
                                                     blurRadius: 4,
                                                     offset: const Offset(4, 8),
@@ -664,142 +647,12 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ),
                                         ),
-                                        /*
-                            child: FittedBox(
-                                child: FloatingActionButton(
-                                    child: const Text(
-                                      'Daily Quote',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    onPressed: () {
-                                      
-                                      final materialBanner = MaterialBanner(
-                                        elevation: 100,
-                                        backgroundColor: Colors.transparent,
-                                        forceActionsBelow: false,
-                                        content: AwesomeSnackbarContent(
-                                          title: 'Hey!!',
-                                          message: randomQuote,
-                                          //message: quotes[9], //use this to test the length of the quote
-                                          messageFontSize: 14,
-                                          contentType: ContentType.success,
-                                          inMaterialBanner: true,
-                                          color: Colors.blue,
-                                        ),
-                                        actions: const [SizedBox.shrink()],
-                                      );
-        
-                                      ScaffoldMessenger.of(context)
-                                        ..hideCurrentMaterialBanner()
-                                        ..showMaterialBanner(materialBanner);
-                                    }) 
-                                /*
-                                    final snackBar = SnackBar(
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.transparent,
-                                      //forceActionsBelow: true,
-                                      content: AwesomeSnackbarContent(
-                                        title: 'Hey!!',
-                                        message: randomQuote,
-                                        //message: quotes[9], //use this to test the length of the quote
-                                        messageFontSize: 14,
-                                        contentType: ContentType.success,
-                                        inMaterialBanner: true,
-                                        color: Colors.blue,
-                                      ),
-                                      action: SnackBarAction(label: 'X', onPressed: SizedBox.shrink),
-                                    );
-                                    ScaffoldMessenger.of(context)
-                                      ..hideCurrentSnackBar()
-                                      ..showSnackBar(snackBar);
-                                  }),
-                                  */
-                                ), */
                                       ],
                                     ),
                                     const Spacer(),
                                   ],
                                 ),
                                 const SizedBox(height: 20),
-                                Container(
-                                  height: 125.0,
-                                  width: 380.0,
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => ProgressPage(),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.cyan.shade700,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: const Color.fromARGB(
-                                                    255, 4, 104, 113)
-                                                .withOpacity(0.8),
-                                            spreadRadius: 5,
-                                            blurRadius: 4,
-                                            offset: const Offset(4, 8),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Text(
-                                              "Monthly Progress 🥇",
-                                              style: TextStyle(
-                                                fontSize: 30,
-                                                color: Color.fromRGBO(
-                                                    2, 65, 68, 1),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Container(
-                                              height: 50.0,
-                                              width: 100.0,
-                                              color: Colors.transparent,
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(10.0),
-                                                  ),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    '🏆 $goalsAchieved ',
-                                                    style: const TextStyle(
-                                                        fontSize: 30,
-                                                        color: Color.fromRGBO(
-                                                            2, 65, 68, 1),
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                                 const SizedBox(
                                   height: 40,
                                 )
