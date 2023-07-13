@@ -1,9 +1,10 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:country_calling_code_picker/picker.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
+import 'package:nix/pages/profile/ProfileEdit.dart';
+import 'package:nix/utils/shared_preferences.dart';
 import 'package:nix/widgets/avatar.dart';
 import 'package:fluttermoji/fluttermoji.dart';
+import 'package:provider/provider.dart';
 
 class ProfileSettings extends StatefulWidget {
   @override
@@ -11,34 +12,44 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
-
-  final _formKey = GlobalKey<FormState>();
-  DateTime date = DateTime(1900, 01, 01);
-  final _listGenderText = ["Male", "Female"];
-  var _tabTextIndexSexSelected = 0;
-  final _listIconTabToggle = [Icons.man, Icons.woman,];
-  Country? _selectedCountry;
-
-  @override
-  void initState() {
-    initCountry();
-    super.initState();
-  }
-
-  void initCountry() async {
-    final country = await getDefaultCountry(context);
-    setState(() {
-      _selectedCountry = country;
-    });
-  }
+  
+  double? bmi;
+  String errorText = '';
+  String status = '';
   
   @override
   Widget build(BuildContext context) {
+    var prefs = Provider.of<Preferences>(context, listen: false);
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    final country = _selectedCountry;
+    //final country = _selectedCountry;
+
+    Text _sportLevel(int level) {
+        if (prefs.sporty == 0) {
+                      return Text('Very much', style: TextStyle(fontSize: 20));
+                    } else if (prefs.sporty == 1) {
+                      return Text('A lot', style: TextStyle(fontSize: 20));
+                    } else if (prefs.sporty == 2) {
+                      return Text('Quite a lot', style: TextStyle(fontSize: 20));
+                    } else if (prefs.sporty == 3) {
+                      return Text('A little', style: TextStyle(fontSize: 20));
+                    } else  {
+                      return Text('Very little', style: TextStyle(fontSize: 20));
+                    }
+    }
     
-    return 
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(13, 42, 106, 1),
+        title: const Text('Profile settings', style: TextStyle(color: Colors.white)),
+          iconTheme: const IconThemeData(color: Colors.white),
+          leading: IconButton(onPressed:() {
+            Navigator.pop(context);
+          }, 
+          icon: const Icon(Icons.arrow_circle_left_outlined)),
+      ),
+      body:
       Column(   
       children: [
         Container(
@@ -64,26 +75,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     radius: 100,
                   ), 
               )),
-              Align(
-              alignment: Alignment(0.7, 0.9),
-                child: Container(
-                height: 35,
-                child: ElevatedButton.icon(
-                  icon: Icon(Icons.edit),
-                  label: Text("Customize"),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(13, 42, 106, 1)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0), 
-                      ),
-                    ), 
-                  ),
-                  onPressed: () => Navigator.push(context,
-                       MaterialPageRoute(builder: (context) => AvatarCustomization())),
-                ),
-                )
-              ),
             ]
          )
         ),
@@ -95,147 +86,296 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           //width: double.infinity,
           //height: screenHeight*0.3,
           child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
+          child: Column(
               children: <Widget> [
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(children: [Text('Name: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.name == null ? Text('') : Text('${prefs.name}', style: TextStyle(fontSize: 20))],)),),
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
                 Padding(
                   padding: const EdgeInsets.all(20),
-                    child: 
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Name:',
-                        labelStyle: TextStyle(fontSize: 20.0),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Name required';
-                        }
-                          return null;
-                    },),),
-      
+                    child: Row( children: [Text('Surname: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.surname == null ? Text('') : Text('${prefs.surname}', style: TextStyle(fontSize: 20) )],)),),
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
                 Padding(
                   padding: const EdgeInsets.all(20),
-                    child:
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Last Name:',
-                          labelStyle: TextStyle(fontSize: 20.0),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                      ),
-                      validator: (value) {
-                         if (value!.trim().isEmpty) {
-                           return 'Last name required';
-                         }
-                         return null;
-                    },),),   
-      
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                    child:
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Nickame:',
-                        labelStyle: TextStyle(fontSize: 20.0),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                      ),),), 
-      
+                    child:  Row( children: [Text('Nickname: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.nickname == null ? Text('') : Text('${prefs.nickname}', style: TextStyle(fontSize: 20))],)),), 
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
                 Padding(
                 padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      
-                      ElevatedButton(
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(13, 42, 106, 1)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0), 
-                          ),
-                        ), 
-                        ) ,
-                        child: const Text('Select your date of birthday:'),
-                          onPressed: () async {
-                            DateTime? newDate = await showDatePicker(
-                              context: context,
-                              initialDate: date,
-                              firstDate: DateTime(1900), 
-                              lastDate: DateTime(2100),
-                            );
-                            if (newDate == null) return;
-                            setState(() => date = newDate);
-                          }
-                      ),
-      
-                      Text('${date.day}/${date.month}/${date.year}',
-                        style: const TextStyle(
-                          fontSize: 20)),
-      
-                    ],),),
-      
+                  child:  Row( children: [Text('Birthday: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.birthdate == null ? Text('') : Text('${prefs.birthdate}', style: TextStyle(fontSize: 20))],)),),    
+                
+                
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
+                Padding(  
+                  padding: const EdgeInsets.all(20),
+                    child: Row( children: [Text('Sex: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.sex == 0 ? Text('Male', style: TextStyle(fontSize: 20)) : Text('Female', style: TextStyle(fontSize: 20))],)),),      
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
                 Padding(
                   padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text("Select your sex : ", 
-                        style: TextStyle(fontSize: 16)),
-                        FlutterToggleTab(
-                          width: 60,
-                          borderRadius: 20,
-                          selectedIndex: _tabTextIndexSexSelected,
-                          selectedBackgroundColors: const [Color.fromRGBO(13, 42, 106, 1),  Colors.greenAccent],
-                          selectedTextStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),
-                          unSelectedTextStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400),
-                          labels: _listGenderText,
-                          icons: _listIconTabToggle,
-                          selectedLabelIndex: (index) {
-                            setState(() {
-                             _tabTextIndexSexSelected = index;
-                            });
-                          },
-                          marginSelected:
-                          const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                    child: Row( children: [Text('Smoking: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.smoke == 1 ? Text('No smoker', style: TextStyle(fontSize: 20)) : Text('Smoker', style: TextStyle(fontSize: 20))],)),),
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                    child: Row( children: [Text('Sport level: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), _sportLevel(prefs.sporty)]))),
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                    child: Row( children: [Text('Height: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.height == null ? Text('') : Text('${prefs.height} cm', style: TextStyle(fontSize: 20))]))),
+                 
+                 
+                 Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
+                 Padding(
+                  padding: const EdgeInsets.all(20),
+                    child: Row( children: [Text('Weight: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.weight == null ? Text('') : Text('${prefs.weight} kg', style: TextStyle(fontSize: 20))]))),
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                    child: Row( children: [Text('BMI: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.bmi == null ? Text('00.00') : Text('${prefs.bmi!.toStringAsFixed(2)}', style: TextStyle(fontSize: 20))]))), 
+                
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.indigo.shade200,
+                  boxShadow: [BoxShadow(
+                    color: Colors.indigo.shade200.withOpacity(0.6),
+                    spreadRadius: 4,
+                    blurRadius: 3,
+                    offset: const Offset(4, 4),),],
+                  ),
+                  child:
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                    child: Row( children: [Text('BMI status: ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), prefs.status == null ? Text('') : Text('${prefs.status}',style: TextStyle(
+                                fontSize: 20,
+                                color:
+                                prefs.status == 'Underweight' ? Colors.blue
+                                    : prefs.status == 'Normal weight' ? Colors.green
+                                    : prefs.status == 'Pre-Obesity' ? Colors.yellow.shade700
+                                    : prefs.status == 'Obesity class 1' ? Colors.orange
+                                    : prefs.status == 'Obesity class 2' ? Colors.deepOrangeAccent
+                                    : prefs.status == 'Obesity class 3' ? Colors.red
+                                    : null
+                            ),)]))),     
+                      const SizedBox(height: 20,),
+                      const Text('Nutritional Status',
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 16
                         ),
-                        ])),
-      
-                Padding(   //SISTEMARE (NON serve avere un doppio scroll view)
-                  padding: const EdgeInsets.all(0),
-                    child: SingleChildScrollView(
-                      child: Column(
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10,),
+                      Row(
                         children: [
-                          const Text("Select your country : ", style: TextStyle(fontSize: 20)),
-                          country == null
-                          ? Container()
-                          : Column(
-                          children: <Widget>[
-                            Image.asset(
-                              country.flag,
-                              package: countryCodePackageName,
-                              width: 100,
-                            ),
-                          const SizedBox(height: 10),
-                          Text('${country.callingCode} ${country.name} (${country.countryCode})', textAlign: TextAlign.center, style: const TextStyle(fontSize: 18)),
-                          ],),
-                          const SizedBox(height: 10),
-                            MaterialButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0), // Imposta il raggio dei bordi
+                          Expanded(
+                            child: Container(
+                              height: 25,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.horizontal(
+                                    left: Radius.circular(15)
+                                ),
+                                color: Colors.blue,
                               ),
-                              color: Color.fromRGBO(13, 42, 106, 1),
-                                textColor: Colors.white,
-                                onPressed: _onPressedShowDialog,
-                              child: const Text('Select Country')),],),),),
-      
+                              child: const Center(child: Text('Underweight', style: TextStyle( fontSize: 8, color: Colors.white))),
+
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 25,
+                              color: Colors.green,
+                              child: const Center(child: Text('Normal \nweight', style: TextStyle(fontSize: 8, color: Colors.white))),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 25,
+                              color: Colors.yellow.shade700,
+                              child: const Center(child: Text('Pre-Obesity', style: TextStyle(fontSize: 8, color: Colors.white))),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 25,
+                              color: Colors.orange,
+                              child: const Center(child: Text('Obesity \nclass 1', style: TextStyle(fontSize: 8, color: Colors.white))),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 25,
+                              color: Colors.deepOrangeAccent,
+                              child: const Center(child: Text('Obesity \nclass 2', style: TextStyle(fontSize: 8, color: Colors.white))),
+
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 25,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.horizontal(
+                                    right: Radius.circular(15)
+                                ),
+                                color: Colors.red,
+                              ),
+                              child: const Center(child: Text('Obesity \nclass 3', style: TextStyle(fontSize: 8, color: Colors.white))),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text('00', style: TextStyle(color: Colors.transparent,)),
+                          Text('18.5'),
+                          Text('25.0'),
+                          Text('30.0'),
+                          Text('35.0'),
+                          Text('40.0'),
+                          Text('00', style: TextStyle(color: Colors.transparent,)),
+                        ],
+                      ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
@@ -246,58 +386,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ), ),
                       onPressed: () {
-                       // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                        else{
-                          final snackBar= SnackBar(
-                            elevation:0,
-                            backgroundColor: Colors.transparent,
-                            behavior: SnackBarBehavior.floating,
-                            
-                            content: AwesomeSnackbarContent(
-                              title: 'Warning', 
-                              message: 'Remember to fill in all requied fields ', 
-                              contentType: ContentType.failure,
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                              ..hideCurrentSnackBar()
-                              ..showSnackBar(snackBar);
-    
-                        }
+                      Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileEdit(),
+                                ),
+                              );
                       },
-                      child: const Text('Save'),
+                      child: const Text('Edit profile', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                     ),),
-      
-                    
-      
-      
               ],
-      
             ),
-      
           ),
-          
-        ))
-        )
-      
-        ],);
-
-       
-  }
-  void _onPressedShowDialog() async {
-    final country = await showCountryPickerDialog(context,
-    );
-    if (country != null) {
-      setState(() {
-        _selectedCountry = country;
-      });
-    }
+        ))]));
   }
 }

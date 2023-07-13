@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nix/database/database.dart';
 import 'package:nix/pages/login/login_user.dart';
 import 'package:nix/pages/maintests_page.dart';
-import 'package:nix/pages/profile_page.dart';
+import 'package:nix/pages/profile/ProfileSettings.dart';
 import 'package:nix/pages/progress_page.dart';
 import 'package:nix/pages/score_page.dart';
 import 'package:nix/pages/sh_page.dart';
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                                   image: AssetImage(
                                       'images/others/background.jpg'),
                                   fit: BoxFit.cover)),
-                          accountName: const Text('User name',
+                          accountName: Text('${prefs.name} ${prefs.surname}',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                           accountEmail: Text('${prefs.usernameUser}'),
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                           //da modificare
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const MainProfilePage(),
+                              builder: (context) => ProfileSettings(),
                             ),
                           );
                         },
@@ -237,8 +237,8 @@ class _HomePageState extends State<HomePage> {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                const Text(
-                                                  'Good day, ...!', //name
+                                                 Text(prefs.name == null ? 'Good day!!!' :
+                                                  'Good day, ${prefs.name}!!', //name
                                                   style: TextStyle(
                                                       fontSize: 30,
                                                       fontWeight:

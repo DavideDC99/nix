@@ -66,5 +66,38 @@ class Preferences {
 
   bool get logOut => _getFromDisk('logOut', defaultVal: false);
   set logOut(bool newlogOut) => _saveToDisk("logOut", newlogOut);
+  
+  String? get name => _getFromDisk('name');
+  set name(String? newname) => _saveToDisk("name", newname);
+
+  String? get surname => _getFromDisk('surname');
+  set surname(String? newsurname) => _saveToDisk("surname", newsurname);
+
+  String? get nickname => _getFromDisk('nickname');
+  set nickname(String? newnickname) => _saveToDisk("nickname", newnickname);
+
+  String? get birthdate => _getFromDisk('birthdate');
+  set birthdate(String? newbirthdate) => _saveToDisk("birthdate", newbirthdate);
+
+  int get sex => _getFromDisk('sex', defaultVal: 0);
+  set sex(int newsex) => _saveToDisk("sex", newsex);
+
+  int get smoke => _getFromDisk('smoke', defaultVal: 1);
+  set smoke(int newsmoke) => _saveToDisk("smoke", newsmoke);
+
+  int get sporty => _getFromDisk('sporty', defaultVal: 2);
+  set sporty(int newsporty) => _saveToDisk("sporty", newsporty);
+
+  String? get height => _getFromDisk('height');
+  set height(String? newheight) => _saveToDisk("height", newheight);
+
+  String? get weight => _getFromDisk('weight');
+  set weight(String? newweight) => _saveToDisk("weight", newweight);
+
+  double? get bmi => _getFromDisk('bmi');
+  set bmi(double? newbmi) => _saveToDisk("bmi", newbmi);
+
+  String? get status => _getFromDisk('status');
+  set status(String? newstatus) => _saveToDisk("status", newstatus);
 
 }
