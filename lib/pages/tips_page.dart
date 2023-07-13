@@ -14,6 +14,7 @@ class _tipsPageState extends State<tipsPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.indigo.shade200,
         appBar: AppBar(
