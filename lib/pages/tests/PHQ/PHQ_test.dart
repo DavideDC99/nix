@@ -9,7 +9,6 @@ class PHQTest extends StatefulWidget {
 }
 
 class _PHQTestState extends State<PHQTest> {
-  //define the datas
   List<Question> questionList = getQuestions();
   int currentQuestionIndex = 0;
   int score = 0;
@@ -141,7 +140,6 @@ class _PHQTestState extends State<PHQTest> {
             if (isLastQuestion) {
               Navigator.pop(context, score);
             } else {
-              //next question
               setState(() {
                 selectedAnswer = null;
                 currentQuestionIndex++;

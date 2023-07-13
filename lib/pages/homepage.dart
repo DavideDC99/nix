@@ -18,13 +18,6 @@ import 'package:nix/utils/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 import 'package:provider/provider.dart';
-import 'package:nix/database/entities/entities.dart' as database;
-
-//int currentsteps = (6000 / 10000 * 100).round();
-
-double hoursSleep = 9;
-int score = 65;
-int goalsAchieved = 5;
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -105,7 +98,6 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold)),
                         onTap: () {
-                          //da modificare
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => ProfileSettings(),
@@ -170,8 +162,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         onTap: () async {
-                          var prefs = await Provider.of<Preferences>(context,
-                              listen: false);
+                          var prefs = await Provider.of<Preferences>(context, listen: false);
                           prefs.logOut = true;
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
@@ -210,27 +201,19 @@ class _HomePageState extends State<HomePage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  DateFormat(
-                                                          'EEE, dd MMMM yyyy')
-                                                      .format(DateTime.now()
-                                                          .subtract(
-                                                              const Duration(
-                                                                  days: 1))),
-                                                  //"${DateTime.now().subtract(const Duration(days: 1)).day}/${DateTime.now().subtract(const Duration(days: 1)).month}/${DateTime.now().subtract(const Duration(days: 1)).year}",
+                                                  DateFormat('EEE, dd MMMM yyyy').format(DateTime.now().subtract(const Duration(days: 1))),
                                                   style: const TextStyle(
                                                     fontSize: 18,
-                                                    color: Color.fromRGBO(
-                                                        187, 222, 251, 1),
+                                                    color: Color.fromRGBO(187, 222, 251, 1),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                 Text('Good day!!!', //name
+                                                Text('Good day!!!', 
                                                   style: TextStyle(
                                                       fontSize: 30,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Color.fromRGBO(
-                                                          187, 222, 251, 1)),
+                                                      color: Color.fromRGBO( 187, 222, 251, 1)),
                                                 ),
                                               ],
                                             ),
@@ -249,8 +232,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Container(
                                       height: 400,
                                       width: 1000,
-                                      color: const Color.fromRGBO(
-                                          187, 222, 251, 1),
+                                      color: const Color.fromRGBO(187, 222, 251, 1),
                                     )),
                                 Positioned(
                                   top: 200,
@@ -270,8 +252,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Container(
                                         padding: EdgeInsets.all(6),
                                         decoration: BoxDecoration(
-                                          color:
-                                              Color.fromARGB(213, 63, 151, 69),
+                                          color:Color.fromARGB(213, 63, 151, 69),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(10.0),
                                           ),
@@ -286,17 +267,16 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         child: Center(
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               ClipPolygon(
                                                 sides: 6,
                                                 borderRadius: 10.0,
                                                 rotate: 90.0,
                                                 child: Container(
-                                                  color: _polygonColor(provider.wellbeingscore),
+                                                  color: _polygonColor(
+                                                      provider.wellbeingscore),
                                                   child: Center(
                                                     child: Text(
                                                       "${provider.wellbeingscore}",
@@ -327,7 +307,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20,),
+                            SizedBox(
+                              height: 20,
+                            ),
                             Container(
                               margin: EdgeInsets.all(12),
                               child: Column(
@@ -343,23 +325,21 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
-                                                builder: (context) => StepPage(),
+                                                builder: (context) =>
+                                                    StepPage(),
                                               ),
                                             );
                                           },
                                           child: Container(
-                                            //steps
                                             decoration: BoxDecoration(
-                                              color: const Color.fromARGB(
-                                                  255, 143, 111, 202),
+                                              color: const Color.fromARGB(255, 143, 111, 202),
                                               borderRadius:
                                                   const BorderRadius.all(
                                                 Radius.circular(10.0),
                                               ),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.purple.shade800
-                                                      .withOpacity(0.8),
+                                                  color: Colors.purple.shade800.withOpacity(0.8),
                                                   spreadRadius: 5,
                                                   blurRadius: 4,
                                                   offset: const Offset(4, 8),
@@ -368,19 +348,15 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             child: Center(
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:MainAxisAlignment.center,
+                                                crossAxisAlignment:CrossAxisAlignment.center,
                                                 children: [
                                                   const Text(
                                                     "Steps 👣",
                                                     style: TextStyle(
                                                         fontSize: 35,
-                                                        color: Color.fromRGBO(
-                                                            66, 18, 95, 1),
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                        color: Color.fromRGBO(66, 18, 95, 1),
+                                                        fontWeight:FontWeight.bold),
                                                   ),
                                                   const SizedBox(
                                                     height: 50,
@@ -388,15 +364,11 @@ class _HomePageState extends State<HomePage> {
                                                   CircularStepProgressIndicator(
                                                     totalSteps: 100,
                                                     currentStep:
-                                                        (provider.dailysteps! /
-                                                                100)
-                                                            .round(),
+                                                        (provider.dailysteps! / 100) .round(),
                                                     stepSize: 20,
                                                     selectedColor:
-                                                        const Color.fromARGB(
-                                                            230, 247, 156, 37),
-                                                    unselectedColor:
-                                                        Colors.grey[200],
+                                                        const Color.fromARGB(230, 247, 156, 37),
+                                                    unselectedColor: Colors.grey[200],
                                                     padding: 0,
                                                     width: 150,
                                                     height: 150,
@@ -407,10 +379,8 @@ class _HomePageState extends State<HomePage> {
                                                         "${provider.dailysteps!}",
                                                         style: const TextStyle(
                                                           fontSize: 32,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Color.fromRGBO(
-                                                              66, 18, 95, 1),
+                                                          fontWeight:FontWeight.bold,
+                                                          color: Color.fromRGBO(66, 18, 95, 1),
                                                         ),
                                                       ),
                                                     ),
@@ -438,10 +408,8 @@ class _HomePageState extends State<HomePage> {
                                                 );
                                               },
                                               child: Container(
-                                                //sleep
                                                 decoration: BoxDecoration(
-                                                  color: const Color.fromARGB(
-                                                      255, 64, 99, 180),
+                                                  color: const Color.fromARGB(255, 64, 99, 180),
                                                   borderRadius:
                                                       const BorderRadius.all(
                                                     Radius.circular(10.0),
@@ -451,25 +419,22 @@ class _HomePageState extends State<HomePage> {
                                                       color: Color.fromARGB(255, 29, 45, 81),
                                                       spreadRadius: 5,
                                                       blurRadius: 4,
-                                                      offset: const Offset(4, 8),
+                                                      offset:
+                                                          const Offset(4, 8),
                                                     ),
                                                   ],
                                                 ),
                                                 child: Center(
                                                   child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       const Text(
                                                         "Sleep 💤 ",
                                                         style: TextStyle(
                                                             fontSize: 35,
-                                                            color: Color.fromARGB(
-                                                                255, 92, 1, 33),
-                                                            fontWeight:
-                                                                FontWeight.bold),
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                            color: Color.fromARGB(255, 92, 1, 33),
+                                                            fontWeight: FontWeight.bold),
+                                                        textAlign: TextAlign.center,
                                                       ),
                                                       const SizedBox(
                                                         height: 20,
@@ -478,28 +443,20 @@ class _HomePageState extends State<HomePage> {
                                                         width: 80,
                                                         decoration:
                                                             const BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              187, 222, 251, 1),
+                                                          color: Color.fromRGBO(187, 222, 251, 1),
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(10.0),
+                                                            Radius.circular(
+                                                                10.0),
                                                           ),
                                                         ),
                                                         child: Text(
                                                           "${provider.duration} h",
                                                           style: const TextStyle(
                                                               fontSize: 30,
-                                                              color:
-                                                                  Color.fromARGB(
-                                                                      255,
-                                                                      92,
-                                                                      1,
-                                                                      33),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                              color: Color.fromARGB(255, 92, 1, 33),
+                                                              fontWeight: FontWeight.bold),
+                                                          textAlign: TextAlign.center,
                                                         ),
                                                       )
                                                     ],
@@ -531,12 +488,12 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: const Color.fromARGB(
-                                                              255, 96, 39, 106)
-                                                          .withOpacity(0.8),
+                                                      color:
+                                                          const Color.fromARGB(255, 96, 39, 106).withOpacity(0.8),
                                                       spreadRadius: 5,
                                                       blurRadius: 4,
-                                                      offset: const Offset(4, 8),
+                                                      offset:
+                                                          const Offset(4, 8),
                                                     ),
                                                   ],
                                                 ),
@@ -549,12 +506,9 @@ class _HomePageState extends State<HomePage> {
                                                         "Tests 📝",
                                                         style: TextStyle(
                                                             fontSize: 35,
-                                                            color: Color.fromARGB(
-                                                                255, 92, 1, 33),
-                                                            fontWeight:
-                                                                FontWeight.bold),
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                            color: Color.fromARGB(255, 92, 1, 33),
+                                                            fontWeight: FontWeight.bold),
+                                                        textAlign: TextAlign.center,
                                                       ),
                                                       const SizedBox(
                                                         height: 10,
@@ -562,15 +516,14 @@ class _HomePageState extends State<HomePage> {
                                                       Container(
                                                         width: 60,
                                                         height: 25,
-                                                        alignment:
-                                                            Alignment.center,
+                                                        alignment: Alignment.center,
                                                         decoration:
                                                             const BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              203, 0, 64, 1),
+                                                          color: Color.fromRGBO(203, 0, 64, 1),
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(10.0),
+                                                            Radius.circular(
+                                                                10.0),
                                                           ),
                                                         ),
                                                         child: const Text(
@@ -578,11 +531,8 @@ class _HomePageState extends State<HomePage> {
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               color: Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                              fontWeight: FontWeight.bold),
+                                                          textAlign: TextAlign.center,
                                                         ),
                                                       ),
                                                       const SizedBox(
@@ -591,15 +541,14 @@ class _HomePageState extends State<HomePage> {
                                                       Container(
                                                         width: 60,
                                                         height: 25,
-                                                        alignment:
-                                                            Alignment.center,
+                                                        alignment: Alignment.center,
                                                         decoration:
                                                             const BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              247, 157, 37, 1),
+                                                          color: Color.fromRGBO(247, 157, 37, 1),
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(10.0),
+                                                            Radius.circular(
+                                                                10.0),
                                                           ),
                                                         ),
                                                         child: const Text(
@@ -607,11 +556,9 @@ class _HomePageState extends State<HomePage> {
                                                           style: TextStyle(
                                                             fontSize: 14,
                                                             color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                            fontWeight: FontWeight.bold,
                                                           ),
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                          textAlign: TextAlign.center,
                                                         ),
                                                       ),
                                                       const SizedBox(
@@ -620,15 +567,14 @@ class _HomePageState extends State<HomePage> {
                                                       Container(
                                                         width: 60,
                                                         height: 25,
-                                                        alignment:
-                                                            Alignment.center,
+                                                        alignment: Alignment.center,
                                                         decoration:
                                                             const BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              118, 195, 76, 1),
+                                                          color: Color.fromRGBO(118, 195, 76, 1),
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(10.0),
+                                                            Radius.circular(
+                                                                10.0),
                                                           ),
                                                         ),
                                                         child: const Text(
@@ -636,11 +582,8 @@ class _HomePageState extends State<HomePage> {
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               color: Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                              fontWeight: FontWeight.bold),
+                                                          textAlign: TextAlign.center,
                                                         ),
                                                       ),
                                                     ],
@@ -728,8 +671,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-   _polygonColor(score) {
-    Color color=Colors.black;
+  _polygonColor(score) {
+    Color color = Colors.black;
     if (score >= 0 && score <= 20) {
       color = Colors.red;
     } else if (score >= 21 && score <= 40) {
@@ -737,13 +680,12 @@ class _HomePageState extends State<HomePage> {
     } else if (score >= 41 && score <= 60) {
       color = Colors.orange;
     } else if (score >= 61 && score <= 80) {
-      color =  Color.fromARGB(255, 106, 216, 109);
+      color = Color.fromARGB(255, 106, 216, 109);
     } else {
       color = Color.fromARGB(255, 33, 199, 39);
     }
     return color;
   }
-
 
   final List<String> quotes = [
     "'Always remember that you are stronger than you think.'",

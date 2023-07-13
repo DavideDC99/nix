@@ -56,18 +56,12 @@ class _StepPageState extends State<StepPage> {
                             IconButton(
                                 icon: const Icon(Icons.navigate_before, color: Colors.white, size: 24,),
                                 onPressed: () {
-                                  // here we use the access method to retrieve the Provider and use its values and methods
-                                DateTime day =
-                            Provider.of<HomeProvider>(context, listen: false)
-                                .showDate;
-                        Provider.of<HomeProvider>(context, listen: false)
-                            .downloadSteps(
-                                day.subtract(const Duration(days: 1)));
+                                DateTime day = Provider.of<HomeProvider>(context, listen: false).showDate;
+                                Provider.of<HomeProvider>(context, listen: false).downloadSteps(day.subtract(const Duration(days: 1)));
                                 }),
                                 Consumer<HomeProvider>(
                                 builder: (context, value, child) => Text(
-                                    DateFormat('dd MMMM yyyy')
-                                        .format(value.showDate),
+                                    DateFormat('dd MMMM yyyy').format(value.showDate),
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 24,
@@ -77,12 +71,8 @@ class _StepPageState extends State<StepPage> {
                             IconButton(
                                 icon: const Icon(Icons.navigate_next, color: Colors.white, size: 24,),
                                 onPressed: () {
-                                  DateTime day =
-                            Provider.of<HomeProvider>(context, listen: false)
-                                .showDate;
-                        Provider.of<HomeProvider>(context, listen: false)
-                            .downloadSteps(
-                                day.add(const Duration(days: 1)));
+                                  DateTime day = Provider.of<HomeProvider>(context, listen: false).showDate;
+                                  Provider.of<HomeProvider>(context, listen: false).downloadSteps(day.add(const Duration(days: 1)));
                                 })
                           ],
                         ),
@@ -149,8 +139,7 @@ class _StepPageState extends State<StepPage> {
                                 totalSteps: 100,
                                 currentStep: (provider.dailysteps! / 100).round(),
                                 stepSize: 20,
-                                selectedColor:
-                                    Color.fromARGB(230, 247, 156, 37),
+                                selectedColor: Color.fromARGB(230, 247, 156, 37),
                                 unselectedColor: Colors.grey[200],
                                 padding: 0,
                                 width: 250,
@@ -173,33 +162,6 @@ class _StepPageState extends State<StepPage> {
                         ),
                       ),
                     SizedBox(height: 5),
-                      /*
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(16.0),
-                          //height: MediaQuery.of(context).size.height * 0.7,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: Color.fromARGB(230, 247, 156, 37),
-                          ),
-                          child: Column(children: const [
-                            Text('Your average monthly statistics',
-                                style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                )),
-                            BarChartSleep(),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ]),
-                        ),
-                      )
-                      */
                     ],
                   ),
                 ) : const Center(
@@ -208,4 +170,4 @@ class _StepPageState extends State<StepPage> {
               ),
         ));
   }
-}//MyApp
+}

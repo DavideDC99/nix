@@ -7,7 +7,7 @@ class PSQIQuestion {
 
 class Answer {
   final String answerText;
-  final int answerScore; 
+  final int answerScore;
 
   Answer(this.answerText, this.answerScore);
 }
@@ -25,7 +25,7 @@ List<PSQIQuestion> getQuestions() {
     ],
   ));
 
-list.add(PSQIQuestion(
+  list.add(PSQIQuestion(
     "During the past month, how many hours of actual sleep did you get at night?",
     [
       Answer(">7 hours", 0),
@@ -35,7 +35,7 @@ list.add(PSQIQuestion(
     ],
   ));
 
-list.add(PSQIQuestion(
+  list.add(PSQIQuestion(
     "During the past month, what was your Habitual Sleep Efficiency?",
     [
       Answer("> 85 %", 0),
@@ -45,7 +45,7 @@ list.add(PSQIQuestion(
     ],
   ));
 
-list.add(PSQIQuestion(
+  list.add(PSQIQuestion(
     "During the past month, how would you rate your sleep quality overall?",
     [
       Answer("Very good", 0),
@@ -55,7 +55,7 @@ list.add(PSQIQuestion(
     ],
   ));
 
-list.add(PSQIQuestion(
+  list.add(PSQIQuestion(
     'During the past month, how  often have you taken medicine (prescribed or "over the counter") to help you sleep?',
     [
       Answer("Not during the last month", 0),
@@ -88,122 +88,97 @@ list.add(PSQIQuestion(
   return list;
 }
 
-
 class PSQI_SubQuestion {
   final String questionText;
   final List<Answer> answersList;
   final String mainQuestion;
 
-  PSQI_SubQuestion(this.mainQuestion,this.questionText, this.answersList);
+  PSQI_SubQuestion(this.mainQuestion, this.questionText, this.answersList);
 }
-
 
 List<PSQI_SubQuestion> get_SubQuestions() {
   List<PSQI_SubQuestion> list = [];
-  
-  list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Cannot get to sleep within 30 minutes",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
 
   list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Wake up in the middle of the night or early morning",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Cannot get to sleep within 30 minutes", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
 
   list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Have to get up to use the bathroom",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
-   
-  list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Cannot breath comfortably",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
-   
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Wake up in the middle of the night or early morning", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
 
   list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Cough or snore loudly",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
-   
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Have to get up to use the bathroom", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
 
   list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Feel too cold",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
-   
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Cannot breath comfortably", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
 
   list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Feel too hot",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
-   
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Cough or snore loudly", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
 
-   list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Have bad dreams",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
-   
+  list.add(PSQI_SubQuestion(
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Feel too cold", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
 
-   list.add(PSQI_SubQuestion(
-    "During the past month, how often have you had trouble sleeping because you...",
-    "Have pain",
-    [
-      Answer("Not during the past month", 0),
-      Answer("Less than once a week", 1),
-      Answer("Once or twice a week", 2),
-      Answer("Three or more times a week", 3),
-    ]
-  ));
-  
+  list.add(PSQI_SubQuestion(
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Feel too hot", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
+
+  list.add(PSQI_SubQuestion(
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Have bad dreams", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
+
+  list.add(PSQI_SubQuestion(
+      "During the past month, how often have you had trouble sleeping because you...",
+      "Have pain", [
+    Answer("Not during the past month", 0),
+    Answer("Less than once a week", 1),
+    Answer("Once or twice a week", 2),
+    Answer("Three or more times a week", 3),
+  ]));
+
   return list;
 }

@@ -7,14 +7,13 @@ class ESSQuestion {
 
 class Answer {
   final String answerText;
-  final int answerScore; 
+  final int answerScore;
 
   Answer(this.answerText, this.answerScore);
 }
 
 List<ESSQuestion> getQuestions() {
   List<ESSQuestion> list = [];
-
 
   list.add(ESSQuestion(
     "Sitting and reading",

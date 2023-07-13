@@ -20,9 +20,6 @@ class MainTestPage extends StatefulWidget {
 }
 
 class _MainTestPageState extends State<MainTestPage> {
-  int scoreESS = 15;
-  int scorePHQ = 15;
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeProvider>(
@@ -73,7 +70,6 @@ class _MainTestPageState extends State<MainTestPage> {
                                       size: 24,
                                     ),
                                     onPressed: () {
-                                      // here we use the access method to retrieve the Provider and use its values and methods
                                       DateTime day = Provider.of<HomeProvider>(
                                               context,
                                               listen: false)
@@ -116,7 +112,6 @@ class _MainTestPageState extends State<MainTestPage> {
                           ),
                           SizedBox(height: 20),
                           Container(
-                              // Container 1
                               margin: const EdgeInsets.all(10),
                               height: MediaQuery.of(context).size.height * 0.35,
                               width: double.infinity,
@@ -150,10 +145,11 @@ class _MainTestPageState extends State<MainTestPage> {
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               foregroundColor: Colors.white,
-                                              backgroundColor:
-                                                  Color.fromARGB(255, 150, 1, 48),
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 150, 1, 48),
                                               shape: const StadiumBorder(),
                                             ),
+                                            //If the month selected in the picker is prior to today's date (-1), it will not be possible to perform the test, otherwise the button will allow the test to be performed and the score to be entered into the database
                                             onPressed: !Provider.of<
                                                             HomeProvider>(
                                                         context,
@@ -230,7 +226,6 @@ class _MainTestPageState extends State<MainTestPage> {
                                           width: 20,
                                         ),
                                         Container(
-                                          //results
                                           width: 130,
                                           height: 130,
                                           decoration: BoxDecoration(
@@ -250,8 +245,10 @@ class _MainTestPageState extends State<MainTestPage> {
                                                       ? 0
                                                       : provider.scorePSQI!,
                                               stepSize: 20,
-                                              selectedColor:Color.fromARGB(255, 150, 1, 48),
-                                              unselectedColor: Colors.indigo.shade100,
+                                              selectedColor: Color.fromARGB(
+                                                  255, 150, 1, 48),
+                                              unselectedColor:
+                                                  Colors.indigo.shade100,
                                               padding: 0,
                                               width: 20,
                                               height: 20,
@@ -268,7 +265,7 @@ class _MainTestPageState extends State<MainTestPage> {
                                                 ),
                                               ),
                                             ),
-                                          ), //inserire score
+                                          ),
                                         )
                                       ],
                                     ),
@@ -280,7 +277,6 @@ class _MainTestPageState extends State<MainTestPage> {
                                 ),
                               )),
                           Container(
-                              // container 2
                               margin: const EdgeInsets.all(10),
                               height: MediaQuery.of(context).size.height * 0.35,
                               width: double.infinity,
@@ -307,17 +303,16 @@ class _MainTestPageState extends State<MainTestPage> {
                                           MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
-                                          //Button container
                                           width: 120,
                                           height: 50,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               foregroundColor: Colors.white,
-                                              backgroundColor:
-                                                  Color.fromARGB(255, 131, 46, 0),
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 131, 46, 0),
                                               shape: const StadiumBorder(),
                                             ),
-                                             onPressed: !Provider.of<
+                                            onPressed: !Provider.of<
                                                             HomeProvider>(
                                                         context,
                                                         listen: false)
@@ -411,8 +406,10 @@ class _MainTestPageState extends State<MainTestPage> {
                                                       ? 0
                                                       : provider.scoreESS!,
                                               stepSize: 20,
-                                              selectedColor: Color.fromARGB(255, 131, 46, 0),
-                                              unselectedColor: Colors.indigo.shade100,
+                                              selectedColor: Color.fromARGB(
+                                                  255, 131, 46, 0),
+                                              unselectedColor:
+                                                  Colors.indigo.shade100,
                                               padding: 0,
                                               width: 150,
                                               height: 150,
@@ -436,13 +433,11 @@ class _MainTestPageState extends State<MainTestPage> {
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
                                           MessageESS(provider.scoreESS),
-                                      //MessagePSQI(provider.score),
                                     )
                                   ],
                                 ),
                               )),
                           Container(
-                              // container 3
                               margin: const EdgeInsets.all(10),
                               height: MediaQuery.of(context).size.height * 0.35,
                               width: double.infinity,
@@ -474,11 +469,11 @@ class _MainTestPageState extends State<MainTestPage> {
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               foregroundColor: Colors.white,
-                                              backgroundColor:
-                                                  Color.fromARGB(255, 52, 87, 34),
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 52, 87, 34),
                                               shape: const StadiumBorder(),
                                             ),
-                                              onPressed: !Provider.of<
+                                            onPressed: !Provider.of<
                                                             HomeProvider>(
                                                         context,
                                                         listen: false)
@@ -572,8 +567,10 @@ class _MainTestPageState extends State<MainTestPage> {
                                                       ? 0
                                                       : provider.scorePHQ!,
                                               stepSize: 20,
-                                              selectedColor: Color.fromARGB(255, 52, 87, 34),
-                                              unselectedColor: Colors.indigo.shade100,
+                                              selectedColor: Color.fromARGB(
+                                                  255, 52, 87, 34),
+                                              unselectedColor:
+                                                  Colors.indigo.shade100,
                                               padding: 0,
                                               width: 150,
                                               height: 150,
@@ -597,7 +594,6 @@ class _MainTestPageState extends State<MainTestPage> {
                                     Consumer<HomeProvider>(
                                       builder: (context, provider, child) =>
                                           MessagePHQ(provider.scorePHQ),
-                                      //MessagePSQI(provider.score),
                                     )
                                   ],
                                 ),
@@ -634,7 +630,7 @@ class _MainTestPageState extends State<MainTestPage> {
     String severity = '';
     if (score == null) {
       severity = 'This test has not been done';
-    }  else if (score >= 0 && score <= 9) {
+    } else if (score >= 0 && score <= 9) {
       severity = "This score corresponds to a normal range level";
     } else if (score >= 10 && score <= 12) {
       severity = 'This score corresponds to a borderline level';
@@ -653,14 +649,15 @@ class _MainTestPageState extends State<MainTestPage> {
     String severity = '';
     if (score == null) {
       severity = 'This test has not been done';
-    }  else if (score >= 1 && score <= 4) {
+    } else if (score >= 1 && score <= 4) {
       severity = "This score corresponds to a minimal depression level";
     } else if (score >= 5 && score <= 9) {
       severity = 'This score corresponds to a mild depression level';
     } else if (score >= 10 && score <= 14) {
       severity = 'This score corresponds to a moderate depression level';
     } else if (score >= 15 && score <= 19) {
-      severity = 'This score corresponds to a moderately severe depression level';
+      severity =
+          'This score corresponds to a moderately severe depression level';
     } else if (score >= 20) {
       severity = 'This score corresponds to a severe depression level';
     } else {
