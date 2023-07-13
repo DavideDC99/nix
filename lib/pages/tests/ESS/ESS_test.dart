@@ -9,15 +9,12 @@ class ESSTest extends StatefulWidget {
 }
 
 class _ESSTestState extends State<ESSTest> {
-
   List<ESSQuestion> questionList = getQuestions();
   int currentQuestionIndex = 0;
   int score = 0;
   Answer? selectedAnswer;
-  String severity='';
-  bool answerGiven=false;
-
-  
+  String severity = '';
+  bool answerGiven = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +37,8 @@ class _ESSTestState extends State<ESSTest> {
               color: Colors.white,
               fontSize: 16,
             ),
-          ),const Text(
+          ),
+          const Text(
             "Even if you have not done this thing recently, try to understand how it would affect you",
             style: TextStyle(
               color: Colors.white,
@@ -109,20 +107,23 @@ class _ESSTestState extends State<ESSTest> {
       margin: const EdgeInsets.symmetric(vertical: 8),
       height: 48,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: isSelected ? Colors.white : Colors.black, backgroundColor: isSelected ? const Color.fromARGB(255, 247, 157, 37) : Colors.white, shape: const StadiumBorder(),
-        ),
-        onPressed: () {
-          if (selectedAnswer == null) {
-              score=score + answer.answerScore;
+          style: ElevatedButton.styleFrom(
+            foregroundColor: isSelected ? Colors.white : Colors.black,
+            backgroundColor: isSelected
+                ? const Color.fromARGB(255, 247, 157, 37)
+                : Colors.white,
+            shape: const StadiumBorder(),
+          ),
+          onPressed: () {
+            if (selectedAnswer == null) {
+              score = score + answer.answerScore;
             }
             setState(() {
               selectedAnswer = answer;
-              answerGiven=true;
+              answerGiven = true;
             });
           },
-        child: Text(answer.answerText)
-      ),
+          child: Text(answer.answerText)),
     );
   }
 
@@ -132,41 +133,44 @@ class _ESSTestState extends State<ESSTest> {
       isLastQuestion = true;
     }
 
-    if (answerGiven==true) {
+    if (answerGiven == true) {
       return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
-      height: 48,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: const  Color.fromARGB(255, 247, 157, 37), shape: const StadiumBorder(),
+        width: MediaQuery.of(context).size.width * 0.5,
+        height: 48,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: const Color.fromARGB(255, 247, 157, 37),
+            shape: const StadiumBorder(),
+          ),
+          onPressed: () {
+            if (isLastQuestion) {
+              Navigator.pop(context, score);
+            } else {
+              setState(() {
+                selectedAnswer = null;
+                currentQuestionIndex++;
+                answerGiven = false;
+              });
+            }
+          },
+          child: Text(isLastQuestion ? "Submit" : "Next"),
         ),
-        onPressed: () {
-          if (isLastQuestion) {
-            Navigator.pop(context, score);
-          } else {
-            
-            setState(() {
-              selectedAnswer = null;
-              currentQuestionIndex++;
-              answerGiven=false;
-            });
-          }
-        },
-        child: Text(isLastQuestion ? "Submit" : "Next"),
-      ),
-    );
+      );
     } else {
       return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
-      height: 48,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 247, 157, 37), shape: const StadiumBorder(),
+        width: MediaQuery.of(context).size.width * 0.5,
+        height: 48,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: const Color.fromARGB(255, 247, 157, 37),
+            shape: const StadiumBorder(),
+          ),
+          onPressed: null,
+          child: const Text("Answer the question"),
         ),
-        onPressed:null,
-        child: const Text("Answer the question"),
-      ),
-    );
-    }   
-  } 
+      );
+    }
+  }
 }

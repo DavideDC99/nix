@@ -66,7 +66,6 @@ class StackedCardItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //const SizedBox(height: 4),
             Text(
               title,
               style: const TextStyle(

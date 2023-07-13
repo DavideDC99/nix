@@ -88,7 +88,6 @@ class _MainScorePageState extends State<MainScorePage> {
                 ),
               ],
               onTap: (index) {
-                /// control your animation using page controller
                 _pageController.animateToPage(
                   index,
                   duration: const Duration(milliseconds: 500),

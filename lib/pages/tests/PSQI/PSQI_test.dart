@@ -13,13 +13,14 @@ class _PSQITestState extends State<PSQITest> {
   List<PSQIQuestion> questionList = getQuestions();
   List<PSQI_SubQuestion> sub_questionList = get_SubQuestions();
   int currentQuestionIndex = 0;
+  // variables used in the calculation of the final score
   int score = 0;
   var scores = [0, 0, 0, 0, 0, 0, 0];
   Answer? selectedAnswer;
   String severity = '';
   bool answerGiven = false;
   var _tabTextIndexSelected = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  int c1 = 0;
+  int c1 = 0; 
   int c2 = 0;
   int c3 = 0;
   int partial_score = 0;
@@ -332,7 +333,7 @@ class _PSQITestState extends State<PSQITest> {
       c3 = 3;
     }
 
-    score = partial_score + c1 + c2 + c3;
+    score = partial_score + c1 + c2 + c3; //calculation of the final score
 
   }
 

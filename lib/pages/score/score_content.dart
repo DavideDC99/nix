@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nix/database/database.dart';
 import 'package:nix/providers/home_provider.dart';
 import 'package:nix/services/impact.dart';
@@ -255,12 +254,11 @@ class _ScoreResultsState extends State<ScoreResults> {
               )),
         ],
       ),
-       SizedBox(height: 20),
+      SizedBox(height: 20),
       Text(
         "$message",
         textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 18.0, color: Colors.white),
+        style: TextStyle(fontSize: 18.0, color: Colors.white),
       ),
     ]);
   }
