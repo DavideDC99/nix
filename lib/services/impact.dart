@@ -131,7 +131,7 @@ class ImpactService {
     }
   }
 
-  Future<List<Steps>> getStepsFromDay(DateTime startTime) async {
+  Future<Steps> getStepsFromDay(DateTime startTime) async {
     await updateBearer();
     Response r = await _dio.get(
        '/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}/');
@@ -142,20 +142,16 @@ class ImpactService {
       data['data'] = values;
     }
     Map<String, dynamic> daydata = data['data'];
-    List<Steps> step = [];
+    int numberSteps = 0;
     String day = daydata['date'];
+    DateTime timestamp = _truncateSeconds(DateTime.parse(day));
+    
     for (var dataday in daydata['data']) {
-      String hour = dataday['time'];
-      String datetime = '${day}T$hour';
-      DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-      Steps stepnew = Steps(null, timestamp, int.parse(dataday['value']),);
-      if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
-        step.add(stepnew);
-      }
+      numberSteps = numberSteps + int.parse(dataday['value']);
     }
-    var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    return steplist;
-  }
+    Steps step = Steps(null, timestamp, numberSteps);
+    return step;
+    }
   
   DateTime _truncateSeconds(DateTime input) {
     return DateTime(

@@ -3,7 +3,6 @@ import 'package:nix/database/database.dart';
 import 'package:nix/database/entities/entities.dart';
 import 'package:nix/services/impact.dart';
 
-
 // This is the change notifier. It will manage all the logic of the application: fetching the correct data from the database
 // and fetching the data from the online service when needed
 class HomeProvider extends ChangeNotifier {
@@ -20,7 +19,7 @@ class HomeProvider extends ChangeNotifier {
   final AppDatabase database;
 
   // data fetched from external services
-  late List<Steps> _steps;
+  late Steps _steps;
   late Sleep _sleep;
 
   // selected day of data to be shown
@@ -61,12 +60,11 @@ class HomeProvider extends ChangeNotifier {
     if (lastFetch == null) {
 
       _steps = await impactService.getStepsFromDay(showDate);
-      for (var element in _steps) {
-        database.stepDao.insertStep(element);
-      }
+      database.stepDao.insertStep(_steps);
+     
 
       _sleep = await impactService.getSleepFromDay(showDate);
-        database.sleepDao.insertSleep(_sleep);
+      database.sleepDao.insertSleep(_sleep);
 
     } else {
       return;
@@ -74,27 +72,26 @@ class HomeProvider extends ChangeNotifier {
   } //_fetch
   
   Future<void> downloadSteps(DateTime showDate) async { 
+
+    DateTime truncatedShowDate = DateTime(showDate.year, showDate.month, showDate.day);
     
     var firstDay = await database.stepDao.findFirstDayInDb();
     var lastDay = await database.stepDao.findLastDayInDb();
-    if (showDate.isAfter(lastDay!.dateTime) && _truncateHours(showDate) != _truncateHours(DateTime.now().subtract(const Duration(days: 1)))) {
+    if (truncatedShowDate.isAfter(lastDay!.dateTime) && _truncateHours(showDate) != _truncateHours(DateTime.now().subtract(const Duration(days: 1)))) {
       return;
     }
-    
-    if (showDate.isBefore(firstDay!.dateTime) || _truncateHours(showDate) == _truncateHours(DateTime.now().subtract(const Duration(days: 1)))) {
-      if (_truncateHours(showDate) != _truncateHours(lastDay.dateTime)) {
+
+    if (truncatedShowDate.isBefore(firstDay!.dateTime) || _truncateHours(showDate) == _truncateHours(DateTime.now().subtract(const Duration(days: 1))) || await database.stepDao.findStepsbyDate(DateUtils.dateOnly(showDate),) == null) {
+       if (_truncateHours(showDate) != _truncateHours(lastDay.dateTime)) {
         _steps = await impactService.getStepsFromDay(showDate);
-        for (var element in _steps) {
-          database.stepDao.insertStep(element);
-        }
+        database.stepDao.insertStep(_steps);
       }
     }
 
     this.showDate = showDate;
 
     dailysteps = await database.stepDao.findStepsbyDate(
-        DateUtils.dateOnly(showDate),
-        DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
+        DateUtils.dateOnly(showDate),);
     notifyListeners();
   } //downloadSteps
     

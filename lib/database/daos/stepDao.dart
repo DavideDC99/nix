@@ -5,9 +5,9 @@ import 'package:nix/database/entities/entities.dart';
 
 @dao
 abstract class StepDao {
-  //SELECT -> this allows to obtain the sum of steps done in a certain date
-  @Query('SELECT SUM(value) FROM Steps WHERE dateTime between :startTime and :endTime')
-  Future<int?> findStepsbyDate(DateTime startTime, DateTime endTime);
+  //SELECT -> this allows to obtain the number steps done in a certain date
+  @Query('SELECT value FROM Steps WHERE dateTime = :time')
+  Future<int?> findStepsbyDate(DateTime time);
 
   //SELECT -> this allows to obtain all the entries of the Step table
   @Query('SELECT * FROM Steps')

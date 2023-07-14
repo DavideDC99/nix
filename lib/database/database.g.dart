@@ -162,17 +162,10 @@ class _$StepDao extends StepDao {
   final DeletionAdapter<Steps> _stepsDeletionAdapter;
 
   @override
-  Future<int?> findStepsbyDate(
-    DateTime startTime,
-    DateTime endTime,
-  ) async {
-    return _queryAdapter.query(
-        'SELECT SUM(value) FROM Steps WHERE dateTime between ?1 and ?2',
+  Future<int?> findStepsbyDate(DateTime time) async {
+    return _queryAdapter.query('SELECT value FROM Steps WHERE dateTime = ?1',
         mapper: (Map<String, Object?> row) => row.values.first as int,
-        arguments: [
-          _dateTimeConverter.encode(startTime),
-          _dateTimeConverter.encode(endTime)
-        ]);
+        arguments: [_dateTimeConverter.encode(time)]);
   }
 
   @override
