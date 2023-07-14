@@ -17,11 +17,11 @@ abstract class StepDao {
   @insert
   Future<void> insertStep(Steps steps);
 
-  //DELETE -> this allows to delete a Steps from the table
+  //DELETE -> this allows to delete a Steps from the table [not used]
   @delete
   Future<void> deleteStep(Steps steps);
 
-  //UPDATE -> this allows to update a HR entry
+  //UPDATE -> this allows to update a Steps entry [not used]
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateStep(Steps steps);
   

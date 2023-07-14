@@ -11,7 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 class Splash extends StatelessWidget {
   const Splash({Key? key}) : super(key: key);
 
-  // Method for navigation SplashPage -> IntroScreen
+  // Method for navigation SplashPage -> IntroPage
   void _toIntroPage(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: ((context) => IntroScreen())));

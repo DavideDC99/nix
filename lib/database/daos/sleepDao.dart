@@ -25,11 +25,11 @@ abstract class SleepDao {
   @insert
   Future<void> insertSleep(Sleep sleep);
 
-  //DELETE -> this allows to delete a Sleep from the table
+  //DELETE -> this allows to delete a Sleep from the table [not used]
   @delete
   Future<void> deleteSleep(Sleep sleep);
 
-  //UPDATE -> this allows to update a Sleep entry
+  //UPDATE -> this allows to update a Sleep entry [not used]
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateSleep(Sleep sleep);
   

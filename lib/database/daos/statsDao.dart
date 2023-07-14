@@ -13,11 +13,11 @@ abstract class StatsDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertScore(Stats stats);
 
-  //DELETE -> this allows to delete a Stats from the table
+  //DELETE -> this allows to delete a Stats from the table [not used]
   @delete
   Future<void> deleteScore(Stats stats);
 
-  //UPDATE -> this allows to update a Stats entry
+  //UPDATE -> this allows to update a Stats entry [not used]
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateScore(Stats stats);
 

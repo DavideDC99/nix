@@ -17,7 +17,6 @@ class _PSQITestState extends State<PSQITest> {
   int score = 0;
   var scores = [0, 0, 0, 0, 0, 0, 0];
   Answer? selectedAnswer;
-  String severity = '';
   bool answerGiven = false;
   var _tabTextIndexSelected = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   int c1 = 0; 

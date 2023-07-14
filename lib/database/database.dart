@@ -11,11 +11,10 @@ import 'entities/entities.dart';
 //The generated code will be in database.g.dart
 part 'database.g.dart';
 
-//Here we are saying that this is the first version of the Database and it has just 1 entity, i.e., Todo
+//Here we are saying that this is the first version of the Database and it has 3 entities, i.e., Steps, Sleep and Stats
 @TypeConverters([DateTimeConverter])
 @Database(version: 1, entities: [Steps, Sleep, Stats])
 abstract class AppDatabase extends FloorDatabase {
-  //Add all the daos as getters here
    StepDao get stepDao;
    SleepDao get sleepDao;
    StatsDao get statsDao; 

@@ -13,7 +13,6 @@ class _PHQTestState extends State<PHQTest> {
   int currentQuestionIndex = 0;
   int score = 0;
   Answer? selectedAnswer;
-  String severity = '';
   bool answerGiven = false;
 
   @override

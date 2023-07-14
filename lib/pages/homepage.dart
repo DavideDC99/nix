@@ -162,7 +162,6 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         onTap: () async {
-                          var prefs = await Provider.of<Preferences>(context, listen: false);
                           prefs.logOut = true;
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
@@ -362,8 +361,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   CircularStepProgressIndicator(
                                                     totalSteps: 100,
-                                                    currentStep:
-                                                        (provider.dailysteps! / 100) .round(),
+                                                    currentStep: (provider.dailysteps! / 100) .round(),
                                                     stepSize: 20,
                                                     selectedColor:
                                                         const Color.fromARGB(230, 247, 156, 37),

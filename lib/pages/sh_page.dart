@@ -191,7 +191,7 @@ class _SHScreenState extends State<SHScreen> {
                 ),
                 child: Column(children: const [
                   Text(
-                    "Your body thrives on routine. Going to bed and waking up at roughly the same time every day, including weekends, creates a sleep framework. This will heighten your sleep drive, so you’ll sleep better the next night.",
+                    "Your body thrives on routine. Going to bed and waking up at roughly the same time every day, including weekends, creates a sleep framework. This will heighten your sleep drive, so you'll sleep better the next night.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color.fromARGB(255, 240, 240, 240),
@@ -335,7 +335,7 @@ class _SHScreenState extends State<SHScreen> {
                 ), 
                 child: Column(children: const [
                   Text(
-                    "Exposing yourself to too much bright light from streetlights, lamps, and electronic devices has been linked to circadian-rhythm sleep-wake disorders. In fact,  bright light at night can disrupt your natural rhythms by tricking your brain into thinking it’s still daytime.",
+                    "Exposing yourself to too much bright light from streetlights, lamps, and electronic devices has been linked to circadian-rhythm sleep-wake disorders. In fact,  bright light at night can disrupt your natural rhythms by tricking your brain into thinking it's still daytime.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color.fromARGB(255, 240, 240, 240),
@@ -371,7 +371,7 @@ class _SHScreenState extends State<SHScreen> {
                 ), 
                 child: Column(children: const [
                   Text(
-                    "Blue light from your computer and smartphone can interfere with the release of melatonin, which cues your body that it’s time to wind down. Put “Power off electronics at least an hour before bed” in a prime spot on your sleep hygiene checklist. ",
+                    "Blue light from your computer and smartphone can interfere with the release of melatonin, which cues your body that it's time to wind down. Put “Power off electronics at least an hour before bed” in a prime spot on your sleep hygiene checklist. ",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color.fromARGB(255, 240, 240, 240),
@@ -408,7 +408,7 @@ class _SHScreenState extends State<SHScreen> {
                 ),
                 child: Column(children: const [
                   Text(
-                    "Caffeine is a stimulant with a half-life of 4 to 6 hours. If you’re a fitful sleeper, avoid beverages like coffee, tea, or colas at least 6 hours before bedtime.",
+                    "Caffeine is a stimulant with a half-life of 4 to 6 hours. If you're a fitful sleeper, avoid beverages like coffee, tea, or colas at least 6 hours before bedtime.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color.fromARGB(255, 240, 240, 240),
@@ -422,7 +422,7 @@ class _SHScreenState extends State<SHScreen> {
 
           Step(
             title: const Text(
-              'Don’t eat meals late at night',
+              "Don't eat meals late at night",
               style: TextStyle(
                 color: Color.fromRGBO(0, 131, 143, 1),
                 fontSize: 18.0,
@@ -444,7 +444,7 @@ class _SHScreenState extends State<SHScreen> {
                 ), 
                 child: Column(children: const [
                   Text(
-                    "Many experts say it’s better not to go to bed hungry or stuffed. When you eat a heavy meal within hours of bedtime, your discomfort may keep you awake. It’s not conducive to sleep, especially if you’re prone to heartburn.",
+                    "Many experts say it's better not to go to bed hungry or stuffed. When you eat a heavy meal within hours of bedtime, your discomfort may keep you awake. It's not conducive to sleep, especially if you're prone to heartburn.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color.fromARGB(255, 240, 240, 240),
@@ -480,7 +480,7 @@ class _SHScreenState extends State<SHScreen> {
                 ), 
                 child: Column(children: const [
                   Text(
-                    "Even a single glass of wine close to bedtime may impact your sleep. You’ll have a lighter, more fitful sleep, which may cause you to wake feeling fatigued.",
+                    "Even a single glass of wine close to bedtime may impact your sleep. You'll have a lighter, more fitful sleep, which may cause you to wake feeling fatigued.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color.fromARGB(255, 240, 240, 240),

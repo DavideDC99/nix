@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:nix/database/database.dart';
 import 'package:nix/database/entities/entities.dart';
@@ -78,12 +77,16 @@ class HomeProvider extends ChangeNotifier {
     
     var firstDay = await database.stepDao.findFirstDayInDb();
     var lastDay = await database.stepDao.findLastDayInDb();
-    if (showDate.isAfter(lastDay!.dateTime)) return;
-
-    if (showDate.isBefore(firstDay!.dateTime)) {
-      _steps = await impactService.getStepsFromDay(showDate);
-      for (var element in _steps) {
-      database.stepDao.insertStep(element);
+    if (showDate.isAfter(lastDay!.dateTime) && _truncateHours(showDate) != _truncateHours(DateTime.now().subtract(const Duration(days: 1)))) {
+      return;
+    }
+    
+    if (showDate.isBefore(firstDay!.dateTime) || _truncateHours(showDate) == _truncateHours(DateTime.now().subtract(const Duration(days: 1)))) {
+      if (_truncateHours(showDate) != _truncateHours(lastDay.dateTime)) {
+        _steps = await impactService.getStepsFromDay(showDate);
+        for (var element in _steps) {
+          database.stepDao.insertStep(element);
+        }
       }
     }
 
@@ -102,11 +105,15 @@ class HomeProvider extends ChangeNotifier {
 
     var firstDay = await database.sleepDao.findFirstDayInDb();
     var lastDay = await database.sleepDao.findLastDayInDb();
-    if (truncatedShowDate.isAfter(lastDay!.dateTime)) return;
+    if (truncatedShowDate.isAfter(lastDay!.dateTime) && _truncateHours(showDate) != _truncateHours(DateTime.now().subtract(const Duration(days: 1)))) {
+      return;
+    }
 
-    if (truncatedShowDate.isBefore(firstDay!.dateTime)) {
-      _sleep = await impactService.getSleepFromDay(showDate);
+    if (truncatedShowDate.isBefore(firstDay!.dateTime) || _truncateHours(showDate) == _truncateHours(DateTime.now().subtract(const Duration(days: 1))) || await database.sleepDao.findSleepDuration(DateUtils.dateOnly(showDate),) == null) {
+       if (_truncateHours(showDate) != _truncateHours(lastDay.dateTime)) {
+        _sleep = await impactService.getSleepFromDay(showDate);
         database.sleepDao.insertSleep(_sleep);
+      }
     }
 
     this.showDate = showDate;
@@ -114,17 +121,11 @@ class HomeProvider extends ChangeNotifier {
     endSleep = await database.sleepDao.findWakeup(
         DateUtils.dateOnly(showDate),);
     
-    notifyListeners();
-    
     startSleep = await database.sleepDao.findBedTime(
         DateUtils.dateOnly(showDate),);
 
-    notifyListeners();
-
     duration = await database.sleepDao.findSleepDuration(
         DateUtils.dateOnly(showDate),);
-    
-    notifyListeners();
 
     eff = await database.sleepDao.findSleepEff(
         DateUtils.dateOnly(showDate),);
@@ -132,6 +133,11 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
   } //downloadSleep
+
+  DateTime _truncateHours(DateTime input) {
+    return DateTime(
+      input.year, input.month, input.day);
+  } //_truncateHours
   
   Future<void> getScoreTest(DateTime showDate) async {
 
@@ -142,21 +148,17 @@ class HomeProvider extends ChangeNotifier {
     this.showDate = showDate;
 
     scorePSQI = await database.statsDao.findScore(DateTime(showDate.year, showDate.month), 1);
-    notifyListeners();
 
     scoreESS = await database.statsDao.findScore(DateTime(showDate.year, showDate.month), 2);
-    notifyListeners();
 
     scorePHQ = await database.statsDao.findScore(DateTime(showDate.year, showDate.month), 3);
     notifyListeners();
 
   } //getScoreTest
 
-  void insertScoreTest(Stats stats) {
-    
+  void insertScoreTest(Stats stats) { 
     database.statsDao.insertScore(stats);
     notifyListeners();
-
   } //insertScoreTest
 
   Future<void> getWellBeingScore() async {

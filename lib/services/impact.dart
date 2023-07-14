@@ -136,23 +136,23 @@ class ImpactService {
     Response r = await _dio.get(
        '/data/v1/steps/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}/');
        
-      Map<String, dynamic> data = r.data;
-      if (data['data'] is List) { //dati giorni vuoti
-        Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'time': '00:00:10', 'value': '0' }]};
-        data['data'] = values;
+    Map<String, dynamic> data = r.data;
+    if (data['data'] is List) { // day without steps data
+      Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'time': '00:00:10', 'value': '0' }]};
+      data['data'] = values;
+    }
+    Map<String, dynamic> daydata = data['data'];
+    List<Steps> step = [];
+    String day = daydata['date'];
+    for (var dataday in daydata['data']) {
+      String hour = dataday['time'];
+      String datetime = '${day}T$hour';
+      DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
+      Steps stepnew = Steps(null, timestamp, int.parse(dataday['value']),);
+      if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
+        step.add(stepnew);
       }
-      Map<String, dynamic> daydata = data['data'];
-      List<Steps> step = [];
-      String day = daydata['date'];
-      for (var dataday in daydata['data']) {
-        String hour = dataday['time'];
-        String datetime = '${day}T$hour';
-        DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        Steps stepnew = Steps(null, timestamp, int.parse(dataday['value']),);
-        if (!step.any((e) => e.dateTime.isAtSameMomentAs(stepnew.dateTime))) {
-          step.add(stepnew);
-        }
-      }
+    }
     var steplist = step.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return steplist;
   }
@@ -167,7 +167,7 @@ class ImpactService {
     Response r = await _dio.get(
         '/data/v1/sleep/patients/${ServerStrings.subjectUsername}/day/${DateFormat('y-M-d').format(startTime)}/');
     Map<String, dynamic> data = r.data;
-      if (data['data'] is List) { //dati giorni vuoti
+      if (data['data'] is List) { // day without sleep data
         Map<String, dynamic> values = {'date': '${DateFormat('yyyy-MM-dd').format(startTime)}', 'data': [{'startTime': '00-00 00:00:00', 'endTime': '00-00 00:00:00', 'duration': 0, 'efficiency': 0}]};
         data['data'] = values;
       }
@@ -177,7 +177,7 @@ class ImpactService {
     Map<String, dynamic> dataday = daydata['data'][0];
     String startSleep = dataday['startTime'].substring(6);
     String endSleep = dataday['endTime'].substring(6);
-    double duration = dataday['duration']/3.6e+6;
+    double duration = dataday['duration']/3.6e+6; // conversion into hours
     String durationInStr = duration.toStringAsFixed(1);
     double durationHours = double.parse(durationInStr);
     int eff = dataday['efficiency'];

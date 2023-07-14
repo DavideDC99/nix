@@ -75,15 +75,14 @@ class _MainTestPageState extends State<MainTestPage> {
                                               listen: false)
                                           .showDate;
                                       DateTime previousMonth = DateTime(
-                                          day.year, day.month - 1, day.day);
+                                          day.year, day.month - 1);
                                       Provider.of<HomeProvider>(context,
                                               listen: false)
                                           .getScoreTest(previousMonth);
                                     }),
                                 Consumer<HomeProvider>(
                                     builder: (context, value, child) => Text(
-                                          DateFormat('MMMM yy')
-                                              .format(value.showDate),
+                                          DateFormat('MMMM yy').format(value.showDate),
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 24,
@@ -102,7 +101,7 @@ class _MainTestPageState extends State<MainTestPage> {
                                               listen: false)
                                           .showDate;
                                       DateTime nextMonth = DateTime(
-                                          day.year, day.month + 1, day.day);
+                                          day.year, day.month + 1);
                                       Provider.of<HomeProvider>(context,
                                               listen: false)
                                           .getScoreTest(nextMonth);
@@ -150,66 +149,18 @@ class _MainTestPageState extends State<MainTestPage> {
                                               shape: const StadiumBorder(),
                                             ),
                                             //If the month selected in the picker is prior to today's date (-1), it will not be possible to perform the test, otherwise the button will allow the test to be performed and the score to be entered into the database
-                                            onPressed: !Provider.of<
-                                                            HomeProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .showDate
-                                                    .isBefore(DateTime(
-                                                        DateTime.now()
-                                                            .subtract(
-                                                                const Duration(
-                                                                    days: 1))
-                                                            .year,
-                                                        DateTime.now()
-                                                            .subtract(
-                                                                const Duration(
-                                                                    days: 1))
-                                                            .month))
+                                            onPressed: !Provider.of<HomeProvider>(context,listen: false).showDate.isBefore(DateTime(DateTime.now().subtract(const Duration(days: 1)).year, DateTime.now().subtract(const Duration(days: 1)).month))
                                                 ? () async {
-                                                    final scorePSQI =
-                                                        await Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const PSQITest()));
+                                                    final scorePSQI = await Navigator.push(context,
+                                                            MaterialPageRoute(builder: (context) => const PSQITest()));
                                                     Stats stats = Stats(
-                                                        DateTime(
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .year,
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .month),
+                                                        DateTime(DateTime.now().subtract(const Duration(days:1)).year, DateTime.now().subtract(const Duration(days:1)).month),
                                                         1,
                                                         scorePSQI);
-                                                    Provider.of<HomeProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .insertScoreTest(stats);
-                                                    Provider.of<HomeProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .getScoreTest(DateTime(
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .year,
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .month));
+                                                    Provider.of<HomeProvider>(context, listen: false).insertScoreTest(stats);
+                                                    Provider.of<HomeProvider>(context, listen: false).getScoreTest(DateTime(
+                                                            DateTime.now().subtract(const Duration(days:1)).year,
+                                                            DateTime.now().subtract(const Duration(days:1)).month));
                                                   }
                                                 : null,
                                             child: const Text(
@@ -312,66 +263,18 @@ class _MainTestPageState extends State<MainTestPage> {
                                                   255, 131, 46, 0),
                                               shape: const StadiumBorder(),
                                             ),
-                                            onPressed: !Provider.of<
-                                                            HomeProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .showDate
-                                                    .isBefore(DateTime(
-                                                        DateTime.now()
-                                                            .subtract(
-                                                                const Duration(
-                                                                    days: 1))
-                                                            .year,
-                                                        DateTime.now()
-                                                            .subtract(
-                                                                const Duration(
-                                                                    days: 1))
-                                                            .month))
+                                            onPressed: !Provider.of<HomeProvider>(context, listen: false).showDate.isBefore(DateTime(DateTime.now().subtract(const Duration(days: 1)).year, DateTime.now().subtract(const Duration(days: 1)).month))
                                                 ? () async {
-                                                    final scoreESS =
-                                                        await Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const ESSTest()));
+                                                    final scoreESS = await Navigator.push(context,
+                                                            MaterialPageRoute(builder: (context) => const ESSTest()));
                                                     Stats stats = Stats(
-                                                        DateTime(
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .year,
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .month),
+                                                        DateTime(DateTime.now().subtract(const Duration(days:1)).year, DateTime.now().subtract(const Duration(days:1)).month),
                                                         2,
                                                         scoreESS);
-                                                    Provider.of<HomeProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .insertScoreTest(stats);
-                                                    Provider.of<HomeProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .getScoreTest(DateTime(
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .year,
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .month));
+                                                    Provider.of<HomeProvider>(context, listen: false).insertScoreTest(stats);
+                                                    Provider.of<HomeProvider>(context, listen: false).getScoreTest(DateTime(
+                                                        DateTime.now().subtract(const Duration(days:1)).year,
+                                                        DateTime.now().subtract(const Duration(days:1)).month));
                                                   }
                                                 : null,
                                             child: const Text("Do the test",
@@ -473,66 +376,18 @@ class _MainTestPageState extends State<MainTestPage> {
                                                   255, 52, 87, 34),
                                               shape: const StadiumBorder(),
                                             ),
-                                            onPressed: !Provider.of<
-                                                            HomeProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .showDate
-                                                    .isBefore(DateTime(
-                                                        DateTime.now()
-                                                            .subtract(
-                                                                const Duration(
-                                                                    days: 1))
-                                                            .year,
-                                                        DateTime.now()
-                                                            .subtract(
-                                                                const Duration(
-                                                                    days: 1))
-                                                            .month))
+                                            onPressed: !Provider.of<HomeProvider>(context, listen: false).showDate.isBefore(DateTime(DateTime.now().subtract(const Duration(days: 1)).year, DateTime.now().subtract(const Duration(days: 1)).month))
                                                 ? () async {
-                                                    final scorePHQ =
-                                                        await Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const PHQTest()));
+                                                    final scorePHQ = await Navigator.push(context,
+                                                            MaterialPageRoute(builder: (context) => const PHQTest()));
                                                     Stats stats = Stats(
-                                                        DateTime(
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .year,
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .month),
+                                                        DateTime(DateTime.now().subtract(const Duration(days: 1)).year, DateTime.now().subtract(const Duration(days: 1)).month),
                                                         3,
                                                         scorePHQ);
-                                                    Provider.of<HomeProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .insertScoreTest(stats);
-                                                    Provider.of<HomeProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .getScoreTest(DateTime(
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .year,
-                                                            DateTime.now()
-                                                                .subtract(
-                                                                    const Duration(
-                                                                        days:
-                                                                            1))
-                                                                .month));
+                                                    Provider.of<HomeProvider>(context, listen: false).insertScoreTest(stats);
+                                                    Provider.of<HomeProvider>(context, listen: false).getScoreTest(DateTime(
+                                                            DateTime.now().subtract(const Duration(days: 1)).year,
+                                                            DateTime.now().subtract(const Duration(days: 1)).month));
                                                   }
                                                 : null,
                                             child: const Text("Do the test",

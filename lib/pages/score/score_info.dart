@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ScoreDescription extends StatefulWidget {
-  @override
-  _ScoreDescriptionState createState() => _ScoreDescriptionState();
-}
-
-class _ScoreDescriptionState extends State<ScoreDescription> {
+class ScoreDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
